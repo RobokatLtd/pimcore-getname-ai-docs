@@ -7,11 +7,15 @@ description: Co musi być gotowe przed pierwszą konfiguracją i które czynnoś
 
 - **Zainstalowana wtyczka i działający proces w tle.** Bez niego uruchomienie zatrzyma się w stanie „w toku”. Zobacz [Instalację](../installation/).
 - **Klucz API getName.ai.** Wtyczka łączy się z usługą przez API. Według [strony getName.ai](https://getname.ai) darmowy plan (50 zapytań miesięcznie) działa tylko w przeglądarce, więc wtyczka potrzebuje planu z dostępem do API.
-- **Klasa produktu z polami, które opisują produkt.** Usługa rozpoznaje produkt wyłącznie z tego, co jej wyślesz.
-- **Miejsce na wynik.** Dla standardu, na przykład ETIM, jest to pole Classification Store na klasie produktu. Dla własnego drzewa kategorii jest to pole relacji do obiektów kategorii.
+- **Klasa obiektów z polami, które opisują produkt.** Usługa rozpoznaje produkt wyłącznie z tego, co jej wyślesz.
+- **Miejsce na wynik.** Dla standardu, na przykład ETIM, jest to pole Classification Store w klasie obiektów. Dla własnego drzewa kategorii jest to pole relacji do obiektów kategorii.
 - **Dostęp do konfiguracji.** Administrator ma go od razu. Inni użytkownicy potrzebują uprawnień opisanych na stronie [Dziennik i Uprawnienia](../reference/logs-permissions/#uprawnienia).
 
 Wtyczka nie zakłada grup ani kluczy w Classification Store. Jeśli usługa zwróci kod, którego nie ma w Pimcore, produkt lub atrybut zostanie pominięty, a powód trafi do raportu.
+
+:::note[Dwie różne klasy]
+**Klasa obiektów** to definicja obiektów danych w Pimcore, na przykład `Product`. **Klasa klasyfikacji** to miejsce produktu w systemie takim jak ETIM, na przykład `EC000441 Dławnica kablowa`. Samo słowo „klasa” oznacza w tej instrukcji zawsze klasę klasyfikacji. Klasę obiektów wybierasz w panelu w polu **Klasa** (Classic) albo **Klasa produktu:** (Studio).
+:::
 
 ## Co kosztuje
 
@@ -30,9 +34,9 @@ Limity swojego planu zobaczysz na karcie **Subskrypcja**, na zakładce z połąc
 
 ## Dlaczego zwykle są dwie konfiguracje
 
-Jedna konfiguracja wykonuje jedno zadanie: rozpoznaje klasę albo atrybuty.
+Jedna konfiguracja wykonuje jedno zadanie: rozpoznaje klasę klasyfikacji albo atrybuty.
 
-Atrybuty usługa rozpoznaje w obrębie klasy, bo to klasa określa, jakie atrybuty produkt może mieć. Dlatego konfiguracja atrybutów bierze tylko produkty, które mają już klasę. Jeśli produkty jej nie mają, najpierw uruchom konfigurację klasy.
+Atrybuty usługa rozpoznaje w obrębie klasy klasyfikacji, bo to ona określa, jakie atrybuty produkt może mieć. Dlatego konfiguracja atrybutów bierze tylko produkty, które mają już klasę klasyfikacji. Jeśli produkty jej nie mają, najpierw uruchom konfigurację klasy.
 
 ## Jak bezpiecznie zacząć
 

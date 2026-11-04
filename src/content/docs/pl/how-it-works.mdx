@@ -12,8 +12,12 @@ import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro'
 
 getName.ai czyta opis produktu i odpowiada na jedno z dwóch pytań:
 
-- **Do jakiej klasy należy ten produkt?** Odpowiedzią jest klasa wybranego systemu, na przykład ETIM, ECLASS, GS1 GPC, UNSPSC, kategoria Amazon, eBay, Allegro, Kaufland albo kategoria z własnego drzewa.
+- **Do jakiej klasy należy ten produkt?** Odpowiedzią jest klasa klasyfikacji z wybranego systemu, na przykład ETIM, ECLASS, GS1 GPC, UNSPSC, kategoria Amazon, eBay, Allegro, Kaufland albo kategoria z własnego drzewa.
 - **Jakie wartości atrybutów ma ten produkt?** Odpowiedzią są atrybuty danej klasy z wartościami odczytanymi z opisu, na przykład stopień ochrony IP68 albo rodzaj gwintu PG.
+
+:::note[Dwie różne klasy]
+**Klasa obiektów** to definicja obiektów danych w Pimcore, na przykład `Product`. **Klasa klasyfikacji** to miejsce produktu w systemie takim jak ETIM, na przykład `EC000441 Dławnica kablowa`. Samo słowo „klasa” oznacza w tej instrukcji zawsze klasę klasyfikacji. Klasę obiektów wybierasz w panelu w polu **Klasa** (Classic) albo **Klasa produktu:** (Studio).
+:::
 
 Usługa pracuje w języku opisu i nie tłumaczy go przed rozpoznaniem. Szczegóły jej interfejsu API są na [getname.ai/docs](https://getname.ai/docs), ale do konfiguracji wtyczki nie są potrzebne.
 
@@ -78,4 +82,4 @@ Nadanie klasy oznacza włączenie grupy na produkcie. Rozpoznanie atrybutów zap
 
 <ResponseToStore />
 
-Jeśli wybrany profil zbudowano z Twojego drzewa kategorii, wynikiem jest relacja do obiektu kategorii. Obiekt musi istnieć, być opublikowany i należeć do klasy dozwolonej w polu relacji.
+Jeśli wybrany profil zbudowano z Twojego drzewa kategorii, wynikiem jest relacja do obiektu kategorii. Obiekt musi istnieć, być opublikowany i należeć do klasy obiektów dozwolonej w polu relacji.

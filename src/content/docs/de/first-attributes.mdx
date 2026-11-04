@@ -1,6 +1,6 @@
 ---
 title: "Erste Konfiguration: Attributerkennung"
-description: Schritt für Schritt - so füllen Sie Attributwerte für Produkte, die bereits eine Klasse haben.
+description: Schritt für Schritt - so füllen Sie Attributwerte für Produkte, die bereits eine Klassifikationsklasse haben.
 sidebar:
   label: Attributerkennung
 tableOfContents:
@@ -18,15 +18,64 @@ Auf dieser Seite richten Sie eine Konfiguration ein, die Attributwerte aus Produ
 
 **Das brauchen Sie:** einen API-Schlüssel und einige Produkte, bei denen im Classification-Store-Feld bereits eine Gruppe aktiv ist.
 
-:::note[Produkte brauchen eine Klasse]
-Die Konfiguration nimmt nur Produkte, die eine Klasse haben. Zeigt die Zählung 0 und sind die übersprungenen Produkte „ohne zugewiesene Klasse“, führen Sie zuerst die [Klassenerkennung](../first-classification/) aus.
+:::note[Produkte brauchen eine Klassifikationsklasse]
+Die Konfiguration nimmt nur Produkte, die eine Klassifikationsklasse haben. Zeigt die Zählung 0 und sind die übersprungenen Produkte „ohne zugewiesene Klasse“, führen Sie zuerst die [Klassenerkennung](../first-classification/) aus.
 :::
 
-:::caution[Ein leerer Umfang bedeutet die gesamte Klasse]
+:::caution[Ein leerer Umfang bedeutet die gesamte Objektklasse]
 Wenn Sie keinen Ordner und kein Objekt hineinziehen, umfasst die Konfiguration jedes Produkt der Objektklasse, und das Bestätigungsfenster warnt Sie davor. Prüfen Sie vor dem Start immer die Zahl aus der Zählung: So viele bezahlte Aufrufe senden Sie.
 :::
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+### Konfiguration anlegen
+
+1. Klicken Sie im Hauptmenü auf **Datahub** und dann auf den Pfeil neben **Konfiguration hinzufügen**. Wählen Sie **getName.ai** und geben Sie einen Namen ein, zum Beispiel `products_attributes`.
+2. Fügen Sie auf dem Reiter **Verbindung** Ihren **API-Schlüssel** ein und klicken Sie auf **Verbindung testen**.
+3. Lassen Sie **Aufgabenart** auf **Attributerkennung** und wählen Sie ein **Erkennungsprofil**. Verwenden Sie denselben Standard, aus dem die Klassen Ihrer Produkte stammen.
+
+### Aufgabe beschreiben
+
+4. Wählen Sie auf dem Reiter **Aufgabe** unter **Klasse** die Objektklasse Ihrer Produkte.
+5. Ziehen Sie einen Ordner aus dem Baum in den Abschnitt **Produktumfang**.
+6. Stellen Sie **Ebene in der Hierarchie** auf **Nur unterste Ebene**, wenn die eigentlichen Produkte ganz unten in der Hierarchie liegen. In einem Katalog ohne Varianten ändert diese Option nichts.
+
+### Festlegen, was gesendet wird
+
+7. Klicken Sie im Abschnitt **An den Dienst gesendete Beschreibung** auf **Felder auswählen**, aktivieren Sie die Felder mit der Beschreibung und den technischen Daten und klicken Sie auf **Anwenden**. Je mehr konkrete Daten Sie senden, desto mehr Attribute kann der Dienst lesen.
+8. Lassen Sie für die gewählten Felder **Feldnamen voranstellen** aktiviert.
+9. Wenn die Felder lokalisiert sind, wählen Sie **Sprachen der Beschreibung**. Ein Produkt wird in einer Sprache gesendet: der ersten auf der Liste, in der es alle gewählten Felder hat.
+
+### Festlegen, wohin das Ergebnis geschrieben wird
+
+10. Stellen Sie im Abschnitt **Schreibziel** den **Typ** auf **Classification Store** und wählen Sie dessen Feld unter **Feld**.
+11. Stellen Sie **Modus** auf **Lücken füllen**. Das Plugin sendet dann nur Produkte mit leeren Attributen und schreibt nur die leeren Attribute.
+12. Klicken Sie auf **Speichern**.
+
+<Shot panel="classic" id="task-target" alt="Abschnitt Schreibziel mit ausgewähltem Lücken füllen" />
+
+### Mapping einrichten
+
+13. Öffnen Sie den Reiter **Mapping**. Prüfen Sie, ob **Klasse zuordnen über** und **Attribut zuordnen über** auf `name` stehen. Wenn Ihre Schlüssel als `KLASSE.Attribut` gespeichert sind, stellen Sie **Attribut zuordnen über** auf `nameInGroup`.
+14. Klicken Sie im Abschnitt **Schreibform** auf **Store vermessen**. Die Tabelle zeigt, welche Schlüsseltypen Ihr Classification Store hat.
+15. Lassen Sie **Schreiben** für die Paare aktiviert, die Sie schreiben möchten. Ein nicht aktiviertes Paar wird nie geschrieben und landet stattdessen im Bericht.
+16. Klicken Sie auf **Speichern**.
+
+<Shot panel="classic" id="mapping-attributes" alt="Reiter Mapping mit der Zuordnung und der Tabelle der Schreibformen" />
+
+### Ein Produkt testen
+
+17. Ziehen Sie auf dem Reiter **Ausführung** ein Produkt in den Abschnitt **Probe an einem einzelnen Produkt** und klicken Sie auf **Beschreibung anzeigen (kostenlos)**.
+18. Klicken Sie auf **Dienst fragen (ein Aufruf)**. Sie sehen die Antwort des Dienstes so, wie sie zurückkam. Prüfen Sie, ob es zu den Attributcodes passende Schlüssel im Classification Store gibt.
+
+### Ausführen
+
+19. Klicken Sie auf **Umfang zählen**. Die Zählung liest die gespeicherte Konfiguration, speichern Sie Änderungen also vorher.
+20. Prüfen Sie die Zahl und die Gründe für das Überspringen und klicken Sie dann auf **Durchlauf starten**.
+21. Prüfen Sie im Bestätigungsfenster die Anzahl der Produkte und klicken Sie auf **Ja**.
+
+</TabItem>
 <TabItem label="Studio">
 
 ### Konfiguration anlegen
@@ -77,55 +126,6 @@ Wenn Sie keinen Ordner und kein Objekt hineinziehen, umfasst die Konfiguration j
 20. Klicken Sie auf dem Reiter **Ausführung** auf **Neu berechnen** und prüfen Sie die Zahl und die Gründe für das Überspringen.
 21. Klicken Sie auf **Jetzt ausführen**.
 22. Prüfen Sie im Bestätigungsfenster die Anzahl der Produkte und klicken Sie auf **Jetzt ausführen**.
-
-</TabItem>
-<TabItem label="Classic">
-
-### Konfiguration anlegen
-
-1. Klicken Sie im Hauptmenü auf **Datahub** und dann auf den Pfeil neben **Konfiguration hinzufügen**. Wählen Sie **getName.ai** und geben Sie einen Namen ein, zum Beispiel `products_attributes`.
-2. Fügen Sie auf dem Reiter **Verbindung** Ihren **API-Schlüssel** ein und klicken Sie auf **Verbindung testen**.
-3. Lassen Sie **Aufgabenart** auf **Attributerkennung** und wählen Sie ein **Erkennungsprofil**. Verwenden Sie denselben Standard, aus dem die Klassen Ihrer Produkte stammen.
-
-### Aufgabe beschreiben
-
-4. Wählen Sie auf dem Reiter **Aufgabe** unter **Klasse** die Objektklasse Ihrer Produkte.
-5. Ziehen Sie einen Ordner aus dem Baum in den Abschnitt **Produktumfang**.
-6. Stellen Sie **Ebene in der Hierarchie** auf **Nur unterste Ebene**, wenn die eigentlichen Produkte ganz unten in der Hierarchie liegen. In einem Katalog ohne Varianten ändert diese Option nichts.
-
-### Festlegen, was gesendet wird
-
-7. Klicken Sie im Abschnitt **An den Dienst gesendete Beschreibung** auf **Felder auswählen**, aktivieren Sie die Felder mit der Beschreibung und den technischen Daten und klicken Sie auf **Anwenden**. Je mehr konkrete Daten Sie senden, desto mehr Attribute kann der Dienst lesen.
-8. Lassen Sie für die gewählten Felder **Feldnamen voranstellen** aktiviert.
-9. Wenn die Felder lokalisiert sind, wählen Sie **Sprachen der Beschreibung**. Ein Produkt wird in einer Sprache gesendet: der ersten auf der Liste, in der es alle gewählten Felder hat.
-
-### Festlegen, wohin das Ergebnis geschrieben wird
-
-10. Stellen Sie im Abschnitt **Schreibziel** den **Typ** auf **Classification Store** und wählen Sie dessen Feld unter **Feld**.
-11. Stellen Sie **Modus** auf **Lücken füllen**. Das Plugin sendet dann nur Produkte mit leeren Attributen und schreibt nur die leeren Attribute.
-12. Klicken Sie auf **Speichern**.
-
-<Shot panel="classic" id="task-target" alt="Abschnitt Schreibziel mit ausgewähltem Lücken füllen" />
-
-### Mapping einrichten
-
-13. Öffnen Sie den Reiter **Mapping**. Prüfen Sie, ob **Klasse zuordnen über** und **Attribut zuordnen über** auf `name` stehen. Wenn Ihre Schlüssel als `KLASSE.Attribut` gespeichert sind, stellen Sie **Attribut zuordnen über** auf `nameInGroup`.
-14. Klicken Sie im Abschnitt **Schreibform** auf **Store vermessen**. Die Tabelle zeigt, welche Schlüsseltypen Ihr Classification Store hat.
-15. Lassen Sie **Schreiben** für die Paare aktiviert, die Sie schreiben möchten. Ein nicht aktiviertes Paar wird nie geschrieben und landet stattdessen im Bericht.
-16. Klicken Sie auf **Speichern**.
-
-<Shot panel="classic" id="mapping-attributes" alt="Reiter Mapping mit der Zuordnung und der Tabelle der Schreibformen" />
-
-### Ein Produkt testen
-
-17. Ziehen Sie auf dem Reiter **Ausführung** ein Produkt in den Abschnitt **Probe an einem einzelnen Produkt** und klicken Sie auf **Beschreibung anzeigen (kostenlos)**.
-18. Klicken Sie auf **Dienst fragen (ein Aufruf)**. Sie sehen die Antwort des Dienstes so, wie sie zurückkam. Prüfen Sie, ob es zu den Attributcodes passende Schlüssel im Classification Store gibt.
-
-### Ausführen
-
-19. Klicken Sie auf **Umfang zählen**. Die Zählung liest die gespeicherte Konfiguration, speichern Sie Änderungen also vorher.
-20. Prüfen Sie die Zahl und die Gründe für das Überspringen und klicken Sie dann auf **Durchlauf starten**.
-21. Prüfen Sie im Bestätigungsfenster die Anzahl der Produkte und klicken Sie auf **Ja**.
 
 </TabItem>
 </Tabs>

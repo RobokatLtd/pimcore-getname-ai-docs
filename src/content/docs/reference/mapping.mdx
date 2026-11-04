@@ -10,18 +10,18 @@ import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro'
 Mapping answers two questions: where in Pimcore is the code the service returns, and which key type can take a given value.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-The tab appears once the task kind is saved. Class recognition has only the **Mapping of imported data** section.
-
-<Shot panel="studio" id="mapping-attributes" alt="Mapping tab" />
-
-</TabItem>
 <TabItem label="Classic">
 
 The tab is always visible. Class recognition has only the **Mapping of imported data** section.
 
 <Shot panel="classic" id="mapping-attributes" alt="Mapping tab" />
+
+</TabItem>
+<TabItem label="Studio">
+
+The tab appears once the task kind is saved. Class recognition has only the **Mapping of imported data** section.
+
+<Shot panel="studio" id="mapping-attributes" alt="Mapping tab" />
 
 </TabItem>
 </Tabs>
@@ -62,14 +62,14 @@ If some keys have a type the plugin doesn't support, you'll see a note about it.
 In the **How values are written** section in Studio, or **Write shape** in Classic, each row pairs a value type from the service with a key type in Pimcore. A pair that isn't ticked is never written, and the run reports it.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-The settings appear in the row once you tick it.
-
-</TabItem>
 <TabItem label="Classic">
 
 Tick **Write** and click the row. The settings open in the panel below the table.
+
+</TabItem>
+<TabItem label="Studio">
+
+The settings appear in the row once you tick it.
 
 </TabItem>
 </Tabs>

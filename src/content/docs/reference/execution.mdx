@@ -15,15 +15,6 @@ An empty list of folders and objects covers the whole object class. If the numbe
 :::
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-In the **How many products** section, click **Recalculate**. The count reads the settings on the screen, including unsaved ones. If you change them after counting, you'll see the message **This count is out of date** and need to recalculate.
-
-**Show list** opens the products in pages. Clicking a column header sorts the whole list.
-
-<Shot panel="studio" id="execution-count" alt="How many products section with the number, skip reasons and list" />
-
-</TabItem>
 <TabItem label="Classic">
 
 In the **Product scope** section, click **Count scope**. The count reads the **saved** configuration, so save your changes first.
@@ -33,18 +24,27 @@ In the **Product scope** section, click **Count scope**. The count reads the **s
 <Shot panel="classic" id="execution-count" alt="Product scope section with the number and list" />
 
 </TabItem>
+<TabItem label="Studio">
+
+In the **How many products** section, click **Recalculate**. The count reads the settings on the screen, including unsaved ones. If you change them after counting, you'll see the message **This count is out of date** and need to recalculate.
+
+**Show list** opens the products in pages. Clicking a column header sorts the whole list.
+
+<Shot panel="studio" id="execution-count" alt="How many products section with the number, skip reasons and list" />
+
+</TabItem>
 </Tabs>
 
 Next to the number you'll see how many products were skipped and why. A product with an empty description stays in the number. Only the run detects the empty description, skips the product and doesn't pay for it.
 
 ## Run
 
-Click **Run now** in Studio or **Start run** in Classic. A confirmation window opens with the number of products to send. If no folder or object is selected, it also warns that the run covers the whole product class. The run starts only after you confirm: **Run now** in Studio, **Yes** in Classic.
+Click **Run now** in Studio or **Start run** in Classic. A confirmation window opens with the number of products to send. If no folder or object is selected, it also warns that the run covers the whole object class. The run starts only after you confirm: **Run now** in Studio, **Yes** in Classic.
 
 Before the first paid call, the plugin checks that:
 
 - the configuration is saved, because the run uses the saved version,
-- the API key, profile, task kind, class and target are set,
+- the API key, profile, task kind, object class and target are set,
 - the scope has been counted and hasn't changed since,
 - this configuration isn't already running,
 - for attributes, the service's answers have somewhere to go in the Classification Store.
@@ -54,14 +54,14 @@ Products are processed in chunks through the queue, so the run carries on after 
 ## Progress and cancelling
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-The **Execution status** section shows the progress. **Cancel the run** stops the run. The job is also visible in the Studio job list.
-
-</TabItem>
 <TabItem label="Classic">
 
 The progress bar and the **Cancel the run** button are in the **Run** section.
+
+</TabItem>
+<TabItem label="Studio">
+
+The **Execution status** section shows the progress. **Cancel the run** stops the run. The job is also visible in the Studio job list.
 
 </TabItem>
 </Tabs>
@@ -73,14 +73,14 @@ After you cancel, the counters may still move, because products already on their
 The report has one row per event on a product. The columns are explained on the [Reading the results](../../results/#csv-report) page.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Click **Download the report (CSV)** below the **Last run** table. You can download reports of earlier runs from the **History** section.
-
-</TabItem>
 <TabItem label="Classic">
 
 In the **Run history** section, click the icon in the **Report** column or double-click the row.
+
+</TabItem>
+<TabItem label="Studio">
+
+Click **Download the report (CSV)** below the **Last run** table. You can download reports of earlier runs from the **History** section.
 
 </TabItem>
 </Tabs>

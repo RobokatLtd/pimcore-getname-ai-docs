@@ -42,21 +42,6 @@ composer require robokat/pimcore-getname-ai:^0.900
 Uruchomienie wtyczki jest zadaniem silnika zadań Pimcore.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Sprawdź, czy w `config/bundles.php` jest ten wpis:
-
-```php
-Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
-```
-
-Jeśli go nie ma, dodaj go i zainstaluj silnik:
-
-```bash
-bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
-```
-
-</TabItem>
 <TabItem label="Classic">
 
 W Pimcore 11.5 silnik jest domyślnie wyłączony. Bez niego aplikacja nie uruchomi się po włączeniu wtyczki. Dodaj do `config/bundles.php`:
@@ -81,6 +66,21 @@ doctrine:
             default:
                 connection: default
                 auto_mapping: true
+```
+
+</TabItem>
+<TabItem label="Studio">
+
+Sprawdź, czy w `config/bundles.php` jest ten wpis:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Jeśli go nie ma, dodaj go i zainstaluj silnik:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
 ```
 
 </TabItem>
@@ -131,6 +131,13 @@ Jeśli masz już proces obsługujący inne kolejki Pimcore, możesz dopisać do 
 ## 5. Włącz polskie etykiety
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+Dodatkowa konfiguracja nie jest potrzebna. Ustaw język polski w profilu użytkownika.
+
+Niektóre etykiety samego Data Hub, na przykład **Datahub Config** i **Add Configuration**, zostaną po angielsku.
+
+</TabItem>
 <TabItem label="Studio">
 
 Studio nie ma własnego tłumaczenia na polski, więc bez dodatkowego pliku nie wybierzesz tego języka. Utwórz w projekcie plik `translations/studio.pl.yaml` z jedną linią:
@@ -140,13 +147,6 @@ getname.language-marker: polski
 ```
 
 Wyczyść pamięć podręczną i ustaw język polski w profilu użytkownika. Wtyczka będzie po polsku, a reszta Studio, w tym przyciski **New** i **Save**, zostanie po angielsku.
-
-</TabItem>
-<TabItem label="Classic">
-
-Dodatkowa konfiguracja nie jest potrzebna. Ustaw język polski w profilu użytkownika.
-
-Niektóre etykiety samego Data Hub, na przykład **Datahub Config** i **Add Configuration**, zostaną po angielsku.
 
 </TabItem>
 </Tabs>

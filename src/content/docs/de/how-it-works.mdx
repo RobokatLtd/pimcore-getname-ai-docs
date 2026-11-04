@@ -12,8 +12,12 @@ import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro'
 
 getName.ai liest eine Produktbeschreibung und beantwortet eine von zwei Fragen:
 
-- **Zu welcher Klasse gehört dieses Produkt?** Die Antwort ist eine Klasse aus dem gewählten System, etwa ETIM, ECLASS, GS1 GPC oder UNSPSC, eine Kategorie von Amazon, eBay, Allegro oder Kaufland oder eine Kategorie aus Ihrem eigenen Baum.
+- **Zu welcher Klasse gehört dieses Produkt?** Die Antwort ist eine Klassifikationsklasse aus dem gewählten System, etwa ETIM, ECLASS, GS1 GPC oder UNSPSC, eine Kategorie von Amazon, eBay, Allegro oder Kaufland oder eine Kategorie aus Ihrem eigenen Baum.
 - **Welche Attributwerte hat dieses Produkt?** Die Antwort sind die Attribute der jeweiligen Klasse mit den aus der Beschreibung gelesenen Werten, etwa Schutzart IP68 oder Gewindeart metrisch.
+
+:::note[Zwei verschiedene Klassen]
+Eine **Objektklasse** ist die Definition von Datenobjekten in Pimcore, etwa `Product`. Eine **Klassifikationsklasse** ist der Platz eines Produkts in einem System wie ETIM, etwa `EC000441 Kabelverschraubung`. Das Wort „Klasse“ allein bedeutet in dieser Anleitung immer die Klassifikationsklasse. Die Objektklasse wählen Sie im Panel unter **Klasse** (Classic) oder **Produktklasse:** (Studio).
+:::
 
 Der Dienst arbeitet in der Sprache der Beschreibung und übersetzt sie nicht vorher. Seine API ist unter [getname.ai/docs](https://getname.ai/docs) dokumentiert, für die Einrichtung des Plugins brauchen Sie das aber nicht.
 
@@ -78,4 +82,4 @@ Damit das Plugin die richtige Gruppe und den richtigen Schlüssel findet, geben 
 
 <ResponseToStore />
 
-Wurde das gewählte Profil aus Ihrem Kategoriebaum erstellt, ist das Ergebnis eine Relation zu einem Kategorieobjekt. Das Objekt muss existieren, veröffentlicht sein und zu einer Klasse gehören, die im Relationsfeld erlaubt ist.
+Wurde das gewählte Profil aus Ihrem Kategoriebaum erstellt, ist das Ergebnis eine Relation zu einem Kategorieobjekt. Das Objekt muss existieren, veröffentlicht sein und zu einer Objektklasse gehören, die im Relationsfeld erlaubt ist.

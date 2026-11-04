@@ -3,22 +3,26 @@ title: Słowniczek
 description: Pojęcia używane w instrukcji i ich nazwy na ekranach obu paneli.
 ---
 
+:::note[Dwie różne klasy]
+**Klasa obiektów** to definicja obiektów danych w Pimcore, na przykład `Product`. **Klasa klasyfikacji** to miejsce produktu w systemie takim jak ETIM, na przykład `EC000441 Dławnica kablowa`. Samo słowo „klasa” oznacza w tej instrukcji zawsze klasę klasyfikacji. Klasę obiektów wybierasz w panelu w polu **Klasa** (Classic) albo **Klasa produktu:** (Studio).
+:::
+
 | Pojęcie | Co oznacza | Na ekranie |
 |---|---|---|
-| Atrybut | jedna właściwość klasy, na przykład `EF001758 Rodzaj gwintu` | **Atrybut**, w Pimcore: klucz |
+| Atrybut | jedna właściwość klasy klasyfikacji, na przykład `EF001758 Rodzaj gwintu` | **Atrybut**, w Pimcore: klucz |
 | Cel zapisu | miejsce, w którym ląduje odpowiedź | **Cel zapisu** |
 | Classification Store | słownik Pimcore z grupami i kluczami | **Klasyfikacja (Classification Store)** |
 | Data Hub | moduł Pimcore, w którym zakładasz konfiguracje | Studio: Data Hub Configuration; Classic: Datahub Config |
-| Grupa | klasa standardu w Classification Store; włączona na produkcie oznacza, że produkt ma tę klasę | |
-| Klasa | miejsce produktu w systemie klasyfikacji, na przykład klasa ETIM | |
-| Klasa produktu | klasa obiektów Pimcore, po której chodzi konfiguracja; nie myl z klasą ETIM | Studio: **Klasa produktu:**; Classic: **Klasa** |
+| Grupa | klasa klasyfikacji zapisana w Classification Store; włączona na produkcie oznacza, że produkt ma tę klasę | |
+| Klasa, klasa klasyfikacji | miejsce produktu w systemie klasyfikacji, na przykład `EC000441 Dławnica kablowa` w ETIM | **Rozpoznanie klasy**, **Mapuj klasę po** |
+| Klasa obiektów | klasa Pimcore, czyli definicja obiektów danych, z których konfiguracja bierze produkty; nie myl z klasą klasyfikacji | Classic: **Klasa**; Studio: **Klasa produktu:** |
 | Klucz | jeden atrybut w grupie, z typem i listą wartości przy wyborze z listy | |
 | Mapowanie | wskazanie pola Pimcore, które przechowuje kod zwracany przez usługę | **Mapowanie** |
 | Opis | tekst złożony z wybranych pól, wysyłany dla jednego produktu | **Co wysyłamy** |
 | Proces w tle | stale działające polecenie, które obsługuje kolejkę uruchomień (worker) | |
 | Profil rozpoznawania | system klasyfikacji w jednej wersji i języku albo profil z własnego drzewa kategorii | **Profil rozpoznawania** |
 | Rozpoznanie atrybutów | zadanie, które odczytuje wartości atrybutów | **Rozpoznanie atrybutów** |
-| Rozpoznanie klasy | zadanie, które nadaje produktowi klasę | **Rozpoznanie klasy** |
+| Rozpoznanie klasy | zadanie, które nadaje produktowi klasę klasyfikacji | **Rozpoznanie klasy** |
 | Tryb przetwarzania | co zrobić z produktami, które mają już wynik | Studio: sekcja **Produkty, które mają już…**; Classic: **Tryb przetwarzania** |
 | Uruchomienie | jedno wykonanie konfiguracji, przetwarzane porcjami w kolejce | **Uruchom teraz** |
 | Wywołanie | jedno płatne zapytanie do usługi, po jednym na produkt | |

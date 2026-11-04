@@ -12,8 +12,12 @@ import ResponseToStore from '../../components/diagrams/ResponseToStore.astro';
 
 getName.ai reads a product description and answers one of two questions:
 
-- **Which class does this product belong to?** The answer is a class from the system you chose, such as ETIM, ECLASS, GS1 GPC, UNSPSC, an Amazon, eBay, Allegro or Kaufland category, or a category from your own tree.
+- **Which class does this product belong to?** The answer is a classification class from the system you chose, such as ETIM, ECLASS, GS1 GPC, UNSPSC, an Amazon, eBay, Allegro or Kaufland category, or a category from your own tree.
 - **What attribute values does this product have?** The answer is the attributes of the given class with values read from the description, such as protection class IP68 or thread type PG.
+
+:::note[Two different classes]
+An **object class** is a definition of data objects in Pimcore, for example `Product`. A **classification class** is a product's place in a system such as ETIM, for example `EC000441 Cable gland`. In this guide, "class" on its own always means a classification class. In the panel, you choose the object class under **Class** (Classic) or **Product class:** (Studio).
+:::
 
 The service works in the language of the description and doesn't translate it first. Its API is documented at [getname.ai/docs](https://getname.ai/docs), but you don't need that to configure the plugin.
 
@@ -78,4 +82,4 @@ For the plugin to find the right group and key, you tell it which of their field
 
 <ResponseToStore />
 
-If the chosen profile was built from your category tree, the result is a relation to a category object. The object must exist, be published and belong to a class allowed in the relation field.
+If the chosen profile was built from your category tree, the result is a relation to a category object. The object must exist, be published and belong to an object class allowed in the relation field.

@@ -42,21 +42,6 @@ composer require robokat/pimcore-getname-ai:^0.900
 A plugin run is a job of the Pimcore execution engine.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Check that `config/bundles.php` has this entry:
-
-```php
-Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
-```
-
-If it doesn't, add it and install the engine:
-
-```bash
-bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
-```
-
-</TabItem>
 <TabItem label="Classic">
 
 In Pimcore 11.5 the engine is off by default, and without it the application won't start once the plugin is enabled. Add to `config/bundles.php`:
@@ -81,6 +66,21 @@ doctrine:
             default:
                 connection: default
                 auto_mapping: true
+```
+
+</TabItem>
+<TabItem label="Studio">
+
+Check that `config/bundles.php` has this entry:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+If it doesn't, add it and install the engine:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
 ```
 
 </TabItem>
@@ -133,6 +133,11 @@ If you already have a process handling other Pimcore queues, you can add `pimcor
 The plugin's labels come in English, German, French and Polish, and follow the language in each user's profile. English needs no setup.
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+No extra setup is needed. Some labels belonging to Data Hub itself, such as **Datahub Config** and **Add Configuration**, stay in English.
+
+</TabItem>
 <TabItem label="Studio">
 
 Studio has no Polish translation of its own, so you can't select Polish without an extra file. To use it, create `translations/studio.pl.yaml` in your project with one line:
@@ -142,11 +147,6 @@ getname.language-marker: polski
 ```
 
 Clear the cache and set Polish in the user profile. The plugin will be in Polish, while the rest of Studio, including the **New** and **Save** buttons, stays in English.
-
-</TabItem>
-<TabItem label="Classic">
-
-No extra setup is needed. Some labels belonging to Data Hub itself, such as **Datahub Config** and **Add Configuration**, stay in English.
 
 </TabItem>
 </Tabs>

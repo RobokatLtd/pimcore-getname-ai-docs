@@ -13,14 +13,14 @@ On this tab you decide which products go to the service, what description goes w
 One configuration does one job. To recognise both classes and attributes, create two configurations.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-A new configuration first asks for the kind: **Select classification** or **Select attributes**. **Change kind** changes it later. Changing it clears the target and the conditions, while the description and connection settings stay.
-
-</TabItem>
 <TabItem label="Classic">
 
 **Task kind** is on the **Service connection** tab. Changing it clears the write target and the conditions.
+
+</TabItem>
+<TabItem label="Studio">
+
+A new configuration first asks for the kind: **Select classification** or **Select attributes**. **Change kind** changes it later. Changing it clears the target and the conditions, while the description and connection settings stay.
 
 </TabItem>
 </Tabs>
@@ -30,13 +30,13 @@ A new configuration first asks for the kind: **Select classification** or **Sele
 | Setting | Studio | Classic | What it does |
 |---|---|---|---|
 | Object class | **Product class:** | **Class** | Sets the list of fields in conditions, description and target |
-| Folders and objects | **Data objects** | **Product scope** | You drag them from the tree, and entries add up. An empty list covers the whole class |
+| Folders and objects | **Data objects** | **Product scope** | You drag them from the tree, and entries add up. An empty list covers the whole object class |
 | Subfolders | **Including children** | **Including children** | Includes the whole subtree |
 | Unpublished | **include unpublished** | **Include unpublished** | Widens the scope |
 | Variants | **include variants** | **Include variants** | Widens the scope and moves the bottom level down to the variants |
 | Level | **Level in the hierarchy:** | **Level in the hierarchy** | Narrows the scope by place in the hierarchy of the same object class |
 
-**Which level to use:** a class is inherited downwards, so for class recognition you usually choose the top level. Attributes are usually recognised at the bottom level, where the actual products are. Levels in between are sent only with "all levels".
+**Which level to use:** a classification class is inherited downwards, so for class recognition you usually choose the top level. Attributes are usually recognised at the bottom level, where the actual products are. Levels in between are sent only with "all levels".
 
 ### Conditions
 
@@ -56,7 +56,7 @@ This setting has the biggest effect on cost. Studio has a separate section for i
 | **Overwrite the existing class** | **Overwrite everything** | every product in scope | the returned class |
 | **Report only, do not touch the data** | **Report only, do not touch the data** | every product in scope | only the review field |
 
-:::danger[Overwriting a class wipes the values of the previous one]
+:::danger[Overwriting a classification class wipes the values of the previous one]
 The new class deactivates the previous group, and Pimcore keeps data only for the active group.
 :::
 
@@ -91,7 +91,7 @@ Click **Add field** in Studio or **Choose fields** in Classic. Use the arrows to
 - **Prefix with field name** sends the value as `Label: value`.
 - **Label in the description** replaces the field title. Left empty, the field title is used.
 - **localized** marks a field that is read in the chosen description language.
-- A red marker means the field is no longer in the class. The count and the run stop until you fix or remove it.
+- A red marker means the field is no longer in the object class. The count and the run stop until you fix or remove it.
 
 You can choose simple fields, Objectbricks, blocks, field collections and fields of related objects. For related fields, these rules apply:
 
@@ -100,14 +100,14 @@ You can choose simple fields, Objectbricks, blocks, field collections and fields
 - Through a relation to the same object class, such as accessories, only simple fields are available.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-To show the fields of related objects, choose a relation under **Fields of related objects** above the list.
-
-</TabItem>
 <TabItem label="Classic">
 
 In the field picker, each relation is a collapsed group. Click a group to open it. Filters are in the column menu.
+
+</TabItem>
+<TabItem label="Studio">
+
+To show the fields of related objects, choose a relation under **Fields of related objects** above the list.
 
 </TabItem>
 </Tabs>
@@ -131,14 +131,14 @@ This field is optional and works with attributes. It tells the service which pro
 The preview is free. It shows the text, its length and its language for one product.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Enter the ID under **Preview for product ID:** and click **Preview description**.
-
-</TabItem>
 <TabItem label="Classic">
 
 On the **Execution** tab, drag a product to the **Probe on a single product** section and click **Show the description (free)**. The preview assembles the description from the saved configuration.
+
+</TabItem>
+<TabItem label="Studio">
+
+Enter the ID under **Preview for product ID:** and click **Preview description**.
 
 </TabItem>
 </Tabs>
@@ -149,8 +149,8 @@ Both panels offer the same targets:
 
 | Task kind | Profile | Studio | Classic |
 |---|---|---|---|
-| Class | a standard such as ETIM | **Classification attribute set on the class** | **Classification store** |
-| Class | your own category tree | **Relation to a category object** | **Relation** |
+| Classification class | a standard such as ETIM | **Classification attribute set on the class** | **Classification store** |
+| Classification class | your own category tree | **Relation to a category object** | **Relation** |
 | Attributes | a standard such as ETIM | **Classification attribute set** | **Classification store** |
 
 In Studio the list also shows greyed-out entries marked "(later)": a suggestion table, an object brick, a text field and a field collection. These targets can't be chosen yet.
@@ -166,18 +166,18 @@ This setting is optional and works with class recognition. The plugin writes one
 The test costs one call and writes nothing. It runs the **saved** configuration, so save it first. Another call for the same product can return a slightly different set of attributes, so the test doesn't guarantee exactly the same result in a run.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-The **Test on one product** section is below the **Target** section. The table shows what came back and what matched what, and the **Why not** column gives the reason.
-
-<Shot panel="studio" id="product-test" alt="Test on one product" />
-
-</TabItem>
 <TabItem label="Classic">
 
 The **Probe on a single product** section is on the **Execution** tab. You drag a product into it from the tree. The result is the service's answer as it came back.
 
 <Shot panel="classic" id="product-test" alt="Probe on a single product" />
+
+</TabItem>
+<TabItem label="Studio">
+
+The **Test on one product** section is below the **Target** section. The table shows what came back and what matched what, and the **Why not** column gives the reason.
+
+<Shot panel="studio" id="product-test" alt="Test on one product" />
 
 </TabItem>
 </Tabs>

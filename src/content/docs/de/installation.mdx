@@ -42,21 +42,6 @@ composer require robokat/pimcore-getname-ai:^0.900
 Ein Durchlauf des Plugins ist ein Job der Pimcore Execution Engine.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Prüfen Sie, ob `config/bundles.php` diesen Eintrag enthält:
-
-```php
-Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
-```
-
-Falls nicht, ergänzen Sie ihn und installieren Sie die Engine:
-
-```bash
-bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
-```
-
-</TabItem>
 <TabItem label="Classic">
 
 In Pimcore 11.5 ist die Engine standardmäßig deaktiviert, und ohne sie startet die Anwendung nicht, sobald das Plugin aktiviert ist. Ergänzen Sie in `config/bundles.php`:
@@ -81,6 +66,21 @@ doctrine:
             default:
                 connection: default
                 auto_mapping: true
+```
+
+</TabItem>
+<TabItem label="Studio">
+
+Prüfen Sie, ob `config/bundles.php` diesen Eintrag enthält:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Falls nicht, ergänzen Sie ihn und installieren Sie die Engine:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
 ```
 
 </TabItem>
@@ -133,6 +133,11 @@ Wenn bereits ein Prozess andere Pimcore-Warteschlangen abarbeitet, können Sie `
 Die Beschriftungen des Plugins gibt es auf Englisch, Deutsch, Französisch und Polnisch. Sie folgen der Sprache im Profil des jeweiligen Benutzers. Für Deutsch ist keine zusätzliche Einrichtung nötig.
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+Es ist keine zusätzliche Einrichtung nötig. Auf Deutsch sind auch die Beschriftungen von Data Hub selbst übersetzt, etwa **Konfiguration hinzufügen**.
+
+</TabItem>
 <TabItem label="Studio">
 
 Studio bringt eine eigene deutsche Übersetzung mit. Stellen Sie Deutsch im Benutzerprofil ein, dann erscheint auch der Rest von Studio auf Deutsch.
@@ -144,11 +149,6 @@ getname.language-marker: polski
 ```
 
 Leeren Sie den Cache und stellen Sie im Benutzerprofil Polnisch ein. Das Plugin erscheint dann auf Polnisch, der Rest von Studio, einschließlich der Schaltflächen **Neu** und **Speichern**, bleibt auf Englisch.
-
-</TabItem>
-<TabItem label="Classic">
-
-Es ist keine zusätzliche Einrichtung nötig. Auf Deutsch sind auch die Beschriftungen von Data Hub selbst übersetzt, etwa **Konfiguration hinzufügen**.
 
 </TabItem>
 </Tabs>

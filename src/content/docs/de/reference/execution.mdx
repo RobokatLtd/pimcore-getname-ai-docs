@@ -15,15 +15,6 @@ Eine leere Liste von Ordnern und Objekten umfasst die gesamte Objektklasse. Ist 
 :::
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Klicken Sie im Abschnitt **Wie viele Produkte** auf **Neu berechnen**. Die Zählung liest die Einstellungen in der Ansicht, auch nicht gespeicherte. Ändern Sie sie nach der Zählung, erscheint die Meldung **Diese Zählung ist veraltet**, und Sie müssen neu berechnen.
-
-**Liste anzeigen** öffnet die Produkte seitenweise. Ein Klick auf eine Spaltenüberschrift sortiert die gesamte Liste.
-
-<Shot panel="studio" id="execution-count" alt="Abschnitt Wie viele Produkte mit der Zahl, den Gründen für das Überspringen und der Liste" />
-
-</TabItem>
 <TabItem label="Classic">
 
 Klicken Sie im Abschnitt **Produktumfang** auf **Umfang zählen**. Die Zählung liest die **gespeicherte** Konfiguration, speichern Sie Änderungen also vorher.
@@ -33,18 +24,27 @@ Klicken Sie im Abschnitt **Produktumfang** auf **Umfang zählen**. Die Zählung 
 <Shot panel="classic" id="execution-count" alt="Abschnitt Produktumfang mit der Zahl und der Liste" />
 
 </TabItem>
+<TabItem label="Studio">
+
+Klicken Sie im Abschnitt **Wie viele Produkte** auf **Neu berechnen**. Die Zählung liest die Einstellungen in der Ansicht, auch nicht gespeicherte. Ändern Sie sie nach der Zählung, erscheint die Meldung **Diese Zählung ist veraltet**, und Sie müssen neu berechnen.
+
+**Liste anzeigen** öffnet die Produkte seitenweise. Ein Klick auf eine Spaltenüberschrift sortiert die gesamte Liste.
+
+<Shot panel="studio" id="execution-count" alt="Abschnitt Wie viele Produkte mit der Zahl, den Gründen für das Überspringen und der Liste" />
+
+</TabItem>
 </Tabs>
 
 Neben der Zahl sehen Sie, wie viele Produkte übersprungen wurden und warum. Ein Produkt mit leerer Beschreibung bleibt in der Zahl enthalten. Erst der Durchlauf erkennt die leere Beschreibung, überspringt das Produkt und bezahlt nicht dafür.
 
 ## Ausführen
 
-Klicken Sie in Studio auf **Jetzt ausführen** oder in Classic auf **Durchlauf starten**. Ein Bestätigungsfenster zeigt die Anzahl der zu sendenden Produkte. Ist kein Ordner und kein Objekt ausgewählt, warnt es außerdem, dass der Durchlauf die gesamte Produktklasse umfasst. Der Durchlauf startet erst nach Ihrer Bestätigung: **Jetzt ausführen** in Studio, **Ja** in Classic.
+Klicken Sie in Studio auf **Jetzt ausführen** oder in Classic auf **Durchlauf starten**. Ein Bestätigungsfenster zeigt die Anzahl der zu sendenden Produkte. Ist kein Ordner und kein Objekt ausgewählt, warnt es außerdem, dass der Durchlauf die gesamte Objektklasse umfasst. Der Durchlauf startet erst nach Ihrer Bestätigung: **Jetzt ausführen** in Studio, **Ja** in Classic.
 
 Vor dem ersten bezahlten Aufruf prüft das Plugin, ob:
 
 - die Konfiguration gespeichert ist, denn der Durchlauf verwendet die gespeicherte Version,
-- API-Schlüssel, Profil, Aufgabenart, Klasse und Ziel festgelegt sind,
+- API-Schlüssel, Profil, Aufgabenart, Objektklasse und Ziel festgelegt sind,
 - der Umfang gezählt wurde und sich seitdem nicht geändert hat,
 - diese Konfiguration nicht bereits läuft,
 - die Antworten des Dienstes bei Attributen im Classification Store ein Ziel haben.
@@ -54,14 +54,14 @@ Die Produkte werden in Paketen über die Warteschlange verarbeitet, der Durchlau
 ## Fortschritt und Abbrechen
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Der Abschnitt **Ausführungsstatus** zeigt den Fortschritt. **Durchlauf abbrechen** stoppt den Durchlauf. Der Job ist auch in der Jobliste von Studio sichtbar.
-
-</TabItem>
 <TabItem label="Classic">
 
 Der Fortschrittsbalken und die Schaltfläche **Durchlauf abbrechen** liegen im Abschnitt **Durchlauf**.
+
+</TabItem>
+<TabItem label="Studio">
+
+Der Abschnitt **Ausführungsstatus** zeigt den Fortschritt. **Durchlauf abbrechen** stoppt den Durchlauf. Der Job ist auch in der Jobliste von Studio sichtbar.
 
 </TabItem>
 </Tabs>
@@ -73,14 +73,14 @@ Nach dem Abbrechen können sich die Zähler noch bewegen, weil Produkte, die ber
 Der Bericht hat eine Zeile pro Ereignis an einem Produkt. Die Spalten sind auf der Seite [Ergebnisse auswerten](../../results/#csv-bericht) erklärt.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Klicken Sie unter der Tabelle **Letzter Durchlauf** auf **Bericht herunterladen (CSV)**. Berichte früherer Durchläufe laden Sie im Abschnitt **Verlauf** herunter.
-
-</TabItem>
 <TabItem label="Classic">
 
 Klicken Sie im Abschnitt **Durchlaufverlauf** auf das Symbol in der Spalte **Bericht** oder doppelklicken Sie auf die Zeile.
+
+</TabItem>
+<TabItem label="Studio">
+
+Klicken Sie unter der Tabelle **Letzter Durchlauf** auf **Bericht herunterladen (CSV)**. Berichte früherer Durchläufe laden Sie im Abschnitt **Verlauf** herunter.
 
 </TabItem>
 </Tabs>

@@ -8,20 +8,6 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Liczniki
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-| Licznik | Znaczenie |
-|---|---|
-| **W zbiorze** | liczba produktów przy starcie |
-| **Wysłane produkty** | ile produktów wysłano do usługi |
-| **Płatne wywołania API** | ile wywołań naliczono |
-| **Zapisana klasa** albo **Zapisane atrybuty** | ile produktów dostało wynik |
-| **Zapisane klucze** | ile kluczy zapisano |
-| **Pominięte produkty** albo **Pominięte klucze** | ile pominięto, z rozbiciem na powody |
-| **Nieudane** | ile produktów skończyło się błędem usługi lub zapisu |
-| **Brak dopasowanej klasy** albo **Brak zwróconych atrybutów** | ile odpowiedzi było pustych |
-
-</TabItem>
 <TabItem label="Classic">
 
 W **Historii uruchomień**:
@@ -34,6 +20,20 @@ W **Historii uruchomień**:
 | **Zapisanych** | ile produktów dostało wynik |
 | **Pominiętych** | ile produktów pominięto |
 | **Błędów** | ile produktów skończyło się błędem usługi lub zapisu |
+
+</TabItem>
+<TabItem label="Studio">
+
+| Licznik | Znaczenie |
+|---|---|
+| **W zbiorze** | liczba produktów przy starcie |
+| **Wysłane produkty** | ile produktów wysłano do usługi |
+| **Płatne wywołania API** | ile wywołań naliczono |
+| **Zapisana klasa** albo **Zapisane atrybuty** | ile produktów dostało wynik |
+| **Zapisane klucze** | ile kluczy zapisano |
+| **Pominięte produkty** albo **Pominięte klucze** | ile pominięto, z rozbiciem na powody |
+| **Nieudane** | ile produktów skończyło się błędem usługi lub zapisu |
+| **Brak dopasowanej klasy** albo **Brak zwróconych atrybutów** | ile odpowiedzi było pustych |
 
 </TabItem>
 </Tabs>
@@ -50,7 +50,7 @@ Plik używa średnika jako separatora. W Excelu otwórz go przez import danych, 
 | `time` | czas zdarzenia |
 | `product` | identyfikator produktu |
 | `event` | co się stało |
-| `class` | klasa |
+| `class` | klasa klasyfikacji |
 | `keys` | liczba kluczy |
 | `reason` | powód pominięcia |
 | `detail` | dodatkowy opis, na przykład komunikat usługi |
@@ -73,7 +73,7 @@ Wartości w kolumnie `event`:
 |---|---|---|---|
 | `alreadyHasResult` | z gotowym wynikiem | tryb pomijania, a produkt ma wynik | nic, jeśli tego chcesz; inaczej zmień tryb |
 | `nothingLeftToFill` | z wypełnionymi wszystkimi atrybutami klasy | tryb uzupełniania, a nie ma czego uzupełnić | nic |
-| `missingClass` | bez nadanej klasy | produkt nie ma klasy, więc nie można rozpoznać atrybutów | wykonaj [rozpoznanie klasy](../first-classification/) |
+| `missingClass` | bez nadanej klasy | produkt nie ma klasy klasyfikacji, więc nie można rozpoznać atrybutów | wykonaj [rozpoznanie klasy](../first-classification/) |
 | `skippedSameClass` | miał już dokładnie tę klasę | usługa zwróciła klasę, którą produkt już ma | nic |
 | `skippedTargetNotEmpty` | cel nie był pusty | klucz lub klasa są wypełnione, a tryb ich nie nadpisuje | nic albo zmień tryb |
 | `skippedSourceEmpty` | odpowiedź była pusta | usługa niczego nie rozpoznała; wywołanie jest płatne, nic nie zapisano | popraw opis produktu lub wybrane pola |
@@ -97,8 +97,8 @@ Tych błędów wtyczka nie ponawia, bo powtórka dałaby ten sam wynik:
 |---|---|
 | `INVALID_API_KEY` | klucz jest nieprawidłowy; zatrzymuje całe uruchomienie |
 | `CLASSIFICATION_NOT_FOUND` | klucz nie ma dostępu do profilu albo profil nie istnieje |
-| `INVALID_CLASS_ID` | klasa produktu nie istnieje w wybranym profilu |
-| `CLASS_ATTRIBUTES_NOT_DEFINED` | klasa nie ma zdefiniowanych atrybutów; liczone jako pusta odpowiedź |
+| `INVALID_CLASS_ID` | klasa klasyfikacji produktu nie istnieje w wybranym profilu |
+| `CLASS_ATTRIBUTES_NOT_DEFINED` | klasa klasyfikacji nie ma zdefiniowanych atrybutów; liczone jako pusta odpowiedź |
 | `DESCRIPTION_TOO_SHORT`, `DESCRIPTION_TOO_LONG` | usługa odrzuciła długość opisu |
 | `PDF_READ_ERROR` | usługa nie mogła pobrać ani odczytać pliku |
 

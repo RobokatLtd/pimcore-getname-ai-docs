@@ -1,6 +1,6 @@
 ---
 title: "First configuration: class recognition"
-description: Step by step, how to give your products a class from a standard such as ETIM.
+description: Step by step, how to give your products a classification class from a standard such as ETIM.
 sidebar:
   label: Class recognition
 tableOfContents:
@@ -12,19 +12,80 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 import Shot from '../../components/Shot.astro';
 import ClassifyExample from '../../components/diagrams/ClassifyExample.astro';
 
-On this page you set up a configuration that gives products a class from a standard such as ETIM and writes it to the Classification Store.
+On this page you set up a configuration that gives products a classification class from a standard such as ETIM and writes it to the Classification Store. This is not the Pimcore object class, which you choose separately.
 
 <ClassifyExample />
 
-**Have ready:** an API key, an object class with a Classification Store field, and a folder with a few products that have no class yet. The Classification Store should already contain groups for the classes of the chosen standard.
+**Have ready:** an API key, an object class with a Classification Store field, and a folder with a few products that have no classification class yet. The Classification Store should already contain groups for the classes of the chosen standard.
 
 If you recognise categories from your own tree, follow the same steps but choose a relation as the target. See [Write target](../reference/task/#write-target).
 
-:::caution[An empty scope means the whole class]
+:::caution[An empty scope means the whole object class]
 If you don't drag in a folder or object, the configuration covers every product of the object class, and the confirmation window warns you about it. Before you start the run, always check the number you get from counting: that is how many paid calls you will send.
 :::
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+### Create the configuration
+
+1. In the main menu, click **Datahub**.
+2. Click the arrow next to **Add Configuration**, choose **getName.ai** and enter a name, such as `products_classification`.
+
+### Connect to the service
+
+3. Open the **Service connection** tab and paste your key into **API key**.
+4. Click **Test connection**. You'll see a message that the connection works, along with your subscription details.
+5. Set **Task kind** to **Class recognition**. A new configuration starts on attribute recognition.
+6. Under **Recognition profile**, choose a profile, such as ETIM in the language you need.
+
+<Shot panel="classic" id="connection" alt="Service connection tab with the key, task kind and profile" />
+
+### Describe the task
+
+7. Open the **Task** tab and choose the object class of your products under **Class**.
+8. Drag a folder from the object tree to the **Product scope** section. Tick **Including children** if subfolders should be included.
+9. Set **Level in the hierarchy** to **Top level only** if the classification class should be inherited by variants. In a catalogue without variants this option changes nothing.
+
+<Shot panel="classic" id="task-scope" alt="Product scope section with a folder dragged from the tree" />
+
+### Choose what to send
+
+10. In the **Description sent to the service** section, click **Choose fields**, tick the fields that describe the product, such as its name and description, and click **Apply**.
+11. Leave **Prefix with field name** ticked for these fields. This tells the service what each value means.
+
+<Shot panel="classic" id="task-payload" alt="Description sent to the service section with the chosen fields" />
+
+### Say where to write the result
+
+12. In the **Write target** section, set **Type** to **Classification store**.
+13. Under **Field**, choose the Classification Store field of the object class.
+14. Under **Run mode**, leave **Skip products with a filled write target** selected.
+15. Click **Save**.
+16. On the **Mapping** tab, check that **Map the class by** is set to `name`. With standards, the class code is usually in the group name.
+
+### Test one product
+
+17. Open the **Execution** tab and drag one product from the tree to the **Probe on a single product** section.
+18. Click **Show the description (free)**. Check whether a person could recognise the product from this text.
+19. Click **Ask the service (one call)**. You'll see the service's answer as it came back. Nothing is written to the product.
+
+Check that the code in the `id` field has a matching group in the Classification Store.
+
+<Shot panel="classic" id="product-test" alt="Probe on a single product section with the service's answer" />
+
+### Run
+
+20. In the **Product scope** section, click **Count scope**. This number is the number of paid calls. The count reads the saved configuration, so save your changes first.
+21. Check what was skipped. Click **Show the products** to see them.
+22. Click **Start run**.
+23. In the confirmation window, check the number of products and click **Yes**. You can close the screen and the run will carry on.
+
+<Shot panel="classic" id="execution-confirm" alt="Confirmation window with the number of products to send" />
+
+<Shot panel="classic" id="execution-finished" alt="Finished run in the run history" />
+
+</TabItem>
 <TabItem label="Studio">
 
 ### Create the configuration
@@ -45,7 +106,7 @@ If you don't drag in a folder or object, the configuration covers every product 
 6. Open the **Task** tab and click **Select classification**.
 7. Under **Product class:**, choose the object class of your products.
 8. Drag a folder from the object tree to **Data objects**. Tick **Including children** if subfolders should be included.
-9. Set **Level in the hierarchy:** to **top level only** if the class should be inherited by variants. In a catalogue without variants this option changes nothing.
+9. Set **Level in the hierarchy:** to **top level only** if the classification class should be inherited by variants. In a catalogue without variants this option changes nothing.
 10. In the **Products that already have a class** section, leave **Skip them** selected.
 
 <Shot panel="studio" id="task-scope" alt="Which products section with a folder dragged from the tree" />
@@ -86,67 +147,6 @@ In the result table, the **Matched** column should confirm the match and **In Pi
 <Shot panel="studio" id="execution-confirm" alt="Confirmation window with the number of products to send" />
 
 <Shot panel="studio" id="execution-finished" alt="Finished run with its counters" />
-
-</TabItem>
-<TabItem label="Classic">
-
-### Create the configuration
-
-1. In the main menu, click **Datahub**.
-2. Click the arrow next to **Add Configuration**, choose **getName.ai** and enter a name, such as `products_classification`.
-
-### Connect to the service
-
-3. Open the **Service connection** tab and paste your key into **API key**.
-4. Click **Test connection**. You'll see a message that the connection works, along with your subscription details.
-5. Set **Task kind** to **Class recognition**. A new configuration starts on attribute recognition.
-6. Under **Recognition profile**, choose a profile, such as ETIM in the language you need.
-
-<Shot panel="classic" id="connection" alt="Service connection tab with the key, task kind and profile" />
-
-### Describe the task
-
-7. Open the **Task** tab and choose the object class of your products under **Class**.
-8. Drag a folder from the object tree to the **Product scope** section. Tick **Including children** if subfolders should be included.
-9. Set **Level in the hierarchy** to **Top level only** if the class should be inherited by variants. In a catalogue without variants this option changes nothing.
-
-<Shot panel="classic" id="task-scope" alt="Product scope section with a folder dragged from the tree" />
-
-### Choose what to send
-
-10. In the **Description sent to the service** section, click **Choose fields**, tick the fields that describe the product, such as its name and description, and click **Apply**.
-11. Leave **Prefix with field name** ticked for these fields. This tells the service what each value means.
-
-<Shot panel="classic" id="task-payload" alt="Description sent to the service section with the chosen fields" />
-
-### Say where to write the result
-
-12. In the **Write target** section, set **Type** to **Classification store**.
-13. Under **Field**, choose the Classification Store field of the object class.
-14. Under **Run mode**, leave **Skip products with a filled write target** selected.
-15. Click **Save**.
-16. On the **Mapping** tab, check that **Map the class by** is set to `name`. With standards, the class code is usually in the group name.
-
-### Test one product
-
-17. Open the **Execution** tab and drag one product from the tree to the **Probe on a single product** section.
-18. Click **Show the description (free)**. Check whether a person could recognise the product from this text.
-19. Click **Ask the service (one call)**. You'll see the service's answer as it came back. Nothing is written to the product.
-
-Check that the code in the `id` field has a matching group in the Classification Store.
-
-<Shot panel="classic" id="product-test" alt="Probe on a single product section with the service's answer" />
-
-### Run
-
-20. In the **Product scope** section, click **Count scope**. This number is the number of paid calls. The count reads the saved configuration, so save your changes first.
-21. Check what was skipped. Click **Show the products** to see them.
-22. Click **Start run**.
-23. In the confirmation window, check the number of products and click **Yes**. You can close the screen and the run will carry on.
-
-<Shot panel="classic" id="execution-confirm" alt="Confirmation window with the number of products to send" />
-
-<Shot panel="classic" id="execution-finished" alt="Finished run in the run history" />
 
 </TabItem>
 </Tabs>

@@ -1,6 +1,6 @@
 ---
 title: "Pierwsza konfiguracja: rozpoznanie atrybutów"
-description: Krok po kroku, jak uzupełnić wartości atrybutów produktów, które mają już klasę.
+description: Krok po kroku, jak uzupełnić wartości atrybutów produktów, które mają już klasę klasyfikacji.
 sidebar:
   label: Rozpoznanie atrybutów
 tableOfContents:
@@ -18,15 +18,64 @@ Na tej stronie ustawisz konfigurację, która odczytuje wartości atrybutów z o
 
 **Przygotuj:** klucz API i kilka produktów, które mają już włączoną grupę w polu Classification Store.
 
-:::note[Produkty muszą mieć klasę]
-Konfiguracja bierze tylko produkty z nadaną klasą. Jeśli licznik pokaże 0, a pominięte produkty są „bez nadanej klasy”, wykonaj najpierw [rozpoznanie klasy](../first-classification/).
+:::note[Produkty muszą mieć klasę klasyfikacji]
+Konfiguracja bierze tylko produkty z nadaną klasą klasyfikacji. Jeśli licznik pokaże 0, a pominięte produkty są „bez nadanej klasy”, wykonaj najpierw [rozpoznanie klasy](../first-classification/).
 :::
 
-:::caution[Pusty zbiór to cała klasa]
-Jeśli nie przeciągniesz żadnego folderu ani obiektu, konfiguracja obejmie wszystkie produkty klasy, a okno potwierdzenia pokaże o tym ostrzeżenie. Przed **Uruchom teraz** zawsze sprawdź liczbę w **Przelicz**: tyle płatnych wywołań wyślesz.
+:::caution[Pusty zbiór to cała klasa obiektów]
+Jeśli nie przeciągniesz żadnego folderu ani obiektu, konfiguracja obejmie wszystkie produkty tej klasy obiektów, a okno potwierdzenia pokaże o tym ostrzeżenie. Przed **Uruchom teraz** zawsze sprawdź liczbę w **Przelicz**: tyle płatnych wywołań wyślesz.
 :::
 
 <Tabs syncKey="panel">
+<TabItem label="Classic">
+
+### Załóż konfigurację
+
+1. W menu głównym kliknij **Datahub Config**, potem strzałkę obok **Add Configuration**. Wybierz **getName.ai** i wpisz nazwę, na przykład `products_attributes`.
+2. Na zakładce **Połączenie** wklej **Klucz API** i kliknij **Sprawdź połączenie**.
+3. Zostaw **Rodzaj zadania** ustawiony na **Rozpoznanie atrybutów** i wybierz **Profil rozpoznawania**. Użyj tego samego standardu, którego klasy mają produkty.
+
+### Opisz zadanie
+
+4. Na zakładce **Zadanie** w polu **Klasa** wybierz klasę obiektów swoich produktów.
+5. Przeciągnij folder z drzewa do sekcji **Zbiór produktów**.
+6. W polu **Poziom w hierarchii** ustaw **Tylko najniższy poziom**, jeśli konkretne produkty są na dole hierarchii. W katalogu bez wariantów ta opcja niczego nie zmienia.
+
+### Wybierz, co wysłać
+
+7. W sekcji **Co wysyłamy** kliknij **Wybierz pola**, zaznacz pola z opisem i danymi technicznymi i kliknij **Zastosuj**. Im więcej konkretnych danych, tym więcej atrybutów usługa może odczytać.
+8. Zostaw zaznaczone **Poprzedź nazwą pola** przy wybranych polach.
+9. Jeśli pola są wielojęzyczne, wybierz **Języki opisu**. Produkt zostanie wysłany w jednym języku: pierwszym z listy, w którym ma wszystkie wybrane pola.
+
+### Wskaż, gdzie zapisać wynik
+
+10. W sekcji **Cel zapisu** ustaw **Typ** na **Klasyfikacja (Classification Store)**, a w polu **Pole** wybierz pole Classification Store.
+11. Ustaw **Tryb przetwarzania** na **Uzupełnij braki**. Wtyczka wyśle tylko produkty z pustymi atrybutami i zapisze tylko puste atrybuty.
+12. Kliknij **Zapisz**.
+
+<Shot panel="classic" id="task-target" alt="Sekcja Cel zapisu z trybem Uzupełnij braki" />
+
+### Ustaw mapowanie
+
+13. Otwórz zakładkę **Mapowanie**. Sprawdź, czy **Mapuj klasę po** i **Mapuj atrybut po** mają wartość `name`. Jeśli klucze są zapisane jako `KLASA.atrybut`, ustaw **Mapuj atrybut po** na `nameInGroup`.
+14. W sekcji **Jak zapisujemy wartości** kliknij **Sprawdź Classification Store**. Tabela pokaże typy kluczy, które masz w Classification Store.
+15. Zostaw zaznaczone **Zapisuj** przy połączeniach, które chcesz zapisywać. Niezaznaczone połączenie nigdy się nie zapisze i trafi do raportu.
+16. Kliknij **Zapisz**.
+
+<Shot panel="classic" id="mapping-attributes" alt="Zakładka Mapowanie z mapowaniem i tabelą formatowania wartości" />
+
+### Przetestuj jeden produkt
+
+17. Na zakładce **Uruchomienie** przeciągnij produkt do sekcji **Test na jednym produkcie** i kliknij **Podejrzyj opis**.
+18. Kliknij **Zapytaj usługę (jedno wywołanie)**. Zobaczysz odpowiedź usługi w oryginalnej postaci. Sprawdź, czy kody atrybutów mają odpowiadające im klucze w Classification Store.
+
+### Uruchom
+
+19. Kliknij **Przelicz**. Licznik czyta zapisaną konfigurację, więc wcześniej zapisz wszystkie zmiany.
+20. Sprawdź liczbę i powody pominięcia, a potem kliknij **Uruchom teraz**.
+21. W oknie potwierdzenia sprawdź liczbę produktów i kliknij **Tak**.
+
+</TabItem>
 <TabItem label="Studio">
 
 ### Załóż konfigurację
@@ -38,7 +87,7 @@ Jeśli nie przeciągniesz żadnego folderu ani obiektu, konfiguracja obejmie wsz
 ### Opisz zadanie
 
 4. Otwórz zakładkę **Zadanie** i kliknij **Wybierz rozpoznanie atrybutów**.
-5. W polu **Klasa produktu:** wybierz klasę swoich produktów.
+5. W polu **Klasa produktu:** wybierz klasę obiektów swoich produktów.
 6. Przeciągnij folder z drzewa do pola **Obiekty danych**.
 7. W polu **Poziom w hierarchii:** ustaw **tylko najniższy poziom**, jeśli konkretne produkty są na dole hierarchii. W katalogu bez wariantów ta opcja niczego nie zmienia.
 8. W sekcji **Produkty, które mają już wartości atrybutów** wybierz **Uzupełnij braki**. Wtyczka wyśle tylko produkty z pustymi atrybutami i zapisze tylko puste atrybuty.
@@ -77,55 +126,6 @@ Jeśli nie przeciągniesz żadnego folderu ani obiektu, konfiguracja obejmie wsz
 20. Na zakładce **Uruchomienie** kliknij **Przelicz**, sprawdź liczbę i powody pominięcia.
 21. Kliknij **Uruchom teraz**.
 22. W oknie potwierdzenia sprawdź liczbę produktów i kliknij **Uruchom teraz**.
-
-</TabItem>
-<TabItem label="Classic">
-
-### Załóż konfigurację
-
-1. W menu głównym kliknij **Datahub Config**, potem strzałkę obok **Add Configuration**. Wybierz **getName.ai** i wpisz nazwę, na przykład `products_attributes`.
-2. Na zakładce **Połączenie** wklej **Klucz API** i kliknij **Sprawdź połączenie**.
-3. Zostaw **Rodzaj zadania** ustawiony na **Rozpoznanie atrybutów** i wybierz **Profil rozpoznawania**. Użyj tego samego standardu, którego klasy mają produkty.
-
-### Opisz zadanie
-
-4. Na zakładce **Zadanie** wybierz **Klasę** swoich produktów.
-5. Przeciągnij folder z drzewa do sekcji **Zbiór produktów**.
-6. W polu **Poziom w hierarchii** ustaw **Tylko najniższy poziom**, jeśli konkretne produkty są na dole hierarchii. W katalogu bez wariantów ta opcja niczego nie zmienia.
-
-### Wybierz, co wysłać
-
-7. W sekcji **Co wysyłamy** kliknij **Wybierz pola**, zaznacz pola z opisem i danymi technicznymi i kliknij **Zastosuj**. Im więcej konkretnych danych, tym więcej atrybutów usługa może odczytać.
-8. Zostaw zaznaczone **Poprzedź nazwą pola** przy wybranych polach.
-9. Jeśli pola są wielojęzyczne, wybierz **Języki opisu**. Produkt zostanie wysłany w jednym języku: pierwszym z listy, w którym ma wszystkie wybrane pola.
-
-### Wskaż, gdzie zapisać wynik
-
-10. W sekcji **Cel zapisu** ustaw **Typ** na **Klasyfikacja (Classification Store)**, a w polu **Pole** wybierz pole Classification Store.
-11. Ustaw **Tryb przetwarzania** na **Uzupełnij braki**. Wtyczka wyśle tylko produkty z pustymi atrybutami i zapisze tylko puste atrybuty.
-12. Kliknij **Zapisz**.
-
-<Shot panel="classic" id="task-target" alt="Sekcja Cel zapisu z trybem Uzupełnij braki" />
-
-### Ustaw mapowanie
-
-13. Otwórz zakładkę **Mapowanie**. Sprawdź, czy **Mapuj klasę po** i **Mapuj atrybut po** mają wartość `name`. Jeśli klucze są zapisane jako `KLASA.atrybut`, ustaw **Mapuj atrybut po** na `nameInGroup`.
-14. W sekcji **Jak zapisujemy wartości** kliknij **Sprawdź Classification Store**. Tabela pokaże typy kluczy, które masz w Classification Store.
-15. Zostaw zaznaczone **Zapisuj** przy połączeniach, które chcesz zapisywać. Niezaznaczone połączenie nigdy się nie zapisze i trafi do raportu.
-16. Kliknij **Zapisz**.
-
-<Shot panel="classic" id="mapping-attributes" alt="Zakładka Mapowanie z mapowaniem i tabelą formatowania wartości" />
-
-### Przetestuj jeden produkt
-
-17. Na zakładce **Uruchomienie** przeciągnij produkt do sekcji **Test na jednym produkcie** i kliknij **Podejrzyj opis**.
-18. Kliknij **Zapytaj usługę (jedno wywołanie)**. Zobaczysz odpowiedź usługi w oryginalnej postaci. Sprawdź, czy kody atrybutów mają odpowiadające im klucze w Classification Store.
-
-### Uruchom
-
-19. Kliknij **Przelicz**. Licznik czyta zapisaną konfigurację, więc wcześniej zapisz wszystkie zmiany.
-20. Sprawdź liczbę i powody pominięcia, a potem kliknij **Uruchom teraz**.
-21. W oknie potwierdzenia sprawdź liczbę produktów i kliknij **Tak**.
 
 </TabItem>
 </Tabs>

@@ -13,14 +13,14 @@ Na tej zakładce decydujesz, które produkty wysłać do usługi, jaki opis doł
 Jedna konfiguracja wykonuje jedno zadanie. Żeby rozpoznawać klasy i atrybuty, załóż dwie konfiguracje.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Nowa konfiguracja najpierw pyta o rodzaj: **Wybierz rozpoznanie klasy** albo **Wybierz rozpoznanie atrybutów**. **Zmień rodzaj** zmienia go później. Zmiana czyści cel i warunki, a wysyłka i połączenie zostają.
-
-</TabItem>
 <TabItem label="Classic">
 
 **Rodzaj zadania** jest na zakładce **Połączenie**. Zmiana czyści cel zapisu i warunki.
+
+</TabItem>
+<TabItem label="Studio">
+
+Nowa konfiguracja najpierw pyta o rodzaj: **Wybierz rozpoznanie klasy** albo **Wybierz rozpoznanie atrybutów**. **Zmień rodzaj** zmienia go później. Zmiana czyści cel i warunki, a wysyłka i połączenie zostają.
 
 </TabItem>
 </Tabs>
@@ -29,14 +29,14 @@ Nowa konfiguracja najpierw pyta o rodzaj: **Wybierz rozpoznanie klasy** albo **W
 
 | Ustawienie | Studio | Classic | Co robi |
 |---|---|---|---|
-| Klasa | **Klasa produktu:** | **Klasa** | Wyznacza listę pól w warunkach, opisie i celu |
-| Foldery i obiekty | **Obiekty danych** | **Zbiór produktów** | Przeciągasz je z drzewa, a wpisy się sumują. Pusta lista obejmuje całą klasę |
+| Klasa obiektów | **Klasa produktu:** | **Klasa** | Wyznacza listę pól w warunkach, opisie i celu |
+| Foldery i obiekty | **Obiekty danych** | **Zbiór produktów** | Przeciągasz je z drzewa, a wpisy się sumują. Pusta lista obejmuje całą klasę obiektów |
 | Podfoldery | **Razem z podrzędnymi** | **Razem z podrzędnymi** | Obejmuje całe poddrzewo |
 | Nieopublikowane | **Także nieopublikowane** | **Także nieopublikowane** | Poszerza zbiór |
 | Warianty | **Także warianty** | **Także warianty** | Poszerza zbiór i przesuwa najniższy poziom na warianty |
-| Poziom | **Poziom w hierarchii:** | **Poziom w hierarchii** | Zawęża zbiór według miejsca w hierarchii tej samej klasy |
+| Poziom | **Poziom w hierarchii:** | **Poziom w hierarchii** | Zawęża zbiór według miejsca w hierarchii tej samej klasy obiektów |
 
-**Którego poziomu użyć:** klasa dziedziczy się w dół, więc do rozpoznania klasy zwykle wybierasz najwyższy poziom. Atrybuty zwykle rozpoznajesz na najniższym poziomie, tam gdzie są konkretne produkty. Poziomy pośrednie są wysyłane tylko przy ustawieniu „wszystkie poziomy”.
+**Którego poziomu użyć:** klasa klasyfikacji dziedziczy się w dół, więc do rozpoznania klasy zwykle wybierasz najwyższy poziom. Atrybuty zwykle rozpoznajesz na najniższym poziomie, tam gdzie są konkretne produkty. Poziomy pośrednie są wysyłane tylko przy ustawieniu „wszystkie poziomy”.
 
 ### Warunki
 
@@ -56,7 +56,7 @@ To ustawienie najbardziej wpływa na koszt. W Studio ma osobną sekcję, a w Cla
 | **Nadpisz istniejącą klasę** | **Nadpisz wynik** | każdy produkt ze zbioru | zwróconą klasę |
 | **Tylko raport, bez ruszania danych** | **Tylko raport, bez ruszania danych** | każdy produkt ze zbioru | tylko pole przeglądu |
 
-:::danger[Nadpisanie klasy usuwa wartości poprzedniej klasy]
+:::danger[Nadpisanie klasy klasyfikacji usuwa wartości poprzedniej]
 Nowa klasa wyłącza poprzednią grupę, a Pimcore zachowuje dane tylko aktywnej grupy.
 :::
 
@@ -89,23 +89,23 @@ Kliknij **Dodaj pole** w Studio albo **Wybierz pola** w Classic. Kolejność zmi
 - **Poprzedź nazwą pola** wysyła wartość jako `Etykieta: wartość`.
 - **Etykieta w opisie** zastępuje tytuł pola. Pusta oznacza tytuł pola.
 - **wielojęzyczne** oznacza pole czytane w wybranym języku opisu.
-- Czerwony znacznik oznacza, że pola nie ma już w klasie. Licznik i uruchomienie zatrzymają się, dopóki go nie poprawisz lub nie usuniesz.
+- Czerwony znacznik oznacza, że pola nie ma już w klasie obiektów. Licznik i uruchomienie zatrzymają się, dopóki go nie poprawisz lub nie usuniesz.
 
 Możesz wybrać pola proste, Objectbricki, bloki, kolekcje pól oraz pola obiektów powiązanych. Dla pól powiązanych obowiązują te zasady:
 
 - Relacja do wielu obiektów daje listę, po jednej linii na obiekt.
 - Nieopublikowane obiekty powiązane są pomijane.
-- Przez relację do tej samej klasy produktu, na przykład akcesoria, dostępne są tylko pola proste.
+- Przez relację do tej samej klasy obiektów, na przykład akcesoria, dostępne są tylko pola proste.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Pola obiektów powiązanych pokażesz, wybierając relację w polu **Pola obiektów powiązanych** nad listą.
-
-</TabItem>
 <TabItem label="Classic">
 
 W oknie wyboru pól każda relacja jest zwiniętą grupą. Kliknij grupę, żeby ją otworzyć. Filtry są w menu kolumn.
+
+</TabItem>
+<TabItem label="Studio">
+
+Pola obiektów powiązanych pokażesz, wybierając relację w polu **Pola obiektów powiązanych** nad listą.
 
 </TabItem>
 </Tabs>
@@ -129,14 +129,14 @@ To pole jest opcjonalne i działa przy atrybutach. Wskazuje usłudze, którego p
 Podgląd jest bezpłatny. Pokazuje tekst, jego długość i język dla jednego produktu.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Wpisz identyfikator w polu **Podgląd dla produktu ID:** i kliknij **Podejrzyj opis**.
-
-</TabItem>
 <TabItem label="Classic">
 
 Na zakładce **Uruchomienie** przeciągnij produkt do sekcji **Test na jednym produkcie** i kliknij **Podejrzyj opis**. Podgląd składa opis z zapisanej konfiguracji.
+
+</TabItem>
+<TabItem label="Studio">
+
+Wpisz identyfikator w polu **Podgląd dla produktu ID:** i kliknij **Podejrzyj opis**.
 
 </TabItem>
 </Tabs>
@@ -147,13 +147,13 @@ Oba panele oferują te same cele:
 
 | Rodzaj zadania | Profil | Cel |
 |---|---|---|
-| Klasa | standard, na przykład ETIM | **Klasyfikacja (Classification Store)** |
-| Klasa | własne drzewo kategorii | **Relacja do obiektu kategorii** |
+| Klasa klasyfikacji | standard, na przykład ETIM | **Klasyfikacja (Classification Store)** |
+| Klasa klasyfikacji | własne drzewo kategorii | **Relacja do obiektu kategorii** |
 | Atrybuty | standard, na przykład ETIM | **Klasyfikacja (Classification Store)** |
 
 W Studio lista pokazuje też wyszarzone pozycje z dopiskiem „(później)”: tabelę propozycji, objectbrick, pole tekstowe i kolekcję pól. Tych celów nie można jeszcze wybrać.
 
-**Pole** to pole wybranego rodzaju na klasie produktu.
+**Pole** to pole wybranego rodzaju w klasie obiektów.
 
 ### Drugie dopasowanie do pola tekstowego
 
@@ -164,18 +164,18 @@ To ustawienie jest opcjonalne i działa przy rozpoznawaniu klasy. Wtyczka zapisu
 Test kosztuje jedno wywołanie i niczego nie zapisuje. Wykonuje **zapisaną** konfigurację, więc najpierw ją zapisz. Kolejne wywołanie dla tego samego produktu może zwrócić nieco inny zestaw atrybutów, więc test nie gwarantuje dokładnie takiego samego wyniku przy uruchomieniu.
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-Sekcja **Test na jednym produkcie** jest pod sekcją **Cel zapisu**. Tabela pokazuje, co wróciło i co się z czym dopasowało, a kolumna **Dlaczego nie** podaje powód.
-
-<Shot panel="studio" id="product-test" alt="Test na jednym produkcie" />
-
-</TabItem>
 <TabItem label="Classic">
 
 Sekcja **Test na jednym produkcie** jest na zakładce **Uruchomienie**. Przeciągasz do niej produkt z drzewa. Wynikiem jest odpowiedź usługi w oryginalnej postaci.
 
 <Shot panel="classic" id="product-test" alt="Test na jednym produkcie" />
+
+</TabItem>
+<TabItem label="Studio">
+
+Sekcja **Test na jednym produkcie** jest pod sekcją **Cel zapisu**. Tabela pokazuje, co wróciło i co się z czym dopasowało, a kolumna **Dlaczego nie** podaje powód.
+
+<Shot panel="studio" id="product-test" alt="Test na jednym produkcie" />
 
 </TabItem>
 </Tabs>

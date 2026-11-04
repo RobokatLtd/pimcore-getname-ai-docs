@@ -3,20 +3,24 @@ title: Glossary
 description: Terms used in this guide and what they are called on the screens of both panels.
 ---
 
+:::note[Two different classes]
+An **object class** is a definition of data objects in Pimcore, for example `Product`. A **classification class** is a product's place in a system such as ETIM, for example `EC000441 Cable gland`. In this guide, "class" on its own always means a classification class. In the panel, you choose the object class under **Class** (Classic) or **Product class:** (Studio).
+:::
+
 | Term | What it means | On screen |
 |---|---|---|
-| Attribute | one property of a class, such as `EF001758 Thread type` | a key in Pimcore |
+| Attribute | one property of a classification class, such as `EF001758 Thread type` | a key in Pimcore |
 | Call | one paid request to the service, one per product | |
-| Class | a product's place in a classification system, such as an ETIM class | |
-| Class recognition | the task that gives a product a class | Studio: **Classification**; Classic: **Class recognition** |
+| Class, classification class | a product's place in a classification system, such as `EC000441 Cable gland` in ETIM | **Class recognition**, **Map the class by** |
+| Class recognition | the task that gives a product a classification class | Studio: **Classification**; Classic: **Class recognition** |
 | Attribute recognition | the task that reads attribute values | Studio: **Attributes**; Classic: **Attribute recognition** |
 | Classification Store | the Pimcore dictionary of groups and keys | Studio: **Classification attribute set**; Classic: **Classification store** |
 | Data Hub | the Pimcore module where you create configurations | Studio: **Data Hub Configuration**; Classic: **Datahub** |
 | Description | the text assembled from the chosen fields and sent for one product | Studio: **What we send**; Classic: **Description sent to the service** |
-| Group | a class of the standard in the Classification Store; active on a product, it means the product has that class | |
+| Group | a classification class stored in the Classification Store; active on a product, it means the product has that class | |
 | Key | one attribute in a group, with a type and, for selections, a list of values | |
 | Mapping | pointing at the Pimcore field that holds the code the service returns | **Mapping** |
-| Object class | the Pimcore class of data objects the configuration works on; not to be confused with an ETIM class | Studio: **Product class:**; Classic: **Class** |
+| Object class | the Pimcore class, a definition of data objects, that the configuration takes products from; not to be confused with a classification class | Classic: **Class**; Studio: **Product class:** |
 | Recognition profile | a classification system in one version and language, or a profile from your own category tree | **Recognition profile** |
 | Run | one execution of a configuration, processed in chunks through the queue | Studio: **Run now**; Classic: **Start run** |
 | Run mode | what to do with products that already have a result | Studio: the **Products that already have…** section; Classic: **Run mode** |

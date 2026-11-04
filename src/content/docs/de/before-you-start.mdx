@@ -13,6 +13,10 @@ description: Was vor der ersten Konfiguration bereitstehen muss und welche Aktio
 
 Das Plugin legt im Classification Store keine Gruppen oder Schlüssel an. Liefert der Dienst einen Code, den es in Pimcore nicht gibt, wird das Produkt oder Attribut übersprungen, und der Grund steht im Bericht.
 
+:::note[Zwei verschiedene Klassen]
+Eine **Objektklasse** ist die Definition von Datenobjekten in Pimcore, etwa `Product`. Eine **Klassifikationsklasse** ist der Platz eines Produkts in einem System wie ETIM, etwa `EC000441 Kabelverschraubung`. Das Wort „Klasse“ allein bedeutet in dieser Anleitung immer die Klassifikationsklasse. Die Objektklasse wählen Sie im Panel unter **Klasse** (Classic) oder **Produktklasse:** (Studio).
+:::
+
 ## Was Geld kostet
 
 | Was Sie tun | Schaltfläche in Studio | Schaltfläche in Classic | Kosten |
@@ -30,9 +34,9 @@ Die Limits Ihres Tarifs sehen Sie auf der Karte **Abonnement** auf dem Reiter **
 
 ## Warum Sie meist zwei Konfigurationen brauchen
 
-Eine Konfiguration erledigt eine Aufgabe: Sie erkennt entweder die Klasse oder die Attribute.
+Eine Konfiguration erledigt eine Aufgabe: Sie erkennt entweder die Klassifikationsklasse oder die Attribute.
 
-Der Dienst erkennt Attribute innerhalb einer Klasse, denn die Klasse legt fest, welche Attribute ein Produkt haben kann. Eine Attributkonfiguration nimmt deshalb nur Produkte, die bereits eine Klasse haben. Wenn Ihre Produkte noch keine haben, führen Sie zuerst eine Klassenkonfiguration aus.
+Der Dienst erkennt Attribute innerhalb einer Klassifikationsklasse, denn diese legt fest, welche Attribute ein Produkt haben kann. Eine Attributkonfiguration nimmt deshalb nur Produkte, die bereits eine Klassifikationsklasse haben. Wenn Ihre Produkte noch keine haben, führen Sie zuerst eine Klassenkonfiguration aus.
 
 ## Sicher anfangen
 

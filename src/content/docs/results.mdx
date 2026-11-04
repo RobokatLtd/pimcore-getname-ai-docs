@@ -8,20 +8,6 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
 ## Counters
 
 <Tabs syncKey="panel">
-<TabItem label="Studio">
-
-| Counter | Meaning |
-|---|---|
-| **In scope** | number of products at the start |
-| **Products sent** | how many products went to the service |
-| **Paid API calls** | how many calls were charged |
-| **Class written** or **Attributes written** | how many products got a result |
-| **Keys written** | how many keys were written |
-| **Skipped products** or **Keys skipped** | how many were skipped, broken down by reason |
-| **Failed** | how many products ended with a service or write error |
-| **No class matched** or **No attributes returned** | how many answers were empty |
-
-</TabItem>
 <TabItem label="Classic">
 
 In the **Run history**:
@@ -34,6 +20,20 @@ In the **Run history**:
 | **Written** | how many products got a result |
 | **Skipped** | how many products were skipped |
 | **Failed** | how many products ended with a service or write error |
+
+</TabItem>
+<TabItem label="Studio">
+
+| Counter | Meaning |
+|---|---|
+| **In scope** | number of products at the start |
+| **Products sent** | how many products went to the service |
+| **Paid API calls** | how many calls were charged |
+| **Class written** or **Attributes written** | how many products got a result |
+| **Keys written** | how many keys were written |
+| **Skipped products** or **Keys skipped** | how many were skipped, broken down by reason |
+| **Failed** | how many products ended with a service or write error |
+| **No class matched** or **No attributes returned** | how many answers were empty |
 
 </TabItem>
 </Tabs>
@@ -50,7 +50,7 @@ The file uses a semicolon as the separator. If the columns don't split in Excel,
 | `time` | time of the event |
 | `product` | product ID |
 | `event` | what happened |
-| `class` | class |
+| `class` | classification class |
 | `keys` | number of keys |
 | `reason` | skip reason |
 | `detail` | extra information, such as a message from the service |
@@ -73,7 +73,7 @@ Values in the `event` column:
 |---|---|---|---|
 | `alreadyHasResult` | with a result already | skip mode, and the product has a result | nothing if that's what you want; otherwise change the mode |
 | `nothingLeftToFill` | with every attribute of the class already filled | fill mode, and there's nothing to fill | nothing |
-| `missingClass` | with no class assigned | the product has no class, so attributes can't be recognised | run [class recognition](../first-classification/) |
+| `missingClass` | with no class assigned | the product has no classification class, so attributes can't be recognised | run [class recognition](../first-classification/) |
 | `skippedSameClass` | already had exactly this class | the service returned the class the product already has | nothing |
 | `skippedTargetNotEmpty` | the target was not empty | the key or class is filled and the mode doesn't overwrite it | nothing, or change the mode |
 | `skippedSourceEmpty` | the answer was empty | the service recognised nothing; the call is paid and nothing was written | improve the product description or the chosen fields |
@@ -97,8 +97,8 @@ The plugin doesn't retry these errors, because a retry would give the same resul
 |---|---|
 | `INVALID_API_KEY` | the key is invalid; this stops the whole run |
 | `CLASSIFICATION_NOT_FOUND` | the key has no access to the profile, or the profile doesn't exist |
-| `INVALID_CLASS_ID` | the product's class doesn't exist in the chosen profile |
-| `CLASS_ATTRIBUTES_NOT_DEFINED` | the class has no attributes defined; counted as an empty answer |
+| `INVALID_CLASS_ID` | the product's classification class doesn't exist in the chosen profile |
+| `CLASS_ATTRIBUTES_NOT_DEFINED` | the classification class has no attributes defined; counted as an empty answer |
 | `DESCRIPTION_TOO_SHORT`, `DESCRIPTION_TOO_LONG` | the service rejected the length of the description |
 | `PDF_READ_ERROR` | the service couldn't fetch or read the file |
 
