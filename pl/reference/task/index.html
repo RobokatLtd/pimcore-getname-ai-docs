@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="pl" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar class="astro-g5ptsecz"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>Zadanie | getName.ai dla Pimcore</title><link rel="canonical" href="https://robokatltd.github.io/pimcore-getname-ai-docs/pl/reference/task/"/><link rel="alternate" hreflang="en" href="https://robokatltd.github.io/pimcore-getname-ai-docs/reference/task/"/><link rel="alternate" hreflang="pl" href="https://robokatltd.github.io/pimcore-getname-ai-docs/pl/reference/task/"/><link rel="alternate" hreflang="de" href="https://robokatltd.github.io/pimcore-getname-ai-docs/de/reference/task/"/><link rel="alternate" hreflang="x-default" href="https://robokatltd.github.io/pimcore-getname-ai-docs/reference/task/"/><link rel="sitemap" href="/pimcore-getname-ai-docs/sitemap-index.xml"/><link rel="shortcut icon" href="/pimcore-getname-ai-docs/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.5"/><meta name="generator" content="Starlight v0.42.8"/><meta property="og:title" content="Zadanie"/><meta property="og:type" content="article"/><meta property="og:url" content="https://robokatltd.github.io/pimcore-getname-ai-docs/pl/reference/task/"/><meta property="og:locale" content="pl"/><meta property="og:description" content="Które produkty wysłać, co się dzieje z produktami z wynikiem, jaki opis wysłać do usługi i gdzie zapisać odpowiedź."/><meta property="og:site_name" content="getName.ai dla Pimcore"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="Które produkty wysłać, co się dzieje z produktami z wynikiem, jaki opis wysłać do usługi i gdzie zapisać odpowiedź."/><script>
+	window.StarlightThemeProvider = (() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+		return {
+			updatePickers(theme = storedTheme || 'auto') {
+				document.querySelectorAll('starlight-theme-select').forEach((picker) => {
+					const select = picker.querySelector('select');
+					if (select) select.value = theme;
+					/** @type {HTMLTemplateElement | null} */
+					const tmpl = document.querySelector(`#theme-icons`);
+					const newIcon = tmpl && tmpl.content.querySelector('.' + theme);
+					if (newIcon) {
+						const oldIcon = picker.querySelector('svg.label-icon');
+						if (oldIcon) {
+							oldIcon.replaceChildren(...newIcon.cloneNode(true).childNodes);
+						}
+					}
+				});
+			},
+		};
+	})();
+</script><template id="theme-icons"><svg aria-hidden="true" class="light astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg aria-hidden="true" class="dark astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg aria-hidden="true" class="auto astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></template><link rel="stylesheet" href="/pimcore-getname-ai-docs/_astro/print.ehPL0gv-.css" media="print"><link rel="stylesheet" href="/pimcore-getname-ai-docs/_astro/common.DNwEoGRD.css"><style>@layer starlight.components{svg:where(.astro-hkc32dio){color:var(--sl-icon-color);font-size:var(--sl-icon-size,1em);width:1em;height:1em;overflow:visible}}
+</style><script type="module" src="/pimcore-getname-ai-docs/_astro/page.cNngjUgL.js"></script><style>@layer starlight.components{starlight-tabs:where(.astro-scn3uvmv){display:block}.tablist-wrapper:where(.astro-scn3uvmv){overflow-x:auto}:where(.astro-scn3uvmv)[role=tablist]{border-bottom:2px solid var(--sl-color-gray-5);padding:0;list-style:none;display:flex}.tab:where(.astro-scn3uvmv){display:flex}.tab:where(.astro-scn3uvmv)>:where(.astro-scn3uvmv)[role=tab]{--sl-tab-color-border:var(--sl-color-gray-5);line-height:var(--sl-line-height-headings);box-shadow:0 2px 0 var(--sl-tab-color-border);color:var(--sl-color-gray-3);outline-offset:var(--sl-outline-offset-inside);overflow-wrap:initial;align-items:center;gap:.5rem;padding:.275rem 1.25rem;text-decoration:none;display:flex}.tab:where(.astro-scn3uvmv) :where(.astro-scn3uvmv)[role=tab][aria-selected=true]{--sl-tab-color-border:var(--sl-color-text-accent);color:var(--sl-color-white);font-weight:600}.tablist-wrapper:where(.astro-scn3uvmv)~[role=tabpanel]{margin-top:1rem}}
+</style></head><body class="astro-g5ptsecz"><a class="sl-skip-link astro-qb7clj6f" href="#_top">Przejdź do głównej zawartości</a><div class="page sl-flex astro-yntsjkba"><header class="header astro-yntsjkba"><div class="header astro-by6fddyj"><div class="title-wrapper sl-flex astro-by6fddyj"><a href="/pimcore-getname-ai-docs/pl" class="site-title sl-flex astro-6rvad3va"><span class="astro-6rvad3va" translate="no">getName.ai dla Pimcore</span></a></div><div class="sl-flex print:hidden astro-by6fddyj"><site-search class="astro-by6fddyj astro-b5kgnn7o" data-translations="{&quot;placeholder&quot;:&quot;Szukaj&quot;}"><button data-open-modal disabled aria-label="Szukaj" aria-keyshortcuts="Control+K" class="astro-b5kgnn7o"><svg aria-hidden="true" class="astro-b5kgnn7o astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block astro-b5kgnn7o" aria-hidden="true">Szukaj</span><kbd class="sl-hidden md:sl-flex astro-b5kgnn7o" style="display: none;"><kbd class="astro-b5kgnn7o">Ctrl</kbd><kbd class="astro-b5kgnn7o">K</kbd></kbd></button><dialog style="padding:0" aria-label="Szukaj" class="astro-b5kgnn7o"><div class="dialog-frame sl-flex astro-b5kgnn7o"><button data-close-modal class="sl-flex md:sl-hidden astro-b5kgnn7o">Anuluj</button><div class="search-container astro-b5kgnn7o"><div id="starlight__search" class="astro-b5kgnn7o"></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/pimcore-getname-ai-docs/_astro/Search.astro_astro_type_script_index_0_lang.Cjj0BJVC.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group astro-by6fddyj"><div class="sl-flex social-icons astro-by6fddyj"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Wybierz motyw</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Ciemny</option><option value="light" class="astro-2z5xp7gb">Jasny</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){StarlightThemeProvider.updatePickers(e),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Wybierz język</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/pimcore-getname-ai-docs/reference/task/" class="astro-2z5xp7gb">English</option><option value="/pimcore-getname-ai-docs/pl/reference/task/" selected class="astro-2z5xp7gb">Polski</option><option value="/pimcore-getname-ai-docs/de/reference/task/" class="astro-2z5xp7gb">Deutsch</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden astro-yntsjkba" aria-label="Główne"><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden astro-r2osgdlg"><svg aria-hidden="true" class="open-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg aria-hidden="true" class="close-menu astro-r2osgdlg astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only astro-r2osgdlg">Menu</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane astro-yntsjkba"><div class="sidebar-content sl-flex astro-yntsjkba"><sl-sidebar-state-persist data-hash="0iw8c84" class="astro-ipdry5cl"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level astro-rmhv4bp6"><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Na początek</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/before-you-start/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Zanim zaczniesz</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/how-it-works/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Jak to działa</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/installation/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Instalacja</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Pierwsza konfiguracja</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/first-classification/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Rozpoznanie klasy</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/first-attributes/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Rozpoznanie atrybutów</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Zakładki konfiguracji</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/reference/connection/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Ogólne i Połączenie</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/reference/task/" aria-current="page" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Zadanie</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/reference/mapping/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Mapowanie</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/reference/execution/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Uruchomienie</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/reference/logs-permissions/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Dziennik i Uprawnienia</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><details open class="astro-rmhv4bp6"><summary class="astro-rmhv4bp6"><span class="group-label astro-rmhv4bp6"><span class="large astro-rmhv4bp6">Po uruchomieniu</span></span><svg aria-hidden="true" class="caret astro-rmhv4bp6 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul class="astro-rmhv4bp6"><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/results/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Jak czytać wynik</span></a></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/troubleshooting/" class="astro-rmhv4bp6"><span class="astro-rmhv4bp6">Gdy coś nie działa</span></a></li></ul></details></li><li class="astro-rmhv4bp6"><a href="/pimcore-getname-ai-docs/pl/glossary/" class="large astro-rmhv4bp6"><span class="astro-rmhv4bp6">Słowniczek</span></a></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex astro-p4azlveh"><div class="social-icons astro-p4azlveh"></div><starlight-theme-select><label style="--sl-select-width: 6.25em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Wybierz motyw</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="dark" class="astro-2z5xp7gb">Ciemny</option><option value="light" class="astro-2z5xp7gb">Jasny</option><option value="auto" selected class="astro-2z5xp7gb">Auto</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>
+	StarlightThemeProvider.updatePickers();
+</script><starlight-lang-select><label style="--sl-select-width: 7em" class="astro-2z5xp7gb"><span class="sr-only astro-2z5xp7gb">Wybierz język</span><svg aria-hidden="true" class="icon label-icon astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path fill-rule="evenodd" d="M8.516 3a.94.94 0 0 0-.941.94v1.15H2.94a.94.94 0 1 0 0 1.882h7.362a7.422 7.422 0 0 1-1.787 3.958 7.42 7.42 0 0 1-1.422-2.425.94.94 0 1 0-1.774.627 9.303 9.303 0 0 0 1.785 3.043 7.422 7.422 0 0 1-4.164 1.278.94.94 0 1 0 0 1.881 9.303 9.303 0 0 0 5.575-1.855 9.303 9.303 0 0 0 4.11 1.74l-.763 1.525a.968.968 0 0 0-.016.034l-1.385 2.77a.94.94 0 1 0 1.683.841l1.133-2.267h5.806l1.134 2.267a.94.94 0 0 0 1.683-.841l-1.385-2.769a.95.95 0 0 0-.018-.036l-3.476-6.951a.94.94 0 0 0-1.682 0l-1.82 3.639a7.423 7.423 0 0 1-3.593-1.256 9.303 9.303 0 0 0 2.27-5.203h1.894a.94.94 0 0 0 0-1.881H9.456V3.94A.94.94 0 0 0 8.516 3Zm6.426 11.794a1.068 1.068 0 0 1-.02.039l-.703 1.407h3.924l-1.962-3.924-1.24 2.478Z" clip-rule="evenodd"/></svg><select autocomplete="off" class="astro-2z5xp7gb"><option value="/pimcore-getname-ai-docs/reference/task/" class="astro-2z5xp7gb">English</option><option value="/pimcore-getname-ai-docs/pl/reference/task/" selected class="astro-2z5xp7gb">Polski</option><option value="/pimcore-getname-ai-docs/de/reference/task/" class="astro-2z5xp7gb">Deutsch</option></select><svg aria-hidden="true" class="icon caret astro-2z5xp7gb astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;"><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-lang-select></div></div></div></sl-sidebar-pane></nav><div class="main-frame astro-yntsjkba"><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex astro-lrzkfocr"><aside class="right-sidebar-container print:hidden astro-lrzkfocr"><div class="right-sidebar astro-lrzkfocr"><div class="lg:sl-hidden astro-qok35upx"><mobile-starlight-toc data-min-h="2" data-max-h="3" class="astro-66cqc7ze"><nav aria-labelledby="starlight__on-this-page--mobile" class="astro-66cqc7ze"><details id="starlight__mobile-toc" class="astro-66cqc7ze"><summary id="starlight__on-this-page--mobile" class="sl-flex astro-66cqc7ze"><span class="toggle sl-flex astro-66cqc7ze">Na tej stronie<svg aria-hidden="true" class="caret astro-66cqc7ze astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;"><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current astro-66cqc7ze"></span></summary><div class="dropdown astro-66cqc7ze"><ul class="isMobile astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Przegląd</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#rodzaj-zadania" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Rodzaj zadania</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#które-produkty" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Które produkty</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#warunki" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Warunki</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#produkty-które-mają-już-wynik" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Produkty, które mają już wynik</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#co-wysyłamy" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Co wysyłamy</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#źródło-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Źródło opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#pola-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Pola opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#języki-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Języki opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#kod-produktu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Kod produktu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#podgląd-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Podgląd opisu</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#cel-zapisu" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Cel zapisu</span></a><ul class="isMobile astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#drugie-dopasowanie-do-pola-tekstowego" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Drugie dopasowanie do pola tekstowego</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#test-na-jednym-produkcie" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Test na jednym produkcie</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/pimcore-getname-ai-docs/_astro/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block astro-qok35upx"><div class="sl-container astro-qok35upx"><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">Na tej stronie</h2><ul class="astro-jugkfwgx" style="--depth: 0;"><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#_top" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Przegląd</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#rodzaj-zadania" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Rodzaj zadania</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#które-produkty" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Które produkty</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#warunki" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Warunki</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#produkty-które-mają-już-wynik" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Produkty, które mają już wynik</span></a></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#co-wysyłamy" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Co wysyłamy</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#źródło-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Źródło opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#pola-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Pola opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#języki-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Języki opisu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#kod-produktu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Kod produktu</span></a></li><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#podgląd-opisu" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Podgląd opisu</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#cel-zapisu" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Cel zapisu</span></a><ul class="astro-jugkfwgx" style="--depth: 1;"><li style="--depth: 1;" class="astro-jugkfwgx"><a href="#drugie-dopasowanie-do-pola-tekstowego" style="--depth: 1;" class="astro-jugkfwgx"><span style="--depth: 1;" class="astro-jugkfwgx">Drugie dopasowanie do pola tekstowego</span></a></li></ul></li><li style="--depth: 0;" class="astro-jugkfwgx"><a href="#test-na-jednym-produkcie" style="--depth: 0;" class="astro-jugkfwgx"><span style="--depth: 0;" class="astro-jugkfwgx">Test na jednym produkcie</span></a></li></ul></nav></starlight-toc><script type="module" src="/pimcore-getname-ai-docs/_astro/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane astro-lrzkfocr"><main data-pagefind-body class="astro-g5ptsecz" lang="pl" dir="ltr"><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><h1 id="_top" class="astro-bebwqqxs">Zadanie</h1></div></div><div class="content-panel astro-a7po4psb"><div class="sl-container astro-a7po4psb"><div class="sl-markdown-content">
+<p>Na tej zakładce decydujesz, które produkty wysłać do usługi, jaki opis dołączyć i gdzie zapisać odpowiedź.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="rodzaj-zadania">Rodzaj zadania</h2><a class="sl-anchor-link" href="#rodzaj-zadania"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Rodzaj zadania”</span></a></div>
+<p>Jedna konfiguracja wykonuje jedno zadanie. Żeby rozpoznawać klasy i atrybuty, załóż dwie konfiguracje.</p>
+<script>
+(() => {
+	class StarlightTabsRestore extends HTMLElement {
+		connectedCallback() {
+			const starlightTabs = this.closest('starlight-tabs');
+			if (!(starlightTabs instanceof HTMLElement) || typeof localStorage === 'undefined') return;
+			const syncKey = starlightTabs.dataset.syncKey;
+			if (!syncKey) return;
+			const label = localStorage.getItem(`starlight-synced-tabs__${syncKey}`);
+			if (!label) return;
+			const tabs = [...starlightTabs?.querySelectorAll('[role="tab"]')];
+			const tabIndexToRestore = tabs.findIndex(
+				(tab) => tab instanceof HTMLAnchorElement && tab.textContent?.trim() === label
+			);
+			const panels = starlightTabs?.querySelectorAll(':scope > [role="tabpanel"]');
+			const newTab = tabs[tabIndexToRestore];
+			const newPanel = panels[tabIndexToRestore];
+			if (tabIndexToRestore < 1 || !newTab || !newPanel) return;
+			tabs[0]?.setAttribute('aria-selected', 'false');
+			tabs[0]?.setAttribute('tabindex', '-1');
+			panels?.[0]?.setAttribute('hidden', 'true');
+			newTab.removeAttribute('tabindex');
+			newTab.setAttribute('aria-selected', 'true');
+			newPanel.removeAttribute('hidden');
+		}
+	}
+	customElements.define('starlight-tabs-restore', StarlightTabsRestore);
+})()
+</script><starlight-tabs data-sync-key="panel" class="astro-scn3uvmv"><div class="tablist-wrapper not-content astro-scn3uvmv"><ul role="tablist" class="astro-scn3uvmv"><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-0-0" id="tab-0-0" aria-selected="true" tabindex="0" class="astro-scn3uvmv">Studio</a></li><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-0-1" id="tab-0-1" aria-selected="false" tabindex="-1" class="astro-scn3uvmv">Classic</a></li></ul></div><div id="tab-panel-0-0" aria-labelledby="tab-0-0" role="tabpanel" tabindex="0"><p>Nowa konfiguracja najpierw pyta o rodzaj: <strong>Wybierz rozpoznanie klasy</strong> albo <strong>Wybierz rozpoznanie atrybutów</strong>. <strong>Zmień rodzaj</strong> zmienia go później. Zmiana czyści cel i warunki, a wysyłka i połączenie zostają.</p></div><div id="tab-panel-0-1" aria-labelledby="tab-0-1" role="tabpanel" tabindex="0" hidden><p><strong>Rodzaj zadania</strong> jest na zakładce <strong>Połączenie</strong>. Zmiana czyści cel zapisu i warunki.</p></div><starlight-tabs-restore class="astro-scn3uvmv"></starlight-tabs-restore></starlight-tabs><script type="module">var e=class e extends HTMLElement{static#e=new Map;tabs;panels;#t;#n=`starlight-synced-tabs__`;constructor(){super();let t=this.querySelector(`[role="tablist"]`);if(this.tabs=[...t.querySelectorAll(`[role="tab"]`)],this.panels=[...this.querySelectorAll(`:scope > [role="tabpanel"]`)],this.#t=this.dataset.syncKey,this.#t){let t=e.#e.get(this.#t)??[];t.push(this),e.#e.set(this.#t,t)}this.tabs.forEach((e,n)=>{e.addEventListener(`click`,e=>{e.preventDefault();let r=t.querySelector(`[aria-selected="true"]`);e.currentTarget!==r&&this.switchTab(e.currentTarget,n)}),e.addEventListener(`keydown`,e=>{let t=this.tabs.indexOf(e.currentTarget),n=e.key===`ArrowLeft`?t-1:e.key===`ArrowRight`?t+1:e.key===`Home`?0:e.key===`End`?this.tabs.length-1:null;n!==null&&this.tabs[n]&&(e.preventDefault(),this.switchTab(this.tabs[n],n))})})}switchTab(t,n,r=!0){if(!t)return;let i=r?this.getBoundingClientRect().top:0;this.tabs.forEach(e=>{e.setAttribute(`aria-selected`,`false`),e.setAttribute(`tabindex`,`-1`)}),this.panels.forEach(e=>{e.hidden=!0});let a=this.panels[n];a&&(a.hidden=!1),t.removeAttribute(`tabindex`),t.setAttribute(`aria-selected`,`true`),r&&(t.focus(),e.#i(this,t),window.scrollTo({top:window.scrollY+(this.getBoundingClientRect().top-i),behavior:`instant`}))}#r(e){this.#t&&typeof localStorage<`u`&&localStorage.setItem(this.#n+this.#t,e)}static#i(t,n){let r=t.#t,i=e.#a(n);if(!r||!i)return;let a=e.#e.get(r);if(a){for(let n of a){if(n===t)continue;let r=n.tabs.findIndex(t=>e.#a(t)===i);r!==-1&&n.switchTab(n.tabs[r],r,!1)}t.#r(i)}}static#a(e){return e.textContent?.trim()}};customElements.define(`starlight-tabs`,e);</script>
+<div class="sl-heading-wrapper level-h2"><h2 id="które-produkty">Które produkty</h2><a class="sl-anchor-link" href="#które-produkty"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Które produkty”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>Ustawienie</th>
+<th>Studio</th>
+<th>Classic</th>
+<th>Co robi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Klasa</td>
+<td><strong>Klasa produktu:</strong></td>
+<td><strong>Klasa</strong></td>
+<td>Wyznacza listę pól w warunkach, opisie i celu</td>
+</tr>
+<tr>
+<td>Foldery i obiekty</td>
+<td><strong>Obiekty danych</strong></td>
+<td><strong>Zbiór produktów</strong></td>
+<td>Przeciągasz je z drzewa, a wpisy się sumują. Pusta lista obejmuje całą klasę</td>
+</tr>
+<tr>
+<td>Podfoldery</td>
+<td><strong>Razem z podrzędnymi</strong></td>
+<td><strong>Razem z podrzędnymi</strong></td>
+<td>Obejmuje całe poddrzewo</td>
+</tr>
+<tr>
+<td>Nieopublikowane</td>
+<td><strong>Także nieopublikowane</strong></td>
+<td><strong>Także nieopublikowane</strong></td>
+<td>Poszerza zbiór</td>
+</tr>
+<tr>
+<td>Warianty</td>
+<td><strong>Także warianty</strong></td>
+<td><strong>Także warianty</strong></td>
+<td>Poszerza zbiór i przesuwa najniższy poziom na warianty</td>
+</tr>
+<tr>
+<td>Poziom</td>
+<td><strong>Poziom w hierarchii:</strong></td>
+<td><strong>Poziom w hierarchii</strong></td>
+<td>Zawęża zbiór według miejsca w hierarchii tej samej klasy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Którego poziomu użyć:</strong> klasa dziedziczy się w dół, więc do rozpoznania klasy zwykle wybierasz najwyższy poziom. Atrybuty zwykle rozpoznajesz na najniższym poziomie, tam gdzie są konkretne produkty. Poziomy pośrednie są wysyłane tylko przy ustawieniu „wszystkie poziomy”.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="warunki">Warunki</h3><a class="sl-anchor-link" href="#warunki"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Warunki”</span></a></div>
+<p>Kliknij <strong>Dodaj warunek</strong>, wybierz pole, operator i wartość. Możesz na przykład wybrać jednego dostawcę albo produkty z pustym polem.</p>
+<p>Wszystkie warunki muszą być spełnione jednocześnie. Jeśli pole może mieć jedną z kilku wartości, użyj operatora <strong>jest jedną z</strong>. Warunek bez wartości zatrzymuje liczenie, dopóki go nie uzupełnisz.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="produkty-które-mają-już-wynik">Produkty, które mają już wynik</h2><a class="sl-anchor-link" href="#produkty-które-mają-już-wynik"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Produkty, które mają już wynik”</span></a></div>
+<p>To ustawienie najbardziej wpływa na koszt. W Studio ma osobną sekcję, a w Classic jest polem <strong>Tryb przetwarzania</strong> w sekcji <strong>Cel zapisu</strong>.</p>
+<p><strong>Rozpoznanie klasy:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Studio</th>
+<th>Classic</th>
+<th>Co wysyła</th>
+<th>Co zapisuje</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pomiń je</strong> (zalecane)</td>
+<td><strong>Pomiń produkty, które mają już wynik</strong></td>
+<td>tylko produkty bez klasy</td>
+<td>klasę</td>
+</tr>
+<tr>
+<td><strong>Nadpisz istniejącą klasę</strong></td>
+<td><strong>Nadpisz wynik</strong></td>
+<td>każdy produkt ze zbioru</td>
+<td>zwróconą klasę</td>
+</tr>
+<tr>
+<td><strong>Tylko raport, bez ruszania danych</strong></td>
+<td><strong>Tylko raport, bez ruszania danych</strong></td>
+<td>każdy produkt ze zbioru</td>
+<td>tylko pole przeglądu</td>
+</tr>
+</tbody>
+</table>
+<aside aria-label="Nadpisanie klasy usuwa wartości poprzedniej klasy" class="starlight-aside starlight-aside--danger"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 7a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V8a1 1 0 0 0-1-1Zm0 8a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm9.71-7.44-5.27-5.27a1.05 1.05 0 0 0-.71-.29H8.27a1.05 1.05 0 0 0-.71.29L2.29 7.56a1.05 1.05 0 0 0-.29.71v7.46c.004.265.107.518.29.71l5.27 5.27c.192.183.445.286.71.29h7.46a1.05 1.05 0 0 0 .71-.29l5.27-5.27a1.05 1.05 0 0 0 .29-.71V8.27a1.05 1.05 0 0 0-.29-.71ZM20 15.31 15.31 20H8.69L4 15.31V8.69L8.69 4h6.62L20 8.69v6.62Z"/></svg>Nadpisanie klasy usuwa wartości poprzedniej klasy</p><div class="starlight-aside__content"><p>Nowa klasa wyłącza poprzednią grupę, a Pimcore zachowuje dane tylko aktywnej grupy.</p></div></aside>
+<p><strong>Rozpoznanie atrybutów:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Studio</th>
+<th>Classic</th>
+<th>Co wysyła</th>
+<th>Co zapisuje</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Uzupełnij braki</strong> (zalecane)</td>
+<td><strong>Uzupełnij braki</strong></td>
+<td>produkty z co najmniej jednym pustym atrybutem</td>
+<td>tylko puste atrybuty</td>
+</tr>
+<tr>
+<td><strong>Pomiń je</strong></td>
+<td><strong>Pomiń produkty, które mają już wynik</strong></td>
+<td>tylko produkty bez wartości; jeden wypełniony atrybut pomija cały produkt</td>
+<td>atrybuty</td>
+</tr>
+<tr>
+<td><strong>Nadpisz wartości, które wróciły</strong></td>
+<td><strong>Nadpisz wynik</strong></td>
+<td>każdy produkt ze zbioru</td>
+<td>zwrócone atrybuty; pozostałe nie zmieniają się</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="co-wysyłamy">Co wysyłamy</h2><a class="sl-anchor-link" href="#co-wysyłamy"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Co wysyłamy”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="źródło-opisu">Źródło opisu</h3><a class="sl-anchor-link" href="#źródło-opisu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Źródło opisu”</span></a></div>
+<p>Classic zawsze wysyła tekst złożony z pól. Studio przy rozpoznawaniu atrybutów pozwala też wybrać adres:</p>
+<table>
+<thead>
+<tr>
+<th>Źródło w Studio</th>
+<th>Co się dzieje</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tekst składany z pól</strong></td>
+<td>Wybrane pola tworzą jeden opis</td>
+</tr>
+<tr>
+<td><strong>Adres strony</strong></td>
+<td>Jedno pole zawiera adres, a usługa sama otwiera stronę</td>
+</tr>
+<tr>
+<td><strong>Adres pliku</strong></td>
+<td>Jedno pole zawiera adres pliku PDF lub innego dokumentu, a usługa sama go pobiera</td>
+</tr>
+</tbody>
+</table>
+<p>Adres musi być dostępny z internetu. Ścieżka w drzewie Pimcore nie zadziała, a usługa odpowie błędem <code dir="auto">PDF_READ_ERROR</code>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="pola-opisu">Pola opisu</h3><a class="sl-anchor-link" href="#pola-opisu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Pola opisu”</span></a></div>
+<p>Kliknij <strong>Dodaj pole</strong> w Studio albo <strong>Wybierz pola</strong> w Classic. Kolejność zmieniasz strzałkami.</p>
+<ul>
+<li><strong>Poprzedź nazwą pola</strong> wysyła wartość jako <code dir="auto">Etykieta: wartość</code>.</li>
+<li><strong>Etykieta w opisie</strong> zastępuje tytuł pola. Pusta oznacza tytuł pola.</li>
+<li><strong>wielojęzyczne</strong> oznacza pole czytane w wybranym języku opisu.</li>
+<li>Czerwony znacznik oznacza, że pola nie ma już w klasie. Licznik i uruchomienie zatrzymają się, dopóki go nie poprawisz lub nie usuniesz.</li>
+</ul>
+<p>Możesz wybrać pola proste, Objectbricki, bloki, kolekcje pól oraz pola obiektów powiązanych. Dla pól powiązanych obowiązują te zasady:</p>
+<ul>
+<li>Relacja do wielu obiektów daje listę, po jednej linii na obiekt.</li>
+<li>Nieopublikowane obiekty powiązane są pomijane.</li>
+<li>Przez relację do tej samej klasy produktu, na przykład akcesoria, dostępne są tylko pola proste.</li>
+</ul>
+<starlight-tabs data-sync-key="panel" class="astro-scn3uvmv"><div class="tablist-wrapper not-content astro-scn3uvmv"><ul role="tablist" class="astro-scn3uvmv"><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-1-0" id="tab-1-0" aria-selected="true" tabindex="0" class="astro-scn3uvmv">Studio</a></li><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-1-1" id="tab-1-1" aria-selected="false" tabindex="-1" class="astro-scn3uvmv">Classic</a></li></ul></div><div id="tab-panel-1-0" aria-labelledby="tab-1-0" role="tabpanel" tabindex="0"><p>Pola obiektów powiązanych pokażesz, wybierając relację w polu <strong>Pola obiektów powiązanych</strong> nad listą.</p></div><div id="tab-panel-1-1" aria-labelledby="tab-1-1" role="tabpanel" tabindex="0" hidden><p>W oknie wyboru pól każda relacja jest zwiniętą grupą. Kliknij grupę, żeby ją otworzyć. Filtry są w menu kolumn.</p></div><starlight-tabs-restore class="astro-scn3uvmv"></starlight-tabs-restore></starlight-tabs>
+<p><strong>Eksportuj do pliku</strong> zapisuje listę pól i języki do pliku JSON bez klucza API. <strong>Importuj z pliku</strong> zastępuje je w otwartej konfiguracji. Po imporcie zapisz konfigurację.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="języki-opisu">Języki opisu</h3><a class="sl-anchor-link" href="#języki-opisu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Języki opisu”</span></a></div>
+<p>Dotyczy pól wielojęzycznych. Kolejność wyboru to kolejność zastępowania: produkt zostanie wysłany w pierwszym języku, w którym ma wszystkie wybrane pola wielojęzyczne. Jeśli żaden język nie ma kompletu, wtyczka wybierze ten, w którym ma ich najwięcej.</p>
+<p>Cały opis produktu jest w jednym języku i tę informację dostaje usługa. Pusta lista oznacza domyślny język instancji. Zastępowanie języków ustawione w Pimcore nie ma tu znaczenia.</p>
+<p>Usługa dostaje wybrany język także wtedy, gdy pola nie są wielojęzyczne. Jeśli opisy są w innym języku niż domyślny język instancji, wybierz go na liście.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="kod-produktu">Kod produktu</h3><a class="sl-anchor-link" href="#kod-produktu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Kod produktu”</span></a></div>
+<p>To pole jest opcjonalne i działa przy atrybutach. Wskazuje usłudze, którego produktu dotyczy odpowiedź, gdy tekst opisuje kilka produktów, na przykład karta PDF całej serii. Pole nazywa się <strong>Pole kodu produktu</strong>.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="podgląd-opisu">Podgląd opisu</h3><a class="sl-anchor-link" href="#podgląd-opisu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Podgląd opisu”</span></a></div>
+<p>Podgląd jest bezpłatny. Pokazuje tekst, jego długość i język dla jednego produktu.</p>
+<starlight-tabs data-sync-key="panel" class="astro-scn3uvmv"><div class="tablist-wrapper not-content astro-scn3uvmv"><ul role="tablist" class="astro-scn3uvmv"><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-2-0" id="tab-2-0" aria-selected="true" tabindex="0" class="astro-scn3uvmv">Studio</a></li><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-2-1" id="tab-2-1" aria-selected="false" tabindex="-1" class="astro-scn3uvmv">Classic</a></li></ul></div><div id="tab-panel-2-0" aria-labelledby="tab-2-0" role="tabpanel" tabindex="0"><p>Wpisz identyfikator w polu <strong>Podgląd dla produktu ID:</strong> i kliknij <strong>Podejrzyj opis</strong>.</p></div><div id="tab-panel-2-1" aria-labelledby="tab-2-1" role="tabpanel" tabindex="0" hidden><p>Na zakładce <strong>Uruchomienie</strong> przeciągnij produkt do sekcji <strong>Test na jednym produkcie</strong> i kliknij <strong>Podejrzyj opis</strong>. Podgląd składa opis z zapisanej konfiguracji.</p></div><starlight-tabs-restore class="astro-scn3uvmv"></starlight-tabs-restore></starlight-tabs>
+<div class="sl-heading-wrapper level-h2"><h2 id="cel-zapisu">Cel zapisu</h2><a class="sl-anchor-link" href="#cel-zapisu"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Cel zapisu”</span></a></div>
+<p>Oba panele oferują te same cele:</p>
+<table>
+<thead>
+<tr>
+<th>Rodzaj zadania</th>
+<th>Profil</th>
+<th>Cel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Klasa</td>
+<td>standard, na przykład ETIM</td>
+<td><strong>Klasyfikacja (Classification Store)</strong></td>
+</tr>
+<tr>
+<td>Klasa</td>
+<td>własne drzewo kategorii</td>
+<td><strong>Relacja do obiektu kategorii</strong></td>
+</tr>
+<tr>
+<td>Atrybuty</td>
+<td>standard, na przykład ETIM</td>
+<td><strong>Klasyfikacja (Classification Store)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>W Studio lista pokazuje też wyszarzone pozycje z dopiskiem „(później)”: tabelę propozycji, objectbrick, pole tekstowe i kolekcję pól. Tych celów nie można jeszcze wybrać.</p>
+<p><strong>Pole</strong> to pole wybranego rodzaju na klasie produktu.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="drugie-dopasowanie-do-pola-tekstowego">Drugie dopasowanie do pola tekstowego</h3><a class="sl-anchor-link" href="#drugie-dopasowanie-do-pola-tekstowego"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Drugie dopasowanie do pola tekstowego”</span></a></div>
+<p>To ustawienie jest opcjonalne i działa przy rozpoznawaniu klasy. Wtyczka zapisuje w tym polu jedną linię z najbliższą alternatywą, a każde uruchomienie ją nadpisuje. Dzięki temu widzisz, przy których produktach usługa się wahała. Tryb <strong>Tylko raport, bez ruszania danych</strong> wymaga tego pola.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="test-na-jednym-produkcie">Test na jednym produkcie</h2><a class="sl-anchor-link" href="#test-na-jednym-produkcie"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>Dział zatytułowany „Test na jednym produkcie”</span></a></div>
+<p>Test kosztuje jedno wywołanie i niczego nie zapisuje. Wykonuje <strong>zapisaną</strong> konfigurację, więc najpierw ją zapisz. Kolejne wywołanie dla tego samego produktu może zwrócić nieco inny zestaw atrybutów, więc test nie gwarantuje dokładnie takiego samego wyniku przy uruchomieniu.</p>
+<starlight-tabs data-sync-key="panel" class="astro-scn3uvmv"><div class="tablist-wrapper not-content astro-scn3uvmv"><ul role="tablist" class="astro-scn3uvmv"><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-3-0" id="tab-3-0" aria-selected="true" tabindex="0" class="astro-scn3uvmv">Studio</a></li><li role="presentation" class="tab astro-scn3uvmv"><a role="tab" href="#tab-panel-3-1" id="tab-3-1" aria-selected="false" tabindex="-1" class="astro-scn3uvmv">Classic</a></li></ul></div><div id="tab-panel-3-0" aria-labelledby="tab-3-0" role="tabpanel" tabindex="0"><p>Sekcja <strong>Test na jednym produkcie</strong> jest pod sekcją <strong>Cel zapisu</strong>. Tabela pokazuje, co wróciło i co się z czym dopasowało, a kolumna <strong>Dlaczego nie</strong> podaje powód.</p><figure class="shot"><img src="/pimcore-getname-ai-docs/_astro/product-test.CfYe4DEM_Z29iKig.webp" alt="Test na jednym produkcie" loading="lazy" decoding="async" width="1458" height="770"></figure></div><div id="tab-panel-3-1" aria-labelledby="tab-3-1" role="tabpanel" tabindex="0" hidden><p>Sekcja <strong>Test na jednym produkcie</strong> jest na zakładce <strong>Uruchomienie</strong>. Przeciągasz do niej produkt z drzewa. Wynikiem jest odpowiedź usługi w oryginalnej postaci.</p><figure class="shot"><img src="/pimcore-getname-ai-docs/_astro/product-test.COiJLi9B_2tiBKB.webp" alt="Test na jednym produkcie" loading="lazy" decoding="async" width="1698" height="1318"></figure></div><starlight-tabs-restore class="astro-scn3uvmv"></starlight-tabs-restore></starlight-tabs></div><footer class="sl-flex astro-ddtxxk7k"><div class="meta sl-flex astro-ddtxxk7k"></div><div class="pagination-links print:hidden astro-b5raizh3" dir="ltr"><a href="/pimcore-getname-ai-docs/pl/reference/connection/" rel="prev" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span class="astro-b5raizh3">Poprzednia strona<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Ogólne i Połączenie</span></span></a><a href="/pimcore-getname-ai-docs/pl/reference/mapping/" rel="next" class="astro-b5raizh3"><svg aria-hidden="true" class="astro-b5raizh3 astro-hkc32dio" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;"><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span class="astro-b5raizh3">Następna strona<br class="astro-b5raizh3"><span class="link-title astro-b5raizh3">Mapowanie</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
