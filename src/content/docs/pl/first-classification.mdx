@@ -1,0 +1,158 @@
+---
+title: "Pierwsza konfiguracja: rozpoznanie klasy"
+description: Krok po kroku, jak nadać produktom klasę ze standardu, na przykład ETIM.
+sidebar:
+  label: Rozpoznanie klasy
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+import ClassifyExample from '../../../components/diagrams/ClassifyExample.astro';
+
+Na tej stronie ustawisz konfigurację, która nadaje produktom klasę ze standardu, na przykład ETIM, i zapisuje ją w Classification Store.
+
+<ClassifyExample />
+
+**Przygotuj:** klucz API, klasę produktu z polem Classification Store oraz folder z kilkoma produktami bez klasy. W Classification Store powinny już być grupy z klasami wybranego standardu.
+
+Jeśli rozpoznajesz kategorie z własnego drzewa, wykonaj te same kroki, ale jako cel wybierz relację. Zobacz [Cel zapisu](../reference/task/#cel-zapisu).
+
+:::caution[Pusty zbiór to cała klasa]
+Jeśli nie przeciągniesz żadnego folderu ani obiektu, konfiguracja obejmie wszystkie produkty klasy, a okno potwierdzenia pokaże o tym ostrzeżenie. Przed **Uruchom teraz** zawsze sprawdź liczbę w **Przelicz**: tyle płatnych wywołań wyślesz.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+### Załóż konfigurację
+
+1. Otwórz **Automation & Integration**, a potem **Data Hub Configuration**.
+2. Kliknij **New** pod listą konfiguracji, wybierz **getName.ai** i wpisz nazwę, na przykład `products_classification`.
+
+### Połącz z usługą
+
+3. Otwórz zakładkę **Połączenie** i wklej klucz w polu **Klucz API**.
+4. Kliknij **Sprawdź połączenie**. Pojawi się stan „połączono” i karta **Subskrypcja**.
+5. W polu **Profil rozpoznawania** wybierz profil, na przykład ETIM w potrzebnym języku.
+
+<Shot panel="studio" id="connection" alt="Zakładka Połączenie z kluczem, stanem połączenia i subskrypcją" />
+
+### Opisz zadanie
+
+6. Otwórz zakładkę **Zadanie** i kliknij **Wybierz rozpoznanie klasy**.
+7. W polu **Klasa produktu:** wybierz klasę swoich produktów.
+8. Przeciągnij folder z drzewa obiektów do pola **Obiekty danych**. Zaznacz **Razem z podrzędnymi**, jeśli mają wejść też podfoldery.
+9. W polu **Poziom w hierarchii:** ustaw **tylko najwyższy poziom**, jeśli klasa ma dziedziczyć się na warianty. W katalogu bez wariantów ta opcja niczego nie zmienia.
+10. W sekcji **Produkty, które mają już klasę** zostaw **Pomiń je**.
+
+<Shot panel="studio" id="task-scope" alt="Sekcja Które produkty z folderem przeciągniętym z drzewa" />
+
+### Wybierz, co wysłać
+
+11. W sekcji **Co wysyłamy** kliknij **Dodaj pole** i wybierz pola, które opisują produkt, na przykład nazwę i opis.
+12. Zostaw zaznaczone **Poprzedź nazwą pola**. Dzięki temu usługa wie, co oznacza każda wartość.
+13. W polu **Podgląd dla produktu ID:** wpisz identyfikator produktu i kliknij **Podejrzyj opis**. Sprawdź, czy z tego tekstu człowiek umiałby rozpoznać produkt. Podgląd jest bezpłatny.
+
+<Shot panel="studio" id="task-payload" alt="Sekcja Co wysyłamy z wybranymi polami" />
+
+<Shot panel="studio" id="task-payload-preview" alt="Okno podglądu z opisem wysyłanym dla produktu" />
+
+### Wskaż, gdzie zapisać wynik
+
+14. W sekcji **Cel zapisu** ustaw **Rodzaj celu:** na **Klasyfikacja (Classification Store)**.
+15. W polu **Pole:** wybierz pole Classification Store na klasie produktu.
+16. Kliknij **Save** na dole ekranu. Po zapisaniu pojawi się zakładka **Mapowanie**.
+17. Na zakładce **Mapowanie** sprawdź, czy **Mapuj klasę po:** ma wartość **Nazwa**. Przy standardach kod klasy jest zwykle w nazwie grupy. Obok wyboru zobaczysz przykładową wartość z Twojej instalacji.
+
+### Przetestuj jeden produkt
+
+18. Wróć na zakładkę **Zadanie**, do sekcji **Test na jednym produkcie**.
+19. Wpisz **Identyfikator produktu:** i kliknij **Sprawdź dopasowanie (1 płatne wywołanie)**. Na produkcie nic się nie zapisze.
+
+W tabeli wyniku kolumna **Dopasowano** powinna potwierdzić dopasowanie, a kolumna **W Pimcore** pokazać właściwą grupę. Jeśli nie, przeczytaj kolumnę **Dlaczego nie** i stronę [Jak czytać wynik](../results/).
+
+<Shot panel="studio" id="product-test" alt="Wynik testu na jednym produkcie z kolumną Dopasowano" />
+
+### Uruchom
+
+20. Otwórz zakładkę **Uruchomienie** i w sekcji **Ile produktów** kliknij **Przelicz**. Ta liczba to liczba płatnych wywołań.
+21. Sprawdź, co pominięto. Kliknij **Pokaż listę**, żeby zobaczyć produkty.
+22. Kliknij **Uruchom teraz**.
+23. W oknie potwierdzenia sprawdź liczbę produktów i kliknij **Uruchom teraz**. Możesz zamknąć ekran, a uruchomienie będzie trwało dalej.
+
+<Shot panel="studio" id="execution-confirm" alt="Okno potwierdzenia z liczbą produktów do wysłania" />
+
+<Shot panel="studio" id="execution-finished" alt="Zakończone uruchomienie z licznikami" />
+
+</TabItem>
+<TabItem label="Classic">
+
+### Załóż konfigurację
+
+1. W menu głównym kliknij **Datahub Config**.
+2. Kliknij strzałkę obok **Add Configuration**, wybierz **getName.ai** i wpisz nazwę, na przykład `products_classification`.
+
+### Połącz z usługą
+
+3. Otwórz zakładkę **Połączenie** i wklej klucz w polu **Klucz API**.
+4. Kliknij **Sprawdź połączenie**. Pojawi się komunikat „Połączenie działa” i dane subskrypcji.
+5. Ustaw **Rodzaj zadania** na **Rozpoznanie klasy**. Nowa konfiguracja ma domyślnie ustawione rozpoznanie atrybutów.
+6. W polu **Profil rozpoznawania** wybierz profil, na przykład ETIM w potrzebnym języku.
+
+<Shot panel="classic" id="connection" alt="Zakładka Połączenie z kluczem, rodzajem zadania i profilem" />
+
+### Opisz zadanie
+
+7. Otwórz zakładkę **Zadanie** i w polu **Klasa** wybierz klasę swoich produktów.
+8. Przeciągnij folder z drzewa obiektów do sekcji **Zbiór produktów**. Zaznacz **Razem z podrzędnymi**, jeśli mają wejść też podfoldery.
+9. W polu **Poziom w hierarchii** ustaw **Tylko najwyższy poziom**, jeśli klasa ma dziedziczyć się na warianty. W katalogu bez wariantów ta opcja niczego nie zmienia.
+
+<Shot panel="classic" id="task-scope" alt="Sekcja Zbiór produktów z folderem przeciągniętym z drzewa" />
+
+### Wybierz, co wysłać
+
+10. W sekcji **Co wysyłamy** kliknij **Wybierz pola**, zaznacz pola, które opisują produkt, na przykład nazwę i opis, i kliknij **Zastosuj**.
+11. Zostaw zaznaczone **Poprzedź nazwą pola** przy tych polach. Dzięki temu usługa wie, co oznacza każda wartość.
+
+<Shot panel="classic" id="task-payload" alt="Sekcja Co wysyłamy z wybranymi polami" />
+
+### Wskaż, gdzie zapisać wynik
+
+12. W sekcji **Cel zapisu** ustaw **Typ** na **Klasyfikacja (Classification Store)**.
+13. W polu **Pole** wybierz pole Classification Store na klasie produktu.
+14. W polu **Tryb przetwarzania** zostaw **Pomiń produkty, które mają już wynik**.
+15. Kliknij **Zapisz**.
+16. Na zakładce **Mapowanie** sprawdź, czy **Mapuj klasę po** ma wartość `name`. Przy standardach kod klasy jest zwykle w nazwie grupy.
+
+### Przetestuj jeden produkt
+
+17. Otwórz zakładkę **Uruchomienie** i przeciągnij jeden produkt z drzewa do sekcji **Test na jednym produkcie**.
+18. Kliknij **Podejrzyj opis**. Sprawdź, czy z tego tekstu człowiek umiałby rozpoznać produkt. Podgląd jest bezpłatny.
+19. Kliknij **Zapytaj usługę (jedno wywołanie)**. Zobaczysz odpowiedź usługi w oryginalnej postaci. Na produkcie nic się nie zapisze.
+
+Sprawdź, czy kod w polu `id` ma odpowiadającą mu grupę w Classification Store.
+
+<Shot panel="classic" id="product-test" alt="Sekcja Test na jednym produkcie z odpowiedzią usługi" />
+
+### Uruchom
+
+20. W sekcji **Zbiór produktów** kliknij **Przelicz**. Ta liczba to liczba płatnych wywołań. Licznik czyta zapisaną konfigurację, więc wcześniej zapisz wszystkie zmiany.
+21. Sprawdź, co pominięto. Kliknij **Pokaż listę**, żeby zobaczyć produkty.
+22. Kliknij **Uruchom teraz**.
+23. W oknie potwierdzenia sprawdź liczbę produktów i kliknij **Tak**. Możesz zamknąć ekran, a uruchomienie będzie trwało dalej.
+
+<Shot panel="classic" id="execution-confirm" alt="Okno potwierdzenia z liczbą produktów do wysłania" />
+
+<Shot panel="classic" id="execution-finished" alt="Zakończone uruchomienie w historii uruchomień" />
+
+</TabItem>
+</Tabs>
+
+## Sprawdź wynik
+
+Otwórz kilka produktów w Pimcore. W polu Classification Store powinna być włączona grupa z rozpoznaną klasą. Jeśli wynik jest dobry, poszerz zbiór na zakładce **Zadanie** i uruchom konfigurację ponownie. W trybie pomijania nie zapłacisz drugi raz za produkty, które mają już klasę.
+
+Następny krok: [rozpoznanie atrybutów](../first-attributes/).

@@ -1,0 +1,105 @@
+---
+title: Ergebnisse auswerten
+description: Was die Zähler eines Durchlaufs, die Spalten des CSV-Berichts und die Gründe für das Überspringen bedeuten.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Zähler
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+| Zähler | Bedeutung |
+|---|---|
+| **Im Umfang** | Anzahl der Produkte beim Start |
+| **Gesendete Produkte** | wie viele Produkte an den Dienst gingen |
+| **Bezahlte API-Aufrufe** | wie viele Aufrufe berechnet wurden |
+| **Klasse geschrieben** oder **Attribute geschrieben** | wie viele Produkte ein Ergebnis erhielten |
+| **Geschriebene Schlüssel** | wie viele Schlüssel geschrieben wurden |
+| **Übersprungene Produkte** oder **Übersprungene Schlüssel** | wie viele übersprungen wurden, aufgeschlüsselt nach Grund |
+| **Fehlgeschlagen** | wie viele Produkte mit einem Fehler des Dienstes oder beim Schreiben endeten |
+| **Keine Klasse gefunden** oder **Keine Attribute zurückgegeben** | wie viele Antworten leer waren |
+
+</TabItem>
+<TabItem label="Classic">
+
+Im **Durchlaufverlauf**:
+
+| Spalte | Bedeutung |
+|---|---|
+| **Status** | Status des Durchlaufs |
+| **Produktumfang** | Anzahl der Produkte beim Start |
+| **Aufrufe** | wie viele Aufrufe berechnet wurden |
+| **Geschrieben** | wie viele Produkte ein Ergebnis erhielten |
+| **Übersprungen** | wie viele Produkte übersprungen wurden |
+| **Fehlgeschlagen** | wie viele Produkte mit einem Fehler des Dienstes oder beim Schreiben endeten |
+
+</TabItem>
+</Tabs>
+
+Das Überspringen ist eine Entscheidung des Plugins. Ein Fehler ist eine Ablehnung durch den Dienst oder ein fehlgeschlagener Schreibvorgang in Pimcore.
+
+## CSV-Bericht
+
+Die Datei verwendet das Semikolon als Trennzeichen. Werden die Spalten in Excel nicht getrennt, öffnen Sie die Datei über den Datenimport.
+
+| Spalte | Inhalt |
+|---|---|
+| `run` | Nummer des Durchlaufs |
+| `time` | Zeitpunkt des Ereignisses |
+| `product` | Produkt-ID |
+| `event` | was passiert ist |
+| `class` | Klasse |
+| `keys` | Anzahl der Schlüssel |
+| `reason` | Grund für das Überspringen |
+| `detail` | zusätzliche Informationen, etwa eine Meldung des Dienstes |
+
+Werte in der Spalte `event`:
+
+| Wert | Bedeutung |
+|---|---|
+| `written` | die Klasse wurde geschrieben |
+| `keysWritten` | die Attribute wurden geschrieben |
+| `noMatch` | der Dienst hat keine Klasse oder keine Attribute geliefert |
+| `skipped` | das Plugin hat ein Produkt oder einen Schlüssel übersprungen; der Grund steht in `reason` |
+| `emptyPayload` | die Beschreibung war leer, das Produkt wurde also nicht gesendet |
+| `callFailed` | der Aufruf des Dienstes ist fehlgeschlagen |
+| `writeFailed` | das Schreiben in Pimcore ist fehlgeschlagen |
+
+## Gründe für das Überspringen
+
+| Code | Text in der Ansicht | Bedeutung | Was zu tun ist |
+|---|---|---|---|
+| `alreadyHasResult` | mit bereits vorhandenem Ergebnis | Modus Überspringen, und das Produkt hat ein Ergebnis | nichts, wenn das gewollt ist; sonst den Modus ändern |
+| `nothingLeftToFill` | mit vollständig gefüllten Attributen der Klasse | Modus Lücken füllen, und es gibt nichts zu füllen | nichts |
+| `missingClass` | ohne zugewiesene Klasse | das Produkt hat keine Klasse, Attribute lassen sich also nicht erkennen | [Klassenerkennung](../first-classification/) ausführen |
+| `skippedSameClass` | hatte bereits genau diese Klasse | der Dienst hat die Klasse geliefert, die das Produkt schon hat | nichts |
+| `skippedTargetNotEmpty` | das Ziel war nicht leer | Schlüssel oder Klasse sind gefüllt, und der Modus überschreibt nicht | nichts, oder den Modus ändern |
+| `skippedSourceEmpty` | die Antwort war leer | der Dienst hat nichts erkannt; der Aufruf ist bezahlt, und nichts wurde geschrieben | die Produktbeschreibung oder die gewählten Felder verbessern |
+| `skippedDescriptionEmpty` | die Beschreibung war leer | die gewählten Felder enthalten keinen Text; keine Kosten | die Felder füllen oder andere wählen |
+| `skippedTargetMissing` | nichts mit diesem Namen auf der Pimcore-Seite | der gelieferte Code passt zu keiner Gruppe, keinem Schlüssel und keinem Objekt | das [Mapping](../reference/mapping/) prüfen und ob der Classification Store diesen Code enthält |
+| `skippedTargetNotAnId` | die Antwort ist keine Objekt-ID | eine Relation hat einen Code statt einer Objekt-ID erhalten | ein Profil aus Ihrem eigenen Baum oder ein Classification-Store-Ziel verwenden |
+| `skippedTargetOtherStore` | der Treffer gehört zu einem anderen Store | der Code existiert, aber in einem anderen Classification Store | das richtige Zielfeld wählen |
+| `skippedTargetUnpublished` | das zugeordnete Objekt ist unveröffentlicht | die Zielkategorie ist nicht veröffentlicht | das Objekt veröffentlichen |
+| `skippedCarrierUnknown` | das Feld ist hier nicht bekannt | das gespeicherte Mapping passt nicht zu diesem Ziel | das Mapping neu wählen |
+| `skippedAmbiguousTarget` | die Antwort passte auf mehr als ein Objekt | das Mapping hat mehrere Objekte gefunden | über die ID zuordnen oder die Duplikate entfernen |
+| `skippedKeyNotInGroup` | der Schlüssel ist nicht in der aktiven Gruppe | das Attribut gehört zu einer Klasse, die das Produkt nicht hat | die Gruppe des Produkts und das Profil prüfen |
+| `skippedValueOutOfDomain` | der Wert liegt außerhalb der erlaubten Menge | der Wert steht nicht auf der Liste eines Auswahlschlüssels | den Eintrag zur Liste hinzufügen oder die Zuordnung der Werte ändern |
+| `skippedKeyTypeUnsupported` | dieser Schlüsseltyp wird noch nicht unterstützt | das Plugin kann diese Art von Schlüssel nicht schreiben | den Schlüsseltyp ändern |
+| `writeError` | das Schreiben ist fehlgeschlagen | Pimcore hat das Schreiben abgelehnt; der Grund steht in `detail` | die Meldung lesen |
+
+## Fehler des Dienstes
+
+Das Plugin wiederholt diese Fehler nicht, weil eine Wiederholung dasselbe Ergebnis brächte:
+
+| Code | Bedeutung |
+|---|---|
+| `INVALID_API_KEY` | der Schlüssel ist ungültig; das stoppt den gesamten Durchlauf |
+| `CLASSIFICATION_NOT_FOUND` | der Schlüssel hat keinen Zugriff auf das Profil, oder das Profil existiert nicht |
+| `INVALID_CLASS_ID` | die Klasse des Produkts existiert im gewählten Profil nicht |
+| `CLASS_ATTRIBUTES_NOT_DEFINED` | für die Klasse sind keine Attribute definiert; zählt als leere Antwort |
+| `DESCRIPTION_TOO_SHORT`, `DESCRIPTION_TOO_LONG` | der Dienst hat die Länge der Beschreibung abgelehnt |
+| `PDF_READ_ERROR` | der Dienst konnte die Datei nicht abrufen oder lesen |
+
+Verlorene Verbindungen, Timeouts und Serverfehler des Dienstes wiederholt das Plugin mit wachsender Pause, bis zu einer festgelegten Zahl von Versuchen.

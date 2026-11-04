@@ -1,0 +1,141 @@
+:root {
+  --sl-color-accent: #1c8259;
+  --sl-color-accent-high: #0f4d34;
+  --sl-color-accent-low: #d7ece3;
+}
+
+:root[data-theme='dark'] {
+  --sl-color-accent: #5cc29a;
+  --sl-color-accent-high: #c5eadb;
+  --sl-color-accent-low: #123d2c;
+}
+
+.shot-missing {
+  border: 1px dashed var(--sl-color-gray-4);
+  border-radius: 0.25rem;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  margin-block: 1rem;
+  padding: 1rem;
+}
+
+.shot img {
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.25rem;
+}
+
+.diagram {
+  margin-block: 1.5rem;
+}
+
+.diagram-scroll {
+  overflow-x: auto;
+}
+
+.diagram svg {
+  display: block;
+  height: auto;
+  min-width: 640px;
+  width: 100%;
+}
+
+.diagram figcaption {
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-sm);
+  line-height: 1.5;
+  margin-top: 0.6rem;
+}
+
+.diagram text {
+  fill: var(--sl-color-text);
+  font-size: 13px;
+}
+
+.diagram .diagram-strong {
+  fill: var(--sl-color-white);
+  font-weight: 600;
+}
+
+.diagram .diagram-muted {
+  fill: var(--sl-color-gray-3);
+  font-size: 12px;
+}
+
+.diagram .diagram-small {
+  font-size: 12px;
+}
+
+.diagram .diagram-accent {
+  fill: var(--sl-color-accent);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.diagram .diagram-code,
+.diagram .diagram-code-small {
+  fill: var(--sl-color-text);
+  font-family: var(--__sl-font-mono);
+  font-size: 12px;
+}
+
+.diagram .diagram-code-small {
+  fill: var(--sl-color-gray-3);
+  font-size: 11px;
+}
+
+.diagram .diagram-code-strong {
+  fill: var(--sl-color-white);
+  font-weight: 600;
+}
+
+.diagram .diagram-center {
+  text-anchor: middle;
+}
+
+.diagram .diagram-end {
+  text-anchor: end;
+}
+
+.diagram .diagram-badge {
+  fill: var(--sl-color-accent);
+}
+
+.diagram .diagram-badge-text {
+  fill: var(--sl-color-black);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.diagram-region {
+  fill: var(--sl-color-gray-6);
+}
+
+.diagram-box {
+  fill: var(--sl-color-black);
+  stroke: var(--sl-color-gray-5);
+}
+
+.diagram-box-accent {
+  fill: var(--sl-color-accent-low);
+  stroke: var(--sl-color-accent);
+}
+
+.diagram-line {
+  fill: none;
+  stroke: var(--sl-color-gray-3);
+  stroke-width: 1.5;
+}
+
+.diagram-line-accent {
+  fill: none;
+  stroke: var(--sl-color-accent);
+  stroke-width: 1.5;
+}
+
+.diagram-head {
+  fill: var(--sl-color-gray-3);
+}
+
+.diagram-head-accent {
+  fill: var(--sl-color-accent);
+}

@@ -1,0 +1,105 @@
+---
+title: Reading the results
+description: What the run counters, CSV report columns and skip reasons mean.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Counters
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+| Counter | Meaning |
+|---|---|
+| **In scope** | number of products at the start |
+| **Products sent** | how many products went to the service |
+| **Paid API calls** | how many calls were charged |
+| **Class written** or **Attributes written** | how many products got a result |
+| **Keys written** | how many keys were written |
+| **Skipped products** or **Keys skipped** | how many were skipped, broken down by reason |
+| **Failed** | how many products ended with a service or write error |
+| **No class matched** or **No attributes returned** | how many answers were empty |
+
+</TabItem>
+<TabItem label="Classic">
+
+In the **Run history**:
+
+| Column | Meaning |
+|---|---|
+| **State** | state of the run |
+| **Product scope** | number of products at the start |
+| **Calls** | how many calls were charged |
+| **Written** | how many products got a result |
+| **Skipped** | how many products were skipped |
+| **Failed** | how many products ended with a service or write error |
+
+</TabItem>
+</Tabs>
+
+A skip is the plugin's decision. An error is a refusal from the service or a failed write in Pimcore.
+
+## CSV report
+
+The file uses a semicolon as the separator. If the columns don't split in Excel, open it through the data import.
+
+| Column | Content |
+|---|---|
+| `run` | run number |
+| `time` | time of the event |
+| `product` | product ID |
+| `event` | what happened |
+| `class` | class |
+| `keys` | number of keys |
+| `reason` | skip reason |
+| `detail` | extra information, such as a message from the service |
+
+Values in the `event` column:
+
+| Value | Meaning |
+|---|---|
+| `written` | the class was written |
+| `keysWritten` | the attributes were written |
+| `noMatch` | the service returned no class or attributes |
+| `skipped` | the plugin skipped a product or key; the reason is in `reason` |
+| `emptyPayload` | the description was empty, so the product wasn't sent |
+| `callFailed` | the call to the service failed |
+| `writeFailed` | the write in Pimcore failed |
+
+## Skip reasons
+
+| Code | Text on screen | What it means | What to do |
+|---|---|---|---|
+| `alreadyHasResult` | with a result already | skip mode, and the product has a result | nothing if that's what you want; otherwise change the mode |
+| `nothingLeftToFill` | with every attribute of the class already filled | fill mode, and there's nothing to fill | nothing |
+| `missingClass` | with no class assigned | the product has no class, so attributes can't be recognised | run [class recognition](../first-classification/) |
+| `skippedSameClass` | already had exactly this class | the service returned the class the product already has | nothing |
+| `skippedTargetNotEmpty` | the target was not empty | the key or class is filled and the mode doesn't overwrite it | nothing, or change the mode |
+| `skippedSourceEmpty` | the answer was empty | the service recognised nothing; the call is paid and nothing was written | improve the product description or the chosen fields |
+| `skippedDescriptionEmpty` | the description was empty | the chosen fields have no text; no charge | fill the fields or choose others |
+| `skippedTargetMissing` | nothing of that name on the Pimcore side | the returned code doesn't match a group, key or object | check the [mapping](../reference/mapping/) and whether the Classification Store has this code |
+| `skippedTargetNotAnId` | the answer is not an object id | a relation got a code instead of an object ID | use a profile from your own tree or a Classification Store target |
+| `skippedTargetOtherStore` | the match belongs to another store | the code exists, but in another Classification Store | choose the right target field |
+| `skippedTargetUnpublished` | the matched object is unpublished | the target category isn't published | publish the object |
+| `skippedCarrierUnknown` | the field is not known here | the saved mapping doesn't fit this target | choose the mapping again |
+| `skippedAmbiguousTarget` | the answer matched more than one object | the mapping found several objects | map by ID or remove the duplicates |
+| `skippedKeyNotInGroup` | the key is not in the active group | the attribute belongs to a class the product doesn't have | check the product's group and the profile |
+| `skippedValueOutOfDomain` | the value is outside the allowed set | the value isn't on the list of a select key | add the entry to the list or change how values are mapped |
+| `skippedKeyTypeUnsupported` | this key type is not supported yet | the plugin can't write this kind of key | change the key type |
+| `writeError` | the write failed | Pimcore rejected the write; the reason is in `detail` | read the message |
+
+## Service errors
+
+The plugin doesn't retry these errors, because a retry would give the same result:
+
+| Code | What it means |
+|---|---|
+| `INVALID_API_KEY` | the key is invalid; this stops the whole run |
+| `CLASSIFICATION_NOT_FOUND` | the key has no access to the profile, or the profile doesn't exist |
+| `INVALID_CLASS_ID` | the product's class doesn't exist in the chosen profile |
+| `CLASS_ATTRIBUTES_NOT_DEFINED` | the class has no attributes defined; counted as an empty answer |
+| `DESCRIPTION_TOO_SHORT`, `DESCRIPTION_TOO_LONG` | the service rejected the length of the description |
+| `PDF_READ_ERROR` | the service couldn't fetch or read the file |
+
+The plugin retries lost connections, timeouts and service server errors with a growing pause, up to a set number of attempts.

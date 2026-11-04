@@ -1,0 +1,62 @@
+---
+title: Logs and Permissions
+description: Where to find the entries from runs and who can open a configuration.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+
+## Logs
+
+The **Logs** tab shows the Pimcore application log narrowed down to this configuration, that is, to the component `GETNAME-AI configuration_name`.
+
+The CSV report is built from these entries. You can't change the component on this tab, so you can't look through another configuration's runs from this one.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="logs" alt="Logs tab" />
+
+</TabItem>
+<TabItem label="Classic">
+
+If you see a note about a disabled bundle instead of the log, the administrator needs to run `bin/console pimcore:bundle:install PimcoreApplicationLoggerBundle`.
+
+<Shot panel="classic" id="logs" alt="Logs tab" />
+
+</TabItem>
+</Tabs>
+
+## Permissions
+
+A user who isn't an administrator needs three things:
+
+1. the Data Hub configuration permission (`plugin_datahub_config`),
+2. the permission for the getName.ai type (`plugin_datahub_adapter_getNameAi`),
+3. an entry on the **Permissions** list of this configuration, for themselves or their role.
+
+An empty list means only administrators can open the configuration.
+
+On the list you tick what this person or role may do. Read access alone doesn't let them run anything:
+
+| Action | Access needed |
+|---|---|
+| Run status, report, history | read (`read`) |
+| Test on one product, run, cancel, clear history | update (`update`) |
+
+:::caution[API key]
+Anyone who can open a configuration can read its API key. The permissions list is the only place to limit access to it.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="permissions" alt="Permissions tab" />
+
+</TabItem>
+<TabItem label="Classic">
+
+<Shot panel="classic" id="permissions" alt="Permissions tab" />
+
+</TabItem>
+</Tabs>

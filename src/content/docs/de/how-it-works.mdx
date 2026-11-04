@@ -1,0 +1,81 @@
+---
+title: So funktioniert es
+description: Was getName.ai erkennt, was das Plugin sendet, was zurückkommt und wie die Antwort nach Pimcore gelangt.
+---
+
+import ApiOverview from '../../../components/diagrams/ApiOverview.astro';
+import ClassifyExample from '../../../components/diagrams/ClassifyExample.astro';
+import AttributesExample from '../../../components/diagrams/AttributesExample.astro';
+import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro';
+
+## Was der Dienst tut
+
+getName.ai liest eine Produktbeschreibung und beantwortet eine von zwei Fragen:
+
+- **Zu welcher Klasse gehört dieses Produkt?** Die Antwort ist eine Klasse aus dem gewählten System, etwa ETIM, ECLASS, GS1 GPC oder UNSPSC, eine Kategorie von Amazon, eBay, Allegro oder Kaufland oder eine Kategorie aus Ihrem eigenen Baum.
+- **Welche Attributwerte hat dieses Produkt?** Die Antwort sind die Attribute der jeweiligen Klasse mit den aus der Beschreibung gelesenen Werten, etwa Schutzart IP68 oder Gewindeart metrisch.
+
+Der Dienst arbeitet in der Sprache der Beschreibung und übersetzt sie nicht vorher. Seine API ist unter [getname.ai/docs](https://getname.ai/docs) dokumentiert, für die Einrichtung des Plugins brauchen Sie das aber nicht.
+
+<ApiOverview />
+
+## Erkennungsprofil
+
+Ein Profil ist ein Klassifikationssystem in einer Version und einer Sprache oder ein Profil, das aus Ihrem eigenen Kategoriebaum erstellt wurde. Beispiele für öffentliche Profile: `etim_v10_de`, `eclass_v15_de_advanced`, `amazon_de`, `unspsc`.
+
+Ihr API-Schlüssel entscheidet, welche Profile Sie wählen können. Das Profil bestimmt außerdem, was die Kennung in der Antwort bedeutet, und davon hängt der Rest der Konfiguration ab:
+
+| Profil erstellt aus | Kennung in der Antwort | Wohin das Ergebnis geschrieben wird |
+|---|---|---|
+| einem Standard wie ETIM | ein Klassencode, etwa `EC000441` | ein Classification-Store-Feld; der Code steht meist im Gruppennamen |
+| Ihrem eigenen Kategoriebaum | eine Kennung aus Ihrer Kategorieliste, etwa die Objekt-ID `481233` | ein Relationsfeld, das auf ein Kategorieobjekt zeigt |
+
+## Was an den Dienst geht
+
+Für jedes Produkt setzt das Plugin eine Beschreibung aus den Feldern zusammen, die Sie auf dem Reiter **Aufgabe** gewählt haben, in der von Ihnen festgelegten Reihenfolge. Vor jeden Wert können Sie den Feldnamen setzen. Die Zahl `7` allein sagt wenig, `Gewindegröße: 7` dagegen viel.
+
+Zusammen mit der Beschreibung sendet das Plugin das Profil und die Sprache des Produkts. Die Attributerkennung sendet außerdem die Klassenkennung und, falls festgelegt, den Produktcode.
+
+Für Attribute kann Studio statt Text die Adresse einer Webseite oder einer Datei senden. Der Dienst ruft sie dann selbst ab, die Adresse muss also aus dem Internet erreichbar sein. Ein Pfad im Pimcore-Baum genügt nicht.
+
+## Was zurückkommt
+
+Die **Klassenerkennung** liefert die passenden Klassen, die beste zuerst, ohne Bewertung. Das Plugin schreibt nur die erste Klasse, und eine leere Antwort löscht nie, was das Produkt bereits hat.
+
+```json
+{ "classes": [ { "id": "EC000441", "name": "Kabelverschraubung", "path": "..." } ] }
+```
+
+<ClassifyExample />
+
+Die **Attributerkennung** liefert die Attribute der Klasse mit den Werten, die sich lesen ließen. Jedes Attribut hat einen Typ, und der Typ bestimmt die Form des Wertes:
+
+```json
+{
+  "attributes": [
+    { "id": "EF001758", "name": "Gewindeart", "type": "select", "unit": null,
+      "value": { "id": "EV003712", "name": "metrisch" }, "mandatory": null },
+    { "id": "EF007839", "name": "Nenngewindenennmaß metrisch/PG", "type": "float", "unit": null,
+      "value": 25, "mandatory": null }
+  ]
+}
+```
+
+<AttributesExample />
+
+## Wie die Antwort nach Pimcore gelangt
+
+Der Classification Store hält Klassenattribute auf vier Ebenen:
+
+- der **Classification Store** ist das gesamte Wörterbuch, etwa ETIM,
+- eine **Kollektion** fasst Gruppen der Übersichtlichkeit halber zusammen,
+- eine **Gruppe** entspricht einer Klasse, etwa `EC000441 Kabelverschraubung`,
+- ein **Schlüssel** entspricht einem Attribut, etwa `EF001758 Gewindeart`, und hat einen Typ: Text, Zahl, Auswahl aus einer Liste und andere.
+
+Einem Produkt eine Klasse zu geben bedeutet, die Gruppe auf diesem Produkt zu aktivieren. Die Attributerkennung schreibt Werte in die Schlüssel dieser Gruppe.
+
+Damit das Plugin die richtige Gruppe und den richtigen Schlüssel findet, geben Sie an, welches ihrer Felder den Code enthält, den der Dienst liefert. Bei Standardprofilen ist das meist der **Name**. Das legen Sie auf dem Reiter [Mapping](../reference/mapping/) fest.
+
+<ResponseToStore />
+
+Wurde das gewählte Profil aus Ihrem Kategoriebaum erstellt, ist das Ergebnis eine Relation zu einem Kategorieobjekt. Das Objekt muss existieren, veröffentlicht sein und zu einer Klasse gehören, die im Relationsfeld erlaubt ist.

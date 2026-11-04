@@ -1,0 +1,99 @@
+---
+title: Mapping
+description: Wie Sie die Codes aus der Antwort des Dienstes mit Pimcore-Gruppen und -Schlüsseln verbinden und wie Werte geschrieben werden.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+import ResponseToStore from '../../../../components/diagrams/ResponseToStore.astro';
+
+Das Mapping beantwortet zwei Fragen: Wo in Pimcore steht der Code, den der Dienst liefert, und welcher Schlüsseltyp kann einen bestimmten Wert aufnehmen?
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Der Reiter erscheint, sobald die Aufgabenart gespeichert ist. Die Klassenerkennung hat nur den Abschnitt **Zuordnung der importierten Daten**.
+
+<Shot panel="studio" id="mapping-attributes" alt="Reiter Mapping" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Der Reiter ist immer sichtbar. Die Klassenerkennung hat nur den Abschnitt **Zuordnung der importierten Daten**.
+
+<Shot panel="classic" id="mapping-attributes" alt="Reiter Mapping" />
+
+</TabItem>
+</Tabs>
+
+## Wonach zugeordnet wird
+
+Geben Sie das Feld an, das den Code aus der Antwort des Dienstes enthält.
+
+<ResponseToStore />
+
+| Was Sie zuordnen | Feld | Verfügbare Werte |
+|---|---|---|
+| Eine Klasse im Classification Store | **Klasse zuordnen über** | ID, Name, Beschreibung der Gruppe |
+| Ein Attribut | **Attribut zuordnen über** | ID, Name, Name nach dem Gruppennamen, Titel, Beschreibung des Schlüssels |
+| Eine Klasse als Relation | **Klasse zuordnen über** | ID, Objektschlüssel, vollständiger Pfad des Objekts |
+
+Studio zeigt lesbare Namen, Classic zeigt Codes: `id`, `name`, `description`, `nameInGroup`, `title`, `key`, `fullPath`.
+
+| Ihre Daten | Was Sie einstellen |
+|---|---|
+| Standardcodes in Gruppen- und Schlüsselnamen, etwa `EC000441`, `EF001758` | Name (`name`). Das ist die Voreinstellung |
+| Schlüssel, die als `KLASSE.Attribut` gespeichert sind, etwa `APPAREL.age_range_description` | Name nach dem Gruppennamen (`nameInGroup`) für das Attribut |
+| Codes in Titeln oder Beschreibungen | Titel (`title`) oder Beschreibung (`description`) |
+| Eine Relation zu Kategorieobjekten und ein Profil aus Ihrem eigenen Baum | ID (`id`). Das ist die Voreinstellung |
+
+:::note[Eine Zuordnung über etwas anderes als die ID kann mehrere Objekte treffen]
+Das Plugin wählt dann keines davon. Es schreibt dieses Produkt nicht, und der Bericht nennt den Grund `skippedAmbiguousTarget`.
+:::
+
+## Classification Store prüfen
+
+**Classification Store prüfen** in Studio und **Store vermessen** in Classic sind kostenlos. Sie lesen die Schlüsseltypen im gewählten Feld aus, und die Tabelle darunter zeigt nur die Typen, die Sie tatsächlich haben.
+
+Haben einige Schlüssel einen Typ, den das Plugin nicht unterstützt, sehen Sie einen Hinweis. Attribute, die auf diese Schlüssel zielen, landen im Bericht und nicht in den Daten.
+
+## Werte schreiben
+
+Im Abschnitt **Wie Werte geschrieben werden** in Studio oder **Schreibform** in Classic verbindet jede Zeile einen Werttyp des Dienstes mit einem Schlüsseltyp in Pimcore. Ein nicht aktiviertes Paar wird nie geschrieben, und der Durchlauf meldet es.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Die Einstellungen erscheinen in der Zeile, sobald Sie sie aktivieren.
+
+</TabItem>
+<TabItem label="Classic">
+
+Aktivieren Sie **Schreiben** und klicken Sie auf die Zeile. Die Einstellungen öffnen sich im Bereich unter der Tabelle.
+
+</TabItem>
+</Tabs>
+
+| Typ vom Dienst | Studio | In Schlüssel | Was Sie einstellen können |
+|---|---|---|---|
+| `boolean` | Ja oder nein | checkbox, booleanSelect | nichts |
+| `boolean` | Ja oder nein | Text | den Text für Ja und für Nein |
+| `number`, `float`, `integer` | Zahl | numeric, slider | nichts |
+| `number`, `float`, `integer` | Zahl | quantityValue | nichts |
+| `number`, `float`, `integer` | Zahl | Text | ob die Einheit angehängt wird und welcher Abstand davor steht |
+| `string` | Text | Text | was geschieht, wenn der Text nicht passt: ablehnen und berichten oder passend kürzen |
+| `select` | Ein Wörterbucheintrag | select | ob der Eintrag nach Namen oder nach Bezeichner zugeordnet wird |
+| `select` | Ein Wörterbucheintrag | Text | ob der Name oder der Bezeichner geschrieben wird |
+| `multiselect` | Mehrere Wörterbucheinträge | multiselect | ob die Einträge nach Namen oder nach Bezeichner zugeordnet werden |
+| `multiselect` | Mehrere Wörterbucheinträge | Text | Name oder Bezeichner und ein Trennzeichen |
+| `range` | Bereich | numericRange, quantityValueRange | nichts |
+| `range` | Bereich | Text | wie der Bereich geschrieben wird, gleiche Grenzen und eine fehlende Grenze |
+| `dynamic` | Text aus einem wachsenden Wörterbuch | Text | nichts |
+
+Textschlüssel sind `input`, `textarea`, `wysiwyg` und `text`.
+
+Das Plugin korrigiert den Wert nicht selbst: Es entfernt keine Leerzeichen und ändert nicht das Format. Was der Dienst geliefert hat, landet in Pimcore, sodass sich die nächste Antwort damit vergleichen lässt.
+
+Einen Wert, den der Schlüssel nicht annimmt, lehnt das Plugin ab, und er erscheint im Bericht. Das Plugin kürzt ihn nicht passend, es sei denn, Sie wählen bei Text das Kürzen.
+
+Es gibt eine Ausnahme bei Einheiten. Wenn Sie für eine Zahl oder einen Bereich das Anhängen der Einheit aktivieren und der Schlüssel nur die reine Zahl annimmt, schreibt das Plugin den Wert ohne Einheit, etwa `9...17` statt `9...17 mm`.

@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  panel: 'studio' | 'classic';
+  id: string;
+  alt: string;
+}
+
+const { panel, id, alt } = Astro.props;
+const lang = Astro.locals.starlightRoute.lang;
+const shots = import.meta.glob<{ default: ImageMetadata }>('/src/assets/shots/*/*/*.png', { eager: true });
+const shot = shots[`/src/assets/shots/${lang}/${panel}/${id}.png`];
+---
+
+{
+  shot ? (
+    <figure class="shot">
+      <Image src={shot.default} alt={alt} />
+    </figure>
+  ) : (
+    <p class="shot-missing">
+      {panel}/{id}: {alt}
+    </p>
+  )
+}

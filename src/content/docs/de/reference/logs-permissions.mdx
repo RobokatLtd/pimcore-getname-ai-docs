@@ -1,0 +1,62 @@
+---
+title: Protokolle und Berechtigungen
+description: Wo Sie die Einträge aus Durchläufen finden und wer eine Konfiguration öffnen darf.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Protokolle
+
+Der Reiter **Protokolle** zeigt das Application Log von Pimcore, eingeschränkt auf diese Konfiguration, also auf die Komponente `GETNAME-AI configuration_name`.
+
+Der CSV-Bericht wird aus diesen Einträgen erstellt. Die Komponente lässt sich auf diesem Reiter nicht ändern, von hier aus können Sie also nicht die Durchläufe einer anderen Konfiguration durchsehen.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="logs" alt="Reiter Protokolle" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Wenn Sie statt des Protokolls einen Hinweis auf ein deaktiviertes Bundle sehen, muss die Administration `bin/console pimcore:bundle:install PimcoreApplicationLoggerBundle` ausführen.
+
+<Shot panel="classic" id="logs" alt="Reiter Protokolle" />
+
+</TabItem>
+</Tabs>
+
+## Berechtigungen
+
+Ein Benutzer ohne Administratorrechte braucht drei Dinge:
+
+1. die Berechtigung für die Data-Hub-Konfiguration (`plugin_datahub_config`),
+2. die Berechtigung für den getName.ai-Typ (`plugin_datahub_adapter_getNameAi`),
+3. einen Eintrag in der Liste **Berechtigungen** dieser Konfiguration, für sich selbst oder für die eigene Rolle.
+
+Eine leere Liste bedeutet, dass nur Administratoren die Konfiguration öffnen können.
+
+In der Liste aktivieren Sie, was diese Person oder Rolle tun darf. Lesezugriff allein erlaubt keine Ausführung:
+
+| Aktion | Erforderlicher Zugriff |
+|---|---|
+| Ausführungsstatus, Bericht, Verlauf | Lesen (`read`) |
+| Test an einem Produkt, Durchlauf, Abbrechen, Verlauf löschen | Aktualisieren (`update`) |
+
+:::caution[API-Schlüssel]
+Jeder, der eine Konfiguration öffnen kann, kann ihren API-Schlüssel lesen. Die Liste der Berechtigungen ist die einzige Stelle, an der sich der Zugriff darauf einschränken lässt.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="permissions" alt="Reiter Berechtigungen" />
+
+</TabItem>
+<TabItem label="Classic">
+
+<Shot panel="classic" id="permissions" alt="Reiter Berechtigungen" />
+
+</TabItem>
+</Tabs>

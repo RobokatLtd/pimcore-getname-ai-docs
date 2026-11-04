@@ -1,0 +1,200 @@
+---
+import Diagram from './Diagram.astro';
+
+const labels = {
+  pl: {
+    aria: 'Z fragmentów opisu produktu usługa odczytuje atrybuty z wartościami. Jeden fragment może dać kilka atrybutów, a każdy atrybut ma swój typ.',
+    caption: 'Prawdziwa odpowiedź dla produktu demo DEMO-1003, pokazujemy 9 zwróconych atrybutów. Jeden fragment może dać kilka wartości, a wartość nie musi być w opisie dosłownie: z „poliamidu” usługa wywnioskowała materiał „Tworzywo sztuczne”. Odpowiedź nie wskazuje fragmentów, dopisaliśmy je tutaj dla czytelności.',
+    fragment: 'W opisie',
+    attribute: 'Usługa zwraca atrybut',
+    value: 'Wartość',
+    type: 'Typ',
+    groups: [
+      {
+        text: 'M25x1,5',
+        rows: [
+          { name: 'Rodzaj gwintu', id: 'EF001758', value: 'Metryczny', type: 'select' },
+          { name: 'Nominalny rozmiar gwintu metrycznego/PG', id: 'EF007839', value: '25', type: 'float' },
+          { name: 'Skok gwintu', id: 'EF003712', value: '1.5 mm', type: 'float' },
+        ],
+      },
+      {
+        text: 'szerokość klucza 33 mm',
+        rows: [{ name: 'Szerokość klucza', id: 'EF000177', value: '33 mm', type: 'float' }],
+      },
+      {
+        text: 'średnic kabla 9-17 mm',
+        rows: [{ name: 'Do przewodów o średnicy', id: 'EF005466', value: '9...17 mm', type: 'range' }],
+      },
+      {
+        text: 'z poliamidu',
+        rows: [
+          { name: 'Materiał', id: 'EF002169', value: 'Tworzywo sztuczne', type: 'select' },
+          { name: 'Gatunek materiału', id: 'EF001257', value: 'Poliamid (PA)', type: 'select' },
+        ],
+      },
+      {
+        text: 'Bezhalogenowa',
+        rows: [{ name: 'Bezhalogenowe', id: 'EF000025', value: 'tak', type: 'boolean' }],
+      },
+      {
+        text: 'stopień ochrony IP68',
+        rows: [{ name: 'Stopień ochrony (IP)', id: 'EF005474', value: 'IP68', type: 'select' }],
+      },
+    ],
+  },
+  en: {
+    aria: 'From parts of the product description, the service reads attributes with values. One part can give several attributes, and each attribute has its own type.',
+    caption: 'A real answer for the demo product DEMO-1003, showing 9 of the 13 attributes returned. One part of the text can give several values, and a value does not have to appear word for word: from "Polyamide body" the service worked out the material "Plastic". The answer does not point to parts of the text. We added them here to make it easier to read.',
+    fragment: 'In the description',
+    attribute: 'The service returns the attribute',
+    value: 'Value',
+    type: 'Type',
+    groups: [
+      {
+        text: 'M25x1.5',
+        rows: [
+          { name: 'Thread type', id: 'EF001758', value: 'Metric', type: 'select' },
+          { name: 'Nominal thread size metric/PG', id: 'EF007839', value: '25', type: 'float' },
+          { name: 'Pitch thread', id: 'EF003712', value: '1.5 mm', type: 'float' },
+        ],
+      },
+      {
+        text: 'wrench size 33 mm',
+        rows: [{ name: 'Wrench width', id: 'EF000177', value: '33 mm', type: 'float' }],
+      },
+      {
+        text: 'cable diameter 9-17 mm',
+        rows: [{ name: 'Suitable for cable diameter', id: 'EF005466', value: '9...17 mm', type: 'range' }],
+      },
+      {
+        text: 'Polyamide body',
+        rows: [
+          { name: 'Material', id: 'EF002169', value: 'Plastic', type: 'select' },
+          { name: 'Material quality', id: 'EF001257', value: 'Polyamide (PA)', type: 'select' },
+        ],
+      },
+      {
+        text: 'Halogen-free',
+        rows: [{ name: 'Halogen free', id: 'EF000025', value: 'yes', type: 'boolean' }],
+      },
+      {
+        text: 'protection class IP68',
+        rows: [{ name: 'Degree of protection (IP)', id: 'EF005474', value: 'IP68', type: 'select' }],
+      },
+    ],
+  },
+  de: {
+    aria: 'Aus Teilen der Produktbeschreibung liest der Dienst Attribute mit Werten. Ein Teil kann mehrere Attribute liefern, und jedes Attribut hat einen eigenen Typ.',
+    caption: 'Eine echte Antwort für das Demoprodukt DEMO-1003, gezeigt werden 9 der 13 zurückgegebenen Attribute. Ein Textteil kann mehrere Werte liefern, und ein Wert muss nicht wörtlich im Text stehen: Aus „Gehäuse aus Polyamid“ hat der Dienst den Werkstoff „Kunststoff“ abgeleitet. Die Antwort verweist nicht auf Textstellen. Wir haben sie hier zur besseren Lesbarkeit ergänzt.',
+    fragment: 'In der Beschreibung',
+    attribute: 'Der Dienst liefert das Attribut',
+    value: 'Wert',
+    type: 'Typ',
+    groups: [
+      {
+        text: 'M25x1,5',
+        rows: [
+          { name: 'Gewindeart', id: 'EF001758', value: 'metrisch', type: 'select' },
+          { name: 'Nenngewindenennmaß metrisch/PG', id: 'EF007839', value: '25', type: 'float' },
+          { name: 'Gewindesteigung', id: 'EF003712', value: '1.5 mm', type: 'float' },
+        ],
+      },
+      {
+        text: 'Schlüsselweite 33 mm',
+        rows: [{ name: 'Schlüsselweite', id: 'EF000177', value: '33 mm', type: 'float' }],
+      },
+      {
+        text: '9-17 mm',
+        rows: [{ name: 'Geeignet für Kabeldurchmesser', id: 'EF005466', value: '9...17 mm', type: 'range' }],
+      },
+      {
+        text: 'Gehäuse aus Polyamid',
+        rows: [
+          { name: 'Werkstoff', id: 'EF002169', value: 'Kunststoff', type: 'select' },
+          { name: 'Werkstoffgüte', id: 'EF001257', value: 'Polyamid (PA)', type: 'select' },
+        ],
+      },
+      {
+        text: 'Halogenfrei',
+        rows: [{ name: 'Halogenfrei', id: 'EF000025', value: 'ja', type: 'boolean' }],
+      },
+      {
+        text: 'Schutzart IP68',
+        rows: [{ name: 'Schutzart (IP)', id: 'EF005474', value: 'IP68', type: 'select' }],
+      },
+    ],
+  },
+};
+
+const t = labels[Astro.locals.starlightRoute.lang as keyof typeof labels];
+const id = 'attributes';
+const arrow = `url(#${id}-arrow)`;
+const top = 26;
+const pitch = 42;
+const rowHeight = 38;
+const rowCount = t.groups.reduce((sum, group) => sum + group.rows.length, 0);
+const height = top + rowCount * pitch;
+
+let next = 0;
+const placed = t.groups.map((group) => {
+  const rows = group.rows.map((row) => {
+    const y = top + next * pitch;
+
+    next += 1;
+
+    return { ...row, y, center: y + rowHeight / 2 };
+  });
+
+  return { text: group.text, rows, center: (rows[0].center + rows[rows.length - 1].center) / 2 };
+});
+---
+
+<Diagram id={id} width={720} height={height} label={t.aria} caption={t.caption}>
+  <text class="diagram-strong" x="0" y="16">{t.fragment}</text>
+  <text class="diagram-strong" x="220" y="16">{t.attribute}</text>
+  <text class="diagram-strong" x="506" y="16">{t.value}</text>
+  <text class="diagram-strong" x="652" y="16">{t.type}</text>
+
+  <rect class="diagram-box-accent" x="162" y={top} width="22" height={height - top - 4} rx="6" />
+  <text
+    class="diagram-small diagram-strong diagram-center"
+    transform={`translate(177 ${(top + height - 4) / 2}) rotate(-90)`}
+  >
+    getName.ai
+  </text>
+
+  {
+    placed.map((group) => (
+      <>
+        <rect class="diagram-box" x="0.5" y={group.center - 15} width="146" height="30" rx="6" />
+        <text class="diagram-small diagram-center" x="73" y={group.center + 4}>
+          {group.text}
+        </text>
+        <line class="diagram-line" x1="147" y1={group.center} x2="162" y2={group.center} />
+        {group.rows.map((row) => (
+          <>
+            <path
+              class="diagram-line"
+              d={`M184 ${group.center} C 198 ${group.center}, 202 ${row.center}, 218 ${row.center}`}
+              marker-end={arrow}
+            />
+            <rect class="diagram-box" x="220" y={row.y} width="499.5" height={rowHeight} rx="6" />
+            <text x="230" y={row.y + 16}>
+              {row.name}
+            </text>
+            <text class="diagram-code-small" x="230" y={row.y + 31}>
+              {row.id}
+            </text>
+            <text class="diagram-strong" x="506" y={row.y + 24}>
+              {row.value}
+            </text>
+            <text class="diagram-code-small" x="652" y={row.y + 24}>
+              {row.type}
+            </text>
+          </>
+        ))}
+      </>
+    ))
+  }
+</Diagram>

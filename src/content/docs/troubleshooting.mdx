@@ -1,0 +1,54 @@
+---
+title: Troubleshooting
+description: The most common symptoms, their causes and what to do.
+---
+
+## During installation
+
+| Symptom | Cause | What to do |
+|---|---|---|
+| `composer require` can't find the package | the package isn't on Packagist | add the repository and token, see [Installation](../installation/#1-get-the-package) |
+| Classic: the application won't start after enabling the plugin | the execution engine is off | [enable the execution engine](../installation/#2-enable-the-execution-engine) |
+| No getName.ai type in Data Hub, even for an administrator | the permission for the type is missing | run `bin/console pimcore:bundle:install RobokatGetNameAiBundle` |
+| Studio: Polish can't be selected | Studio has no Polish translation | [add the translation file](../installation/#5-panel-language) |
+| Studio: empty configuration list and no **New** button | the plugin's files didn't reach the `public` directory | run `bin/console assets:install public` |
+
+## During configuration
+
+| Symptom | Cause | What to do |
+|---|---|---|
+| Key rejected (401) | the service didn't accept the key | check that you copied all of it |
+| The profile you need isn't on the list | the key doesn't unlock it | raise it with your getName.ai account provider |
+| Studio: no **Mapping** tab | the task kind hasn't been saved | choose the kind on the **Task** tab and click **Save** |
+| The count shows 0, and the skipped products are "with no class assigned" | an attribute configuration only takes products with a class | run [class recognition](../first-classification/) |
+| Studio or console: the run is refused with "is switched off". Classic: **Missing before a run** lists the **Active** switch | the configuration is switched off | turn on **Active** on the **General** tab and save |
+| The count shows far more products than you expected | the list of folders and objects is empty, so it covers the whole object class | drag a folder onto the **Task** tab, save and count again |
+| The count shows 0 with no reason | the class, folders and conditions don't match any product | widen the scope or remove a condition |
+| Classic: the count doesn't react to changes | the count reads the saved configuration | click **Save** and count again |
+| The count stops on an error about a condition | a condition has no value | fill in the value or remove the condition |
+| A description field has a red marker | the field is no longer in the class | remove it or choose it again |
+| **Report only, do not touch the data** is unavailable or shows a warning | there's no field to write the report to | set **Second match into a text field** |
+
+## When running
+
+| Symptom | Cause | What to do |
+|---|---|---|
+| The run button is disabled | there are unsaved changes, the scope hasn't been counted, or the number is 0 | save the configuration and count the scope |
+| A message says the scope has changed | products changed between the count and the start | count the scope again |
+| A run stays "in progress" | no worker is handling the queue; the log may show `Could not connect to the AMQP server` | see [Installation](../installation/#4-set-up-the-queue-and-worker) |
+| A larger set breaks off and the screen shows no progress | there's no queue transport, so products are processed in one HTTP request | see [Installation](../installation/#4-set-up-the-queue-and-worker) |
+| A run won't start and the message says `the run would pay for the whole scope` | the service's answers would have nowhere to go in the Classification Store | check the target and the [mapping](../reference/mapping/) |
+| After an update the plugin behaves as before | the worker is holding the old version of the code | run `bin/console messenger:stop-workers` |
+| After an update the screens look as before | browser or server cache | clear the Pimcore cache and hard-refresh the panel |
+
+## After the run
+
+| Symptom | Cause | What to do |
+|---|---|---|
+| Paid calls but no writes | the codes don't match Pimcore | open the report, check the `reason` column and [what the reasons mean](../results/#skip-reasons) |
+| Many `skippedTargetMissing` reasons | the wrong mapping, or missing groups and keys | use the [test on one product](../reference/task/#test-on-one-product) to compare the returned code with your Pimcore data |
+| Values go to the report instead of the data | a type pair is turned off, or the key doesn't accept the value | check [how values are written](../reference/mapping/#writing-values) |
+| Empty answers | the description is too general, or the profile doesn't fit the products | check the [description preview](../reference/task/#description-preview) and the profile |
+| Unpublished products weren't included | they are skipped by default | tick the matching option under [Which products](../reference/task/#which-products) |
+
+If this doesn't help, write to biuro@robokat.pl. Include the configuration name, the plugin version and the CSV report.

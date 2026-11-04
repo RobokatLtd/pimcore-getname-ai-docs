@@ -1,0 +1,135 @@
+---
+title: "First configuration: attribute recognition"
+description: Step by step, how to fill in attribute values for products that already have a class.
+sidebar:
+  label: Attribute recognition
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../components/Shot.astro';
+import AttributesExample from '../../components/diagrams/AttributesExample.astro';
+
+On this page you set up a configuration that reads attribute values from product descriptions and writes them to the Classification Store.
+
+<AttributesExample />
+
+**Have ready:** an API key and a few products that already have a group active in their Classification Store field.
+
+:::note[Products need a class]
+The configuration only takes products that have a class. If the count shows 0 and the skipped products are "with no class assigned", run [class recognition](../first-classification/) first.
+:::
+
+:::caution[An empty scope means the whole class]
+If you don't drag in a folder or object, the configuration covers every product of the object class, and the confirmation window warns you about it. Before you start the run, always check the number you get from counting: that is how many paid calls you will send.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+### Create the configuration
+
+1. Open **Automation & Integration**, then **Data Hub Configuration**.
+2. Click **New** below the configuration list, choose **getName.ai** and enter a name, such as `products_attributes`.
+3. On the **Connection** tab, paste your **API key**, click **Test connection** and choose a **Recognition profile**. Use the same standard your products' classes come from.
+
+### Describe the task
+
+4. Open the **Task** tab and click **Select attributes**.
+5. Under **Product class:**, choose the object class of your products.
+6. Drag a folder from the tree to **Data objects**.
+7. Set **Level in the hierarchy:** to **bottom level only** if the actual products sit at the bottom of the hierarchy. In a catalogue without variants this option changes nothing.
+8. In the **Products that already have attribute values** section, choose **Fill the gaps**. The plugin sends only products with empty attributes and writes only the empty attributes.
+
+<Shot panel="studio" id="task-reprocess" alt="Products that already have attribute values section with Fill the gaps selected" />
+
+### Choose what to send
+
+9. In the **What we send** section, leave **Text assembled from fields** selected and click **Add field**. Choose the fields with the description and technical data. The more concrete data you send, the more attributes the service can read.
+10. If the fields are localized, choose **Description languages:**. A product is sent in one language: the first on the list in which it has all the chosen fields.
+11. Enter a product ID under **Preview for product ID:** and click **Preview description**.
+
+### Say where to write the result
+
+12. In the **Target** section, set **Target kind:** to **Classification attribute set**, which is the Classification Store, and choose its field under **Field:**.
+13. Click **Save** at the bottom of the screen.
+
+### Set up the mapping
+
+14. Open the **Mapping** tab and click **Check the classification store**. This is free and shows which key types your Classification Store has.
+15. Check that **Map the class by:** and **Map the attribute by:** are set to **Name**. If your keys are stored as `CLASS.attribute`, set **Map the attribute by:** to **Name after the group name (GROUP.attribute)**.
+16. In the **How values are written** section, leave ticked the pairs you want to write. A pair that isn't ticked is never written and goes into the report instead.
+17. Click **Save**.
+
+<Shot panel="studio" id="mapping-attributes" alt="Mapping tab with key types, mapping and the table of written values" />
+
+### Test one product
+
+18. On the **Task** tab, in the **Test on one product** section, enter a **Product ID:** and click **Test the pairing (1 paid call)**.
+19. Go through the table. Each row is one attribute from the answer. The **Matched** column tells you whether a key was found in Pimcore, and **Why not** gives the reason if it wasn't.
+
+<Shot panel="studio" id="product-test-attributes" alt="Test result with the list of attributes and matches" />
+
+### Run
+
+20. On the **Execution** tab, click **Recalculate** and check the number and the skip reasons.
+21. Click **Run now**.
+22. In the confirmation window, check the number of products and click **Run now**.
+
+</TabItem>
+<TabItem label="Classic">
+
+### Create the configuration
+
+1. In the main menu, click **Datahub**, then the arrow next to **Add Configuration**. Choose **getName.ai** and enter a name, such as `products_attributes`.
+2. On the **Service connection** tab, paste your **API key** and click **Test connection**.
+3. Leave **Task kind** on **Attribute recognition** and choose a **Recognition profile**. Use the same standard your products' classes come from.
+
+### Describe the task
+
+4. On the **Task** tab, choose the object class of your products under **Class**.
+5. Drag a folder from the tree to the **Product scope** section.
+6. Set **Level in the hierarchy** to **Bottom level only** if the actual products sit at the bottom of the hierarchy. In a catalogue without variants this option changes nothing.
+
+### Choose what to send
+
+7. In the **Description sent to the service** section, click **Choose fields**, tick the fields with the description and technical data, and click **Apply**. The more concrete data you send, the more attributes the service can read.
+8. Leave **Prefix with field name** ticked for the chosen fields.
+9. If the fields are localized, choose **Description languages**. A product is sent in one language: the first on the list in which it has all the chosen fields.
+
+### Say where to write the result
+
+10. In the **Write target** section, set **Type** to **Classification store** and choose its field under **Field**.
+11. Set **Run mode** to **Fill gaps**. The plugin sends only products with empty attributes and writes only the empty attributes.
+12. Click **Save**.
+
+<Shot panel="classic" id="task-target" alt="Write target section with Fill gaps selected" />
+
+### Set up the mapping
+
+13. Open the **Mapping** tab. Check that **Map the class by** and **Map the attribute by** are set to `name`. If your keys are stored as `CLASS.attribute`, set **Map the attribute by** to `nameInGroup`.
+14. In the **Write shape** section, click **Measure the store**. The table shows the key types your Classification Store has.
+15. Leave **Write** ticked for the pairs you want to write. A pair that isn't ticked is never written and goes into the report instead.
+16. Click **Save**.
+
+<Shot panel="classic" id="mapping-attributes" alt="Mapping tab with the mapping and the table of value formats" />
+
+### Test one product
+
+17. On the **Execution** tab, drag a product to the **Probe on a single product** section and click **Show the description (free)**.
+18. Click **Ask the service (one call)**. You'll see the service's answer as it came back. Check that the attribute codes have matching keys in the Classification Store.
+
+### Run
+
+19. Click **Count scope**. The count reads the saved configuration, so save your changes first.
+20. Check the number and the skip reasons, then click **Start run**.
+21. In the confirmation window, check the number of products and click **Yes**.
+
+</TabItem>
+</Tabs>
+
+## Check the result
+
+Open a few products and compare the values with the description. The CSV report shows every product with its result and any skip reason. See [Reading the results](../results/).

@@ -1,0 +1,54 @@
+---
+title: Fehlerbehebung
+description: Die häufigsten Symptome, ihre Ursachen und was zu tun ist.
+---
+
+## Bei der Installation
+
+| Symptom | Ursache | Was zu tun ist |
+|---|---|---|
+| `composer require` findet das Paket nicht | das Paket ist nicht bei Packagist | Repository und Token ergänzen, siehe [Installation](../installation/#1-paket-beziehen) |
+| Classic: Die Anwendung startet nach dem Aktivieren des Plugins nicht | die Execution Engine ist deaktiviert | [Execution Engine aktivieren](../installation/#2-execution-engine-aktivieren) |
+| Kein getName.ai-Typ in Data Hub, auch nicht für Administratoren | die Berechtigung für den Typ fehlt | `bin/console pimcore:bundle:install RobokatGetNameAiBundle` ausführen |
+| Studio: Polnisch lässt sich nicht auswählen | Studio hat keine polnische Übersetzung | [Übersetzungsdatei ergänzen](../installation/#5-sprache-des-panels) |
+| Studio: leere Konfigurationsliste und keine Schaltfläche **Neu** | die Dateien des Plugins sind nicht im Verzeichnis `public` angekommen | `bin/console assets:install public` ausführen |
+
+## Bei der Konfiguration
+
+| Symptom | Ursache | Was zu tun ist |
+|---|---|---|
+| Schlüssel abgelehnt (401) | der Dienst hat den Schlüssel nicht angenommen | prüfen, ob Sie ihn vollständig kopiert haben |
+| Das benötigte Profil steht nicht auf der Liste | der Schlüssel öffnet es nicht | sich an den Anbieter Ihres getName.ai-Kontos wenden |
+| Studio: kein Reiter **Mapping** | die Aufgabenart ist noch nicht gespeichert | die Art auf dem Reiter **Aufgabe** wählen und auf **Speichern** klicken |
+| Die Zählung zeigt 0, und die übersprungenen Produkte sind „ohne zugewiesene Klasse“ | eine Attributkonfiguration nimmt nur Produkte mit Klasse | [Klassenerkennung](../first-classification/) ausführen |
+| Studio oder Konsole: Der Durchlauf wird mit „is switched off“ abgelehnt. Classic: **Vor einem Durchlauf fehlt noch** nennt den Schalter **Aktiv** | die Konfiguration ist ausgeschaltet | **Aktiv** auf dem Reiter **Allgemein** einschalten und speichern |
+| Die Zählung zeigt weit mehr Produkte als erwartet | die Liste der Ordner und Objekte ist leer, sie umfasst also die gesamte Objektklasse | einen Ordner auf den Reiter **Aufgabe** ziehen, speichern und neu zählen |
+| Die Zählung zeigt 0 ohne Grund | Klasse, Ordner und Bedingungen treffen auf kein Produkt zu | den Umfang erweitern oder eine Bedingung entfernen |
+| Classic: Die Zählung reagiert nicht auf Änderungen | die Zählung liest die gespeicherte Konfiguration | auf **Speichern** klicken und neu zählen |
+| Die Zählung stoppt mit einem Fehler zu einer Bedingung | eine Bedingung hat keinen Wert | den Wert eintragen oder die Bedingung entfernen |
+| Ein Beschreibungsfeld hat eine rote Markierung | das Feld ist nicht mehr in der Klasse | es entfernen oder neu wählen |
+| **Nur berichten, Daten nicht anfassen** ist nicht verfügbar oder zeigt eine Warnung | es gibt kein Feld, in das der Bericht geschrieben werden kann | **Zweiter Treffer in ein Textfeld** festlegen |
+
+## Beim Ausführen
+
+| Symptom | Ursache | Was zu tun ist |
+|---|---|---|
+| Die Schaltfläche zum Starten ist deaktiviert | es gibt ungespeicherte Änderungen, der Umfang wurde nicht gezählt, oder die Zahl ist 0 | die Konfiguration speichern und den Umfang zählen |
+| Eine Meldung besagt, dass sich der Umfang geändert hat | Produkte haben sich zwischen Zählung und Start geändert | den Umfang neu zählen |
+| Ein Durchlauf bleibt im Status „läuft“ | kein Worker arbeitet die Warteschlange ab; im Protokoll steht eventuell `Could not connect to the AMQP server` | siehe [Installation](../installation/#4-warteschlange-und-worker-einrichten) |
+| Eine größere Menge bricht ab, und die Ansicht zeigt keinen Fortschritt | es gibt keinen Warteschlangen-Transport, die Produkte werden also in einer einzigen HTTP-Anfrage verarbeitet | siehe [Installation](../installation/#4-warteschlange-und-worker-einrichten) |
+| Ein Durchlauf startet nicht, und eine englische Meldung enthält `the run would pay for` | die Antworten des Dienstes hätten im Classification Store kein Ziel | das Ziel und das [Mapping](../reference/mapping/) prüfen |
+| Nach einem Update verhält sich das Plugin wie zuvor | der Worker hält die alte Version des Codes | `bin/console messenger:stop-workers` ausführen |
+| Nach einem Update sehen die Ansichten aus wie zuvor | Browser- oder Server-Cache | den Pimcore-Cache leeren und das Panel ohne Browser-Cache neu laden |
+
+## Nach dem Durchlauf
+
+| Symptom | Ursache | Was zu tun ist |
+|---|---|---|
+| Bezahlte Aufrufe, aber nichts geschrieben | die Codes passen nicht zu Pimcore | den Bericht öffnen, die Spalte `reason` prüfen und [die Bedeutung der Gründe](../results/#gründe-für-das-überspringen) nachlesen |
+| Viele Gründe `skippedTargetMissing` | ein falsches Mapping oder fehlende Gruppen und Schlüssel | mit dem [Test an einem Produkt](../reference/task/#test-an-einem-produkt) den gelieferten Code mit Ihren Pimcore-Daten vergleichen |
+| Werte landen im Bericht statt in den Daten | ein Typenpaar ist abgeschaltet, oder der Schlüssel nimmt den Wert nicht an | prüfen, [wie Werte geschrieben werden](../reference/mapping/#werte-schreiben) |
+| Leere Antworten | die Beschreibung ist zu allgemein, oder das Profil passt nicht zu den Produkten | die [Beschreibungsvorschau](../reference/task/#beschreibungsvorschau) und das Profil prüfen |
+| Unveröffentlichte Produkte wurden nicht einbezogen | sie werden standardmäßig übersprungen | die passende Option unter [Welche Produkte](../reference/task/#welche-produkte) aktivieren |
+
+Wenn das nicht hilft, schreiben Sie an biuro@robokat.pl. Geben Sie den Namen der Konfiguration, die Plugin-Version und den CSV-Bericht an.

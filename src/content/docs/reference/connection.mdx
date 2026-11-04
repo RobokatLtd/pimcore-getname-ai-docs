@@ -1,0 +1,77 @@
+---
+title: General and Connection
+description: The first two configuration tabs - name, API key, recognition profile and subscription.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+
+## General tab
+
+Name, description, group and the active switch are ordinary Data Hub fields. A configuration that's switched off can't be run, from the panel or from the console.
+
+**Plugin version** shows the installed version number.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The **Show the explanations** switch hides the explanatory sentences on all tabs. Your choice applies in this browser.
+
+</TabItem>
+<TabItem label="Classic">
+
+This tab belongs to Data Hub itself.
+
+</TabItem>
+</Tabs>
+
+## Connection
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The tab is called **Connection**. You choose the task kind on the **Task** tab.
+
+<Shot panel="studio" id="connection" alt="Connection tab" />
+
+</TabItem>
+<TabItem label="Classic">
+
+The tab is called **Service connection**. This is also where you choose the **Task kind**: **Class recognition** or **Attribute recognition**.
+
+<Shot panel="classic" id="connection" alt="Service connection tab" />
+
+</TabItem>
+</Tabs>
+
+### API key
+
+The key of your getName.ai account. It must have at least 16 characters.
+
+:::caution[Anyone who can open the configuration can see the key]
+The key can be read through the Data Hub interface, even if it's hidden on screen. If someone should only run the configuration and not know the key, limit their access on the [Permissions](../logs-permissions/#permissions) tab.
+:::
+
+### Test connection
+
+This button is free. It asks the service for the subscription and the list of profiles this key unlocks.
+
+| Result | What it means | What to do |
+|---|---|---|
+| connected | the key works | choose a profile |
+| key rejected (401) | the service didn't accept the key | check that you copied all of it |
+| service did not respond | no answer, or an error on the service's side | check the server's internet access and try again |
+
+Classic reports the same outcomes as a message, in its own wording.
+
+### Subscription
+
+The card shows the licence, the number of simultaneous requests, the monthly and total limits, and the available API versions. If the service doesn't report these details, you'll see a note saying so, and the key will still work for recognition.
+
+The number of requests sent at the same time won't exceed the lower of two values: your subscription's limit and the [limit of this installation](../../installation/#installation-wide-settings).
+
+### Recognition profile
+
+The list depends on the key. Choose the system you want classes from: a version of ETIM, ECLASS, marketplace categories or a profile from your own category tree. See [how the profile affects the configuration](../../how-it-works/#recognition-profile).
+
+If the saved profile is no longer on the list, it's marked as off the list. The configuration keeps using it until you choose another.

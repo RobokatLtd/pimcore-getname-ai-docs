@@ -1,0 +1,99 @@
+---
+title: Mapowanie
+description: Jak połączyć kody z odpowiedzi usługi z grupami i kluczami Pimcore oraz jak zapisywać wartości.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+import ResponseToStore from '../../../../components/diagrams/ResponseToStore.astro';
+
+Mapowanie odpowiada na dwa pytania: gdzie w Pimcore jest kod zwracany przez usługę i w jakim typie klucza można zapisać daną wartość.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Zakładka pojawia się po zapisaniu rodzaju zadania. Rozpoznanie klasy ma tylko sekcję **Mapowanie importowanych danych**.
+
+<Shot panel="studio" id="mapping-attributes" alt="Zakładka Mapowanie" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Zakładka jest zawsze widoczna. Rozpoznanie klasy ma tylko sekcję **Mapowanie importowanych danych**.
+
+<Shot panel="classic" id="mapping-attributes" alt="Zakładka Mapowanie" />
+
+</TabItem>
+</Tabs>
+
+## Po czym mapować
+
+Wskaż pole, które przechowuje kod z odpowiedzi usługi.
+
+<ResponseToStore />
+
+| Co mapujesz | Pole | Dostępne wartości |
+|---|---|---|
+| Klasa w Classification Store | **Mapuj klasę po** | identyfikator, nazwa, opis grupy |
+| Atrybut | **Mapuj atrybut po** | identyfikator, nazwa, nazwa po nazwie grupy, tytuł, opis klucza |
+| Klasa jako relacja | **Mapuj klasę po** | identyfikator, klucz, pełna ścieżka obiektu |
+
+Studio pokazuje polskie nazwy, a Classic kody: `id`, `name`, `description`, `nameInGroup`, `title`, `key`, `fullPath`.
+
+| Twoje dane | Co ustawić |
+|---|---|
+| Kody standardu w nazwach grup i kluczy, na przykład `EC000441`, `EF001758` | nazwa (`name`). To wartość domyślna |
+| Klucze zapisane jako `KLASA.atrybut`, na przykład `APPAREL.age_range_description` | nazwa po nazwie grupy (`nameInGroup`) dla atrybutu |
+| Kody w tytułach lub opisach | tytuł (`title`) albo opis (`description`) |
+| Relacja do obiektów kategorii i profil z własnego drzewa | identyfikator (`id`). To wartość domyślna |
+
+:::note[Mapowanie inne niż po identyfikatorze może trafić w kilka obiektów]
+Wtedy wtyczka nie wybiera żadnego z nich. Nie zapisuje tego produktu i w raporcie podaje powód `skippedAmbiguousTarget`.
+:::
+
+## Sprawdzenie Classification Store
+
+Przycisk **Sprawdź Classification Store** jest bezpłatny. Odczytuje typy kluczy w wybranym polu, a tabela poniżej pokazuje tylko typy, które naprawdę masz.
+
+Jeśli część kluczy ma typ, którego wtyczka nie obsługuje, zobaczysz o tym informację. Atrybuty skierowane do takich kluczy trafią do raportu, a nie do danych.
+
+## Jak zapisywać wartości
+
+W sekcji **Jak zapisujemy wartości** każdy wiersz łączy typ wartości z usługi z typem klucza w Pimcore. Niezaznaczone połączenie nigdy się nie zapisze, a uruchomienie zgłosi je w raporcie.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Ustawienia pojawiają się w wierszu po jego zaznaczeniu.
+
+</TabItem>
+<TabItem label="Classic">
+
+Zaznacz **Zapisuj** i kliknij wiersz. Ustawienia otworzą się w panelu pod tabelą.
+
+</TabItem>
+</Tabs>
+
+| Typ z usługi | Studio | Do klucza | Co możesz ustawić |
+|---|---|---|---|
+| `boolean` | Tak albo nie | checkbox, booleanSelect | nic |
+| `boolean` | Tak albo nie | tekstowego | tekst dla tak i dla nie |
+| `number`, `float`, `integer` | Liczba | numeric, slider | nic |
+| `number`, `float`, `integer` | Liczba | quantityValue | nic |
+| `number`, `float`, `integer` | Liczba | tekstowego | czy dopisać jednostkę i jaki odstęp przed nią |
+| `string` | Tekst | tekstowego | co zrobić, gdy tekst się nie mieści: odmówić i zgłosić albo uciąć |
+| `select` | Jedna pozycja słownika | select | czy mapować pozycję po nazwie, czy po identyfikatorze |
+| `select` | Jedna pozycja słownika | tekstowego | czy zapisać nazwę, czy identyfikator |
+| `multiselect` | Kilka pozycji słownika | multiselect | czy mapować pozycje po nazwie, czy po identyfikatorze |
+| `multiselect` | Kilka pozycji słownika | tekstowego | nazwa albo identyfikator oraz separator |
+| `range` | Zakres | numericRange, quantityValueRange | nic |
+| `range` | Zakres | tekstowego | zapis zakresu, równych granic i brakującej granicy |
+| `dynamic` | Tekst z rosnącego słownika | tekstowego | nic |
+
+Klucze tekstowe to `input`, `textarea`, `wysiwyg` i `text`.
+
+Wtyczka nie poprawia samej wartości: nie usuwa spacji i nie zmienia formatu. W Pimcore ląduje to, co zwróciła usługa. Dzięki temu następną odpowiedź można z tym porównać.
+
+Wartość, której klucz nie przyjmie, jest odrzucana i pojawia się w raporcie. Wtyczka nie przycina jej tak, żeby przeszła, chyba że dla tekstu wybierzesz ucinanie.
+
+Jeden wyjątek dotyczy jednostki. Gdy dla liczby albo zakresu zaznaczysz jej dopisywanie, a klucz przyjmuje tylko samą liczbę, wtyczka zapisze wartość bez jednostki, na przykład `9...17` zamiast `9...17 mm`.

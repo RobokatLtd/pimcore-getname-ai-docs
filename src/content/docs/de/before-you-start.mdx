@@ -1,0 +1,43 @@
+---
+title: Bevor Sie beginnen
+description: Was vor der ersten Konfiguration bereitstehen muss und welche Aktionen kostenpflichtig sind.
+---
+
+## Was bereitstehen muss
+
+- **Das installierte Plugin und ein laufender Hintergrund-Worker.** Ohne Worker bleibt ein Durchlauf dauerhaft im Status „läuft“. Siehe [Installation](../installation/).
+- **Ein API-Schlüssel von getName.ai.** Das Plugin spricht den Dienst über dessen API an. Laut der [Website von getName.ai](https://getname.ai) funktioniert der kostenlose Tarif (50 Anfragen pro Monat) nur im Browser, das Plugin braucht also einen Tarif mit API-Zugang.
+- **Eine Objektklasse mit Feldern, die das Produkt beschreiben.** Der Dienst erkennt ein Produkt nur anhand dessen, was Sie ihm senden.
+- **Ein Ort für das Ergebnis.** Bei einem Standard wie ETIM ist das ein Classification-Store-Feld auf der Objektklasse. Bei Ihrem eigenen Kategoriebaum ist es ein Relationsfeld, das auf Kategorieobjekte zeigt.
+- **Zugriff auf die Konfiguration.** Administratoren haben ihn von Anfang an. Andere Benutzer brauchen die Berechtigungen, die unter [Protokolle und Berechtigungen](../reference/logs-permissions/#berechtigungen) beschrieben sind.
+
+Das Plugin legt im Classification Store keine Gruppen oder Schlüssel an. Liefert der Dienst einen Code, den es in Pimcore nicht gibt, wird das Produkt oder Attribut übersprungen, und der Grund steht im Bericht.
+
+## Was Geld kostet
+
+| Was Sie tun | Schaltfläche in Studio | Schaltfläche in Classic | Kosten |
+|---|---|---|---|
+| Schlüssel, Abonnement und Profilliste prüfen | **Verbindung testen** | **Verbindung testen** | kostenlos |
+| Produkte zählen und die Liste ansehen | **Neu berechnen**, **Liste anzeigen** | **Umfang zählen**, **Produkte anzeigen** | kostenlos |
+| Die für ein Produkt zusammengesetzte Beschreibung ansehen | **Beschreibung anzeigen** | **Beschreibung anzeigen (kostenlos)** | kostenlos |
+| Die Schlüsseltypen im Classification Store auslesen | **Classification Store prüfen** | **Store vermessen** | kostenlos |
+| Ein Produkt testen, ohne etwas zu schreiben | **Zuordnung testen (1 bezahlter Aufruf)** | **Dienst fragen (ein Aufruf)** | ein Aufruf |
+| Die Konfiguration ausführen | **Jetzt ausführen** | **Durchlauf starten** | ein Aufruf pro gesendetem Produkt |
+
+Ein Aufruf ist auch dann kostenpflichtig, wenn die Antwort leer ist oder nichts darin zu Pimcore passt. Ein Produkt mit leerer Beschreibung wird nicht gesendet und kostet daher nichts.
+
+Die Limits Ihres Tarifs sehen Sie auf der Karte **Abonnement** auf dem Reiter **Verbindung**.
+
+## Warum Sie meist zwei Konfigurationen brauchen
+
+Eine Konfiguration erledigt eine Aufgabe: Sie erkennt entweder die Klasse oder die Attribute.
+
+Der Dienst erkennt Attribute innerhalb einer Klasse, denn die Klasse legt fest, welche Attribute ein Produkt haben kann. Eine Attributkonfiguration nimmt deshalb nur Produkte, die bereits eine Klasse haben. Wenn Ihre Produkte noch keine haben, führen Sie zuerst eine Klassenkonfiguration aus.
+
+## Sicher anfangen
+
+1. Wählen Sie einen Ordner mit einigen unterschiedlichen Produkten.
+2. Sehen Sie sich die Beschreibung eines Produkts an. Das ist kostenlos.
+3. Testen Sie ein Produkt. Das ist ein Aufruf, und am Produkt wird nichts geschrieben.
+4. Führen Sie die Konfiguration auf diesem Ordner aus und prüfen Sie die Produkte in Pimcore.
+5. Erweitern Sie erst dann den Umfang.

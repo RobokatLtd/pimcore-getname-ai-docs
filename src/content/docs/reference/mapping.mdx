@@ -1,0 +1,99 @@
+---
+title: Mapping
+description: How to connect the codes in the service's answer with Pimcore groups and keys, and how to write values.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro';
+
+Mapping answers two questions: where in Pimcore is the code the service returns, and which key type can take a given value.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The tab appears once the task kind is saved. Class recognition has only the **Mapping of imported data** section.
+
+<Shot panel="studio" id="mapping-attributes" alt="Mapping tab" />
+
+</TabItem>
+<TabItem label="Classic">
+
+The tab is always visible. Class recognition has only the **Mapping of imported data** section.
+
+<Shot panel="classic" id="mapping-attributes" alt="Mapping tab" />
+
+</TabItem>
+</Tabs>
+
+## What to map by
+
+Point at the field that holds the code from the service's answer.
+
+<ResponseToStore />
+
+| What you map | Field | Available values |
+|---|---|---|
+| A class in the Classification Store | **Map the class by** | ID, name, description of the group |
+| An attribute | **Map the attribute by** | ID, name, name after the group name, title, description of the key |
+| A class as a relation | **Map the class by** | ID, key, full path of the object |
+
+Studio shows readable names, and Classic shows codes: `id`, `name`, `description`, `nameInGroup`, `title`, `key`, `fullPath`.
+
+| Your data | What to set |
+|---|---|
+| Standard codes in group and key names, such as `EC000441`, `EF001758` | name (`name`). This is the default |
+| Keys stored as `CLASS.attribute`, such as `APPAREL.age_range_description` | name after the group name (`nameInGroup`) for the attribute |
+| Codes in titles or descriptions | title (`title`) or description (`description`) |
+| A relation to category objects and a profile from your own tree | ID (`id`). This is the default |
+
+:::note[Mapping by anything other than ID can hit several objects]
+The plugin then picks none of them. It doesn't write that product, and the report gives the reason `skippedAmbiguousTarget`.
+:::
+
+## Checking the Classification Store
+
+**Check the classification store** in Studio and **Measure the store** in Classic are free. They read the key types in the chosen field, and the table below shows only the types you actually have.
+
+If some keys have a type the plugin doesn't support, you'll see a note about it. Attributes aimed at those keys go to the report, not to the data.
+
+## Writing values
+
+In the **How values are written** section in Studio, or **Write shape** in Classic, each row pairs a value type from the service with a key type in Pimcore. A pair that isn't ticked is never written, and the run reports it.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The settings appear in the row once you tick it.
+
+</TabItem>
+<TabItem label="Classic">
+
+Tick **Write** and click the row. The settings open in the panel below the table.
+
+</TabItem>
+</Tabs>
+
+| Type from the service | Studio | Into key | What you can set |
+|---|---|---|---|
+| `boolean` | Yes or no | checkbox, booleanSelect | nothing |
+| `boolean` | Yes or no | text | the text for yes and for no |
+| `number`, `float`, `integer` | Number | numeric, slider | nothing |
+| `number`, `float`, `integer` | Number | quantityValue | nothing |
+| `number`, `float`, `integer` | Number | text | whether to append the unit, and what gap goes before it |
+| `string` | Text | text | what to do when the text doesn't fit: refuse and report, or trim |
+| `select` | One dictionary entry | select | whether to map the entry by name or by identifier |
+| `select` | One dictionary entry | text | whether to write the name or the identifier |
+| `multiselect` | Several dictionary entries | multiselect | whether to map the entries by name or by identifier |
+| `multiselect` | Several dictionary entries | text | name or identifier, and a separator |
+| `range` | Range | numericRange, quantityValueRange | nothing |
+| `range` | Range | text | how to write the range, equal bounds and a missing bound |
+| `dynamic` | Text from a growing dictionary | text | nothing |
+
+Text keys are `input`, `textarea`, `wysiwyg` and `text`.
+
+The plugin doesn't correct the value itself: it doesn't remove spaces or change the format. What the service returned is what lands in Pimcore, so the next answer can be compared with it.
+
+A value the key won't accept is rejected and appears in the report. The plugin doesn't cut it down to fit, unless you choose trimming for text.
+
+There is one exception, for units. If you tick appending the unit for a number or range and the key takes only the plain number, the plugin writes the value without the unit, such as `9...17` instead of `9...17 mm`.

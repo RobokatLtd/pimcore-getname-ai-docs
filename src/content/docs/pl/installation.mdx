@@ -1,0 +1,186 @@
+---
+title: Instalacja
+description: Instalacja wtyczki, kolejka zadań i proces w tle. Strona dla administratora serwera.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Tę stronę wykonuje administrator serwera. Polecenia uruchamiasz w katalogu projektu Pimcore.
+
+## Wymagania
+
+| | Studio | Classic |
+|---|---|---|
+| Platforma Pimcore | 2026.2 i nowsze | 2024.4 (Pimcore 11.5) |
+| Data Hub | `^2026.2` | `^1.9` |
+| Panel | `pimcore/studio-ui-bundle` `^2026.2.4` | `pimcore/admin-ui-classic-bundle` |
+| PHP | 8.4 | 8.3 lub 8.4 |
+
+Wtyczka korzysta też z kolejki Symfony Messenger, dlatego serwer musi mieć stale działający proces, który ją obsługuje.
+
+## 1. Pobierz pakiet
+
+Pakietu nie ma w publicznym Packagist. Adres repozytorium i token dostępu dostaniesz od Robokat (biuro@robokat.pl).
+
+Dodaj repozytorium do `composer.json`:
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/RobokatLtd/pimcore-getname-ai" }
+]
+```
+
+Zapisz token i pobierz wtyczkę:
+
+```bash
+composer config github-oauth.github.com TWOJ_TOKEN
+composer require robokat/pimcore-getname-ai:^0.900
+```
+
+## 2. Włącz silnik zadań
+
+Uruchomienie wtyczki jest zadaniem silnika zadań Pimcore.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Sprawdź, czy w `config/bundles.php` jest ten wpis:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Jeśli go nie ma, dodaj go i zainstaluj silnik:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+</TabItem>
+<TabItem label="Classic">
+
+W Pimcore 11.5 silnik jest domyślnie wyłączony. Bez niego aplikacja nie uruchomi się po włączeniu wtyczki. Dodaj do `config/bundles.php`:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Następnie zainstaluj go:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+Silnik zapisuje uruchomienia przez Doctrine ORM, więc w `config/packages/doctrine.yaml` musi być zdefiniowany menedżer encji:
+
+```yaml
+doctrine:
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                auto_mapping: true
+```
+
+</TabItem>
+</Tabs>
+
+Dziennik aplikacji Pimcore, z którego powstaje raport CSV, wtyczka włącza i instaluje sama.
+
+## 3. Włącz wtyczkę
+
+Dodaj do `config/bundles.php`:
+
+```php
+Robokat\Bundle\GetNameAiBundle\RobokatGetNameAiBundle::class => ['all' => true],
+```
+
+Następnie zainstaluj ją:
+
+```bash
+bin/console pimcore:bundle:install RobokatGetNameAiBundle
+```
+
+Instalacja zakłada uprawnienie `plugin_datahub_adapter_getNameAi`. Bez niego typ **getName.ai** nie pojawi się w Data Hub nawet administratorowi.
+
+## 4. Ustaw kolejkę i proces w tle
+
+Dodaj transport do `config/packages/messenger.yaml`. Adres dostosuj do swojego serwera RabbitMQ.
+
+```yaml
+framework:
+    messenger:
+        transports:
+            pimcore_generic_execution_engine: 'amqp://uzytkownik:haslo@rabbitmq:5672/%2f/pimcore_generic_execution_engine'
+```
+
+Uruchom proces, który obsługuje tę kolejkę, i dopilnuj, żeby działał stale, na przykład przez supervisord:
+
+```bash
+bin/console messenger:consume pimcore_generic_execution_engine --memory-limit=250M --time-limit=3600
+```
+
+Jeśli masz już proces obsługujący inne kolejki Pimcore, możesz dopisać do niego `pimcore_generic_execution_engine`.
+
+:::caution[Bez tego uruchomienia nie będą działać poprawnie]
+- Brak transportu: produkty są przetwarzane w trakcie jednego żądania HTTP, ekran nie pokazuje postępu, a większy zbiór przerywa limit czasu.
+- Brak procesu w tle: uruchomienie zostaje na stałe w stanie „w toku”.
+:::
+
+## 5. Włącz polskie etykiety
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Studio nie ma własnego tłumaczenia na polski, więc bez dodatkowego pliku nie wybierzesz tego języka. Utwórz w projekcie plik `translations/studio.pl.yaml` z jedną linią:
+
+```yaml
+getname.language-marker: polski
+```
+
+Wyczyść pamięć podręczną i ustaw język polski w profilu użytkownika. Wtyczka będzie po polsku, a reszta Studio, w tym przyciski **New** i **Save**, zostanie po angielsku.
+
+</TabItem>
+<TabItem label="Classic">
+
+Dodatkowa konfiguracja nie jest potrzebna. Ustaw język polski w profilu użytkownika.
+
+Niektóre etykiety samego Data Hub, na przykład **Datahub Config** i **Add Configuration**, zostaną po angielsku.
+
+</TabItem>
+</Tabs>
+
+## 6. Sprawdź instalację
+
+```bash
+bin/console cache:clear
+bin/console messenger:stop-workers
+```
+
+Otwórz Data Hub w panelu i dodaj nową konfigurację. Na liście typów powinna być pozycja **getName.ai**. Numer wersji znajdziesz w tej konfiguracji na pierwszej zakładce, w polu **Wersja wtyczki**. Pokazuje on tylko dwie pierwsze części numeru, na przykład 0.900.
+
+## Po każdej aktualizacji
+
+```bash
+bin/console cache:clear
+bin/console assets:install public
+bin/console messenger:stop-workers
+```
+
+Bez `assets:install` panel korzysta ze starych plików wtyczki. W Studio może to oznaczać pustą listę konfiguracji i brak przycisku **New**. Bez `messenger:stop-workers` proces w tle może jeszcze przez godzinę działać na poprzedniej wersji kodu.
+
+## Ustawienia całej instalacji
+
+Te ustawienia są opcjonalne. Najczęściej zmieniasz limit jednoczesnych zapytań, na przykład w `config/packages/robokat_getname_ai.yaml`:
+
+```yaml
+robokat_getname_ai:
+    concurrency: 8
+```
+
+To limit dla całej instalacji Pimcore. Liczba zapytań nie przekroczy też limitu z Twojej subskrypcji. Wszystkie ustawienia i ich wartości domyślne wypisze polecenie:
+
+```bash
+bin/console config:dump-reference robokat_getname_ai
+```

@@ -1,0 +1,79 @@
+---
+title: Allgemein und Verbindung
+description: Die ersten beiden Reiter der Konfiguration - Name, API-Schlüssel, Erkennungsprofil und Abonnement.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Reiter Allgemein
+
+Name, Beschreibung, Gruppe und der Schalter **Aktiv** sind normale Felder von Data Hub. Eine ausgeschaltete Konfiguration lässt sich nicht ausführen, weder im Panel noch über die Konsole.
+
+**Plugin-Version** zeigt die installierte Versionsnummer.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Der Schalter **Erläuterungen anzeigen** blendet die erklärenden Sätze auf allen Reitern ein oder aus. Ihre Wahl gilt in diesem Browser.
+
+</TabItem>
+<TabItem label="Classic">
+
+Dieser Reiter gehört zu Data Hub. Einen Schalter für die Erläuterungen gibt es hier nicht.
+
+</TabItem>
+</Tabs>
+
+## Verbindung
+
+Der Reiter heißt in beiden Panels **Verbindung**.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Die Aufgabenart wählen Sie auf dem Reiter **Aufgabe**.
+
+<Shot panel="studio" id="connection" alt="Reiter Verbindung" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Hier wählen Sie auch die **Aufgabenart**: **Klassenerkennung** oder **Attributerkennung**.
+
+<Shot panel="classic" id="connection" alt="Reiter Verbindung" />
+
+</TabItem>
+</Tabs>
+
+### API-Schlüssel
+
+Der Schlüssel Ihres getName.ai-Kontos. Er muss mindestens 16 Zeichen lang sein.
+
+:::caution[Jeder, der die Konfiguration öffnen kann, sieht den Schlüssel]
+Der Schlüssel lässt sich über die Oberfläche von Data Hub auslesen, auch wenn er in der Ansicht verborgen ist. Wenn jemand die Konfiguration nur ausführen und den Schlüssel nicht kennen soll, schränken Sie den Zugriff auf dem Reiter [Berechtigungen](../logs-permissions/#berechtigungen) ein.
+:::
+
+### Verbindung testen
+
+Diese Schaltfläche ist kostenlos. Sie fragt den Dienst nach dem Abonnement und der Liste der Profile, die dieser Schlüssel öffnet.
+
+| Ergebnis | Bedeutung | Was zu tun ist |
+|---|---|---|
+| verbunden | der Schlüssel funktioniert | ein Profil wählen |
+| Schlüssel abgelehnt (401) | der Dienst hat den Schlüssel nicht angenommen | prüfen, ob Sie ihn vollständig kopiert haben |
+| der Dienst hat nicht geantwortet | keine Antwort oder ein Fehler auf der Seite des Dienstes | den Internetzugang des Servers prüfen und es erneut versuchen |
+
+Classic meldet dieselben Ergebnisse als Nachricht, in eigenem Wortlaut.
+
+### Abonnement
+
+Die Karte zeigt die Lizenz, die Zahl gleichzeitiger Anfragen, das monatliche und das gesamte Anfragelimit sowie die verfügbaren API-Versionen. Meldet der Dienst diese Angaben nicht, sehen Sie einen entsprechenden Hinweis, und der Schlüssel funktioniert bei der Erkennung trotzdem.
+
+Die Zahl der gleichzeitig gesendeten Anfragen übersteigt nie den niedrigeren von zwei Werten: das Limit Ihres Abonnements und das [Limit dieser Installation](../../installation/#einstellungen-für-die-gesamte-installation).
+
+### Erkennungsprofil
+
+Die Liste hängt vom Schlüssel ab. Wählen Sie das System, aus dem Sie Klassen erhalten möchten: eine Version von ETIM, ECLASS, Marktplatz-Kategorien oder ein Profil aus Ihrem eigenen Kategoriebaum. Siehe [wie das Profil die Konfiguration beeinflusst](../../how-it-works/#erkennungsprofil).
+
+Steht das gespeicherte Profil nicht mehr auf der Liste, wird es markiert: in Studio mit „nicht auf der aktuellen Liste“, in Classic mit „vom Dienst nicht gelistet“. Die Konfiguration verwendet es weiter, bis Sie ein anderes wählen.

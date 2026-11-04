@@ -1,0 +1,54 @@
+---
+title: Gdy coś nie działa
+description: Najczęstsze objawy, ich przyczyny i co zrobić.
+---
+
+## Podczas instalacji
+
+| Objaw | Przyczyna | Co zrobić |
+|---|---|---|
+| `composer require` nie znajduje pakietu | pakietu nie ma w Packagist | dodaj repozytorium i token, zobacz [Instalację](../installation/#1-pobierz-pakiet) |
+| Classic: aplikacja nie uruchamia się po włączeniu wtyczki | wyłączony silnik zadań | [włącz silnik zadań](../installation/#2-włącz-silnik-zadań) |
+| Nie ma typu getName.ai w Data Hub, nawet dla administratora | brak uprawnienia do typu | uruchom `bin/console pimcore:bundle:install RobokatGetNameAiBundle` |
+| Studio: nie można wybrać języka polskiego | Studio nie ma polskiego tłumaczenia | [dodaj plik tłumaczenia](../installation/#5-włącz-polskie-etykiety) |
+| Studio: pusta lista konfiguracji i brak przycisku **New** | pliki wtyczki nie trafiły do katalogu `public` | uruchom `bin/console assets:install public` |
+
+## Podczas konfiguracji
+
+| Objaw | Przyczyna | Co zrobić |
+|---|---|---|
+| Klucz odrzucony (401) | usługa nie przyjęła klucza | sprawdź, czy skopiowano go w całości |
+| Na liście nie ma potrzebnego profilu | klucz go nie otwiera | wyjaśnij to z dostawcą konta getName.ai |
+| Studio: nie ma zakładki **Mapowanie** | rodzaj zadania nie został zapisany | wybierz rodzaj na zakładce **Zadanie** i kliknij **Save** |
+| Licznik pokazuje 0, a pominięte produkty są „bez nadanej klasy” | konfiguracja atrybutów bierze tylko produkty z klasą | wykonaj [rozpoznanie klasy](../first-classification/) |
+| Studio lub konsola: uruchomienie odrzucone z komunikatem „is switched off”. Classic: **Do uruchomienia brakuje** wymienia przełącznik **Aktywny** | konfiguracja jest wyłączona | włącz przełącznik aktywności na zakładce **Ogólne** (Classic: **General**) i zapisz |
+| Licznik pokazuje dużo więcej produktów, niż oczekujesz | **Zbiór produktów** jest pusty, więc obejmuje całą klasę | przeciągnij folder na zakładce **Zadanie**, zapisz i przelicz ponownie |
+| Licznik pokazuje 0 bez powodu | klasa, foldery i warunki nie pasują do żadnego produktu | poszerz zbiór lub zdejmij warunek |
+| Classic: licznik nie reaguje na zmiany | licznik czyta zapisaną konfigurację | kliknij **Zapisz** i policz ponownie |
+| Licznik zatrzymuje się na błędzie o warunku | warunek nie ma wartości | uzupełnij wartość albo usuń warunek |
+| Pole opisu ma czerwony znacznik | pola nie ma już w klasie | usuń je lub wybierz ponownie |
+| **Tylko raport, bez ruszania danych** jest niedostępny lub ostrzega | brak pola, do którego można zapisać raport | ustaw **Drugie dopasowanie do pola tekstowego** |
+
+## Przy uruchomieniu
+
+| Objaw | Przyczyna | Co zrobić |
+|---|---|---|
+| Przycisk uruchomienia jest zablokowany | są niezapisane zmiany, zbiór nie jest policzony albo liczba wynosi 0 | zapisz konfigurację i policz zbiór |
+| Komunikat, że zbiór się zmienił | produkty zmieniły się między liczeniem a startem | policz zbiór ponownie |
+| Uruchomienie stoi w stanie „w toku” | proces w tle nie obsługuje kolejki; w dzienniku może być `Could not connect to the AMQP server` | zobacz [Instalację](../installation/#4-ustaw-kolejkę-i-proces-w-tle) |
+| Większy zbiór przerywa się, a ekran nie pokazuje postępu | brak transportu kolejki, więc produkty są przetwarzane w jednym żądaniu HTTP | zobacz [Instalację](../installation/#4-ustaw-kolejkę-i-proces-w-tle) |
+| Uruchomienie nie startuje, a komunikat mówi `the run would pay for the whole scope` | odpowiedzi nie miałyby gdzie trafić w Classification Store | sprawdź cel i [mapowanie](../reference/mapping/) |
+| Po aktualizacji wtyczka działa po staremu | proces w tle trzyma starą wersję kodu | uruchom `bin/console messenger:stop-workers` |
+| Po aktualizacji ekrany wyglądają po staremu | pamięć podręczna przeglądarki lub serwera | wyczyść pamięć podręczną Pimcore i odśwież panel z pominięciem pamięci przeglądarki |
+
+## Po uruchomieniu
+
+| Objaw | Przyczyna | Co zrobić |
+|---|---|---|
+| Płatne wywołania są, a zapisów nie ma | kody nie pasują do Pimcore | otwórz raport, sprawdź kolumnę `reason` i [znaczenie powodów](../results/#powody-pominięcia) |
+| Dużo powodów `skippedTargetMissing` | zły sposób mapowania albo brak grup i kluczy | na [teście jednego produktu](../reference/task/#test-na-jednym-produkcie) porównaj zwrócony kod z danymi w Pimcore |
+| Wartości trafiają do raportu zamiast do danych | wyłączone połączenie typów albo wartość, której klucz nie przyjmuje | sprawdź [zapis wartości](../reference/mapping/#jak-zapisywać-wartości) |
+| Puste odpowiedzi | opis jest zbyt ogólny albo profil nie pasuje do produktów | sprawdź [podgląd opisu](../reference/task/#podgląd-opisu) i profil |
+| Produkty nieopublikowane nie weszły | domyślnie są pomijane | zaznacz odpowiednią opcję w [zakresie produktów](../reference/task/#które-produkty) |
+
+Jeśli to nie pomoże, napisz na biuro@robokat.pl. Dołącz nazwę konfiguracji, numer wersji wtyczki i raport CSV.

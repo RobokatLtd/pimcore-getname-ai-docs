@@ -1,0 +1,102 @@
+---
+title: Execution
+description: Counting products, starting, progress, cancelling, the report, history and running from the console.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+
+## Count the products
+
+Counting is free and shows how many paid calls the run will send. You can't start a run without it.
+
+:::caution[Check the number before you run]
+An empty list of folders and objects covers the whole object class. If the number is higher than you expected, don't start the run. Fix the scope on the **Task** tab.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+In the **How many products** section, click **Recalculate**. The count reads the settings on the screen, including unsaved ones. If you change them after counting, you'll see the message **This count is out of date** and need to recalculate.
+
+**Show list** opens the products in pages. Clicking a column header sorts the whole list.
+
+<Shot panel="studio" id="execution-count" alt="How many products section with the number, skip reasons and list" />
+
+</TabItem>
+<TabItem label="Classic">
+
+In the **Product scope** section, click **Count scope**. The count reads the **saved** configuration, so save your changes first.
+
+**Show the products** opens the products in pages. Clicking a column header sorts the whole list.
+
+<Shot panel="classic" id="execution-count" alt="Product scope section with the number and list" />
+
+</TabItem>
+</Tabs>
+
+Next to the number you'll see how many products were skipped and why. A product with an empty description stays in the number. Only the run detects the empty description, skips the product and doesn't pay for it.
+
+## Run
+
+Click **Run now** in Studio or **Start run** in Classic. A confirmation window opens with the number of products to send. If no folder or object is selected, it also warns that the run covers the whole product class. The run starts only after you confirm: **Run now** in Studio, **Yes** in Classic.
+
+Before the first paid call, the plugin checks that:
+
+- the configuration is saved, because the run uses the saved version,
+- the API key, profile, task kind, class and target are set,
+- the scope has been counted and hasn't changed since,
+- this configuration isn't already running,
+- for attributes, the service's answers have somewhere to go in the Classification Store.
+
+Products are processed in chunks through the queue, so the run carries on after you close the screen.
+
+## Progress and cancelling
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The **Execution status** section shows the progress. **Cancel the run** stops the run. The job is also visible in the Studio job list.
+
+</TabItem>
+<TabItem label="Classic">
+
+The progress bar and the **Cancel the run** button are in the **Run** section.
+
+</TabItem>
+</Tabs>
+
+After you cancel, the counters may still move, because products already on their way finish. What has been sent is paid for and stays written.
+
+## CSV report
+
+The report has one row per event on a product. The columns are explained on the [Reading the results](../../results/#csv-report) page.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Click **Download the report (CSV)** below the **Last run** table. You can download reports of earlier runs from the **History** section.
+
+</TabItem>
+<TabItem label="Classic">
+
+In the **Run history** section, click the icon in the **Report** column or double-click the row.
+
+</TabItem>
+</Tabs>
+
+## History
+
+The history shows the runs of this configuration: state, time and counters. In Studio, **Show runs of every getName.ai configuration** widens the list to the whole installation.
+
+**Clear history** in Studio or **Clear the history** in Classic deletes the runs of this configuration along with their log entries. The CSV reports of those runs are no longer available, because they are built from those entries. Products keep what was written to them. Clearing can't be undone.
+
+## Running from the console and on a schedule
+
+```bash
+bin/console datahub:getname-ai:run configuration_name
+```
+
+This command queues a run of the saved configuration. It doesn't ask about the number of products, so the cost depends on the scope at the moment it starts.
+
+The Data Importer scheduler doesn't run configurations of this type. To run one regularly, add this command to cron. The server must have a running [background worker](../../installation/#4-set-up-the-queue-and-worker).

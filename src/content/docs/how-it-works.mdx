@@ -1,0 +1,81 @@
+---
+title: How it works
+description: What getName.ai recognises, what the plugin sends, what comes back and how the answer reaches Pimcore.
+---
+
+import ApiOverview from '../../components/diagrams/ApiOverview.astro';
+import ClassifyExample from '../../components/diagrams/ClassifyExample.astro';
+import AttributesExample from '../../components/diagrams/AttributesExample.astro';
+import ResponseToStore from '../../components/diagrams/ResponseToStore.astro';
+
+## What the service does
+
+getName.ai reads a product description and answers one of two questions:
+
+- **Which class does this product belong to?** The answer is a class from the system you chose, such as ETIM, ECLASS, GS1 GPC, UNSPSC, an Amazon, eBay, Allegro or Kaufland category, or a category from your own tree.
+- **What attribute values does this product have?** The answer is the attributes of the given class with values read from the description, such as protection class IP68 or thread type PG.
+
+The service works in the language of the description and doesn't translate it first. Its API is documented at [getname.ai/docs](https://getname.ai/docs), but you don't need that to configure the plugin.
+
+<ApiOverview />
+
+## Recognition profile
+
+A profile is one classification system in one version and one language, or a profile built from your own category tree. Examples of public profiles: `etim_dynamic_en`, `eclass_v15_de_advanced`, `amazon_us`, `unspsc`.
+
+Your API key decides which profiles you can choose. The profile also decides what the identifier in the answer means, and the rest of the configuration depends on that:
+
+| Profile built from | Identifier in the answer | Where to write the result |
+|---|---|---|
+| a standard such as ETIM | a class code, such as `EC000441` | a Classification Store field; the code is usually in the group name |
+| your own category tree | an identifier from your category list, such as object ID `481233` | a relation field pointing to a category object |
+
+## What goes to the service
+
+For each product the plugin assembles one description from the fields chosen on the **Task** tab, in the order you set. You can put the field name in front of each value. The number `7` on its own says little, but `Thread size: 7` says a lot.
+
+Along with the description, the plugin sends the profile and the product's language. Attribute recognition also sends the class identifier and, if you set it, the product code.
+
+For attributes, Studio can send the address of a web page or a file instead of text. The service then fetches it itself, so the address must be reachable from the internet. A path in the Pimcore tree won't do.
+
+## What comes back
+
+**Class recognition** returns the matching classes, best first, with no score. The plugin writes only the first class, and an empty answer never clears what the product already has.
+
+```json
+{ "classes": [ { "id": "EC000441", "name": "Cable gland", "path": "..." } ] }
+```
+
+<ClassifyExample />
+
+**Attribute recognition** returns the attributes of the class with the values it could read. Each attribute has a type, and the type decides the form of the value:
+
+```json
+{
+  "attributes": [
+    { "id": "EF001758", "name": "Thread type", "type": "select", "unit": null,
+      "value": { "id": "EV003695", "name": "PG" }, "mandatory": false },
+    { "id": "EF007839", "name": "Nominal metric/PG thread size", "type": "float", "unit": null,
+      "value": 7, "mandatory": false }
+  ]
+}
+```
+
+<AttributesExample />
+
+## How the answer reaches Pimcore
+
+The Classification Store holds class attributes on four levels:
+
+- the **Classification Store** is the whole dictionary, such as ETIM,
+- a **collection** gathers groups for convenience,
+- a **group** corresponds to a class, such as `EC000441 Cable gland`,
+- a **key** corresponds to an attribute, such as `EF001758 Thread type`, and has a type: text, number, selection from a list and others.
+
+Giving a product a class means activating the group on that product. Attribute recognition writes values into the keys of that group.
+
+For the plugin to find the right group and key, you tell it which of their fields holds the code the service returns. For standard profiles this is usually the **name**. You set this on the [Mapping](../reference/mapping/) tab.
+
+<ResponseToStore />
+
+If the chosen profile was built from your category tree, the result is a relation to a category object. The object must exist, be published and belong to a class allowed in the relation field.

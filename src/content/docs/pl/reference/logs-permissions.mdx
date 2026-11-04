@@ -1,0 +1,62 @@
+---
+title: Dziennik i Uprawnienia
+description: Gdzie szukać wpisów z uruchomień i kto może otworzyć konfigurację.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Dziennik
+
+Zakładka **Dziennik** pokazuje dziennik aplikacji Pimcore zawężony do tej konfiguracji, czyli do komponentu `GETNAME-AI nazwa_konfiguracji`.
+
+Z tych wpisów powstaje raport CSV. Komponentu nie można zmienić na tej zakładce, więc przez jedną konfigurację nie przejrzysz uruchomień innej.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="logs" alt="Zakładka Dziennik" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Jeśli zamiast dziennika zobaczysz informację o wyłączonym module, administrator musi uruchomić `bin/console pimcore:bundle:install PimcoreApplicationLoggerBundle`.
+
+<Shot panel="classic" id="logs" alt="Zakładka Dziennik" />
+
+</TabItem>
+</Tabs>
+
+## Uprawnienia
+
+Użytkownik, który nie jest administratorem, potrzebuje trzech rzeczy:
+
+1. uprawnienia do konfiguracji Data Hub (`plugin_datahub_config`),
+2. uprawnienia do typu getName.ai (`plugin_datahub_adapter_getNameAi`),
+3. wpisu na liście **Uprawnienia** tej konfiguracji, dla siebie albo swojej roli.
+
+Pusta lista oznacza, że konfigurację otworzą tylko administratorzy.
+
+Na liście zaznaczasz, co wolno tej osobie lub roli. Sam odczyt nie pozwala niczego uruchomić:
+
+| Czynność | Wymagany dostęp |
+|---|---|
+| Stan uruchomienia, raport, historia | odczyt (`read`) |
+| Test na jednym produkcie, uruchomienie, anulowanie, czyszczenie historii | zmiana (`update`) |
+
+:::caution[Klucz API]
+Każdy, kto może otworzyć konfigurację, może odczytać jej klucz API. Lista uprawnień to jedyne miejsce, w którym ograniczysz do niego dostęp.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+<Shot panel="studio" id="permissions" alt="Zakładka Uprawnienia" />
+
+</TabItem>
+<TabItem label="Classic">
+
+<Shot panel="classic" id="permissions" alt="Zakładka Uprawnienia" />
+
+</TabItem>
+</Tabs>

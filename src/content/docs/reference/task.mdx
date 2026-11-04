@@ -1,0 +1,183 @@
+---
+title: Task
+description: Which products to send, what happens to products with a result, what description to send and where to write the answer.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+
+On this tab you decide which products go to the service, what description goes with them and where the answer is written.
+
+## Task kind
+
+One configuration does one job. To recognise both classes and attributes, create two configurations.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+A new configuration first asks for the kind: **Select classification** or **Select attributes**. **Change kind** changes it later. Changing it clears the target and the conditions, while the description and connection settings stay.
+
+</TabItem>
+<TabItem label="Classic">
+
+**Task kind** is on the **Service connection** tab. Changing it clears the write target and the conditions.
+
+</TabItem>
+</Tabs>
+
+## Which products
+
+| Setting | Studio | Classic | What it does |
+|---|---|---|---|
+| Object class | **Product class:** | **Class** | Sets the list of fields in conditions, description and target |
+| Folders and objects | **Data objects** | **Product scope** | You drag them from the tree, and entries add up. An empty list covers the whole class |
+| Subfolders | **Including children** | **Including children** | Includes the whole subtree |
+| Unpublished | **include unpublished** | **Include unpublished** | Widens the scope |
+| Variants | **include variants** | **Include variants** | Widens the scope and moves the bottom level down to the variants |
+| Level | **Level in the hierarchy:** | **Level in the hierarchy** | Narrows the scope by place in the hierarchy of the same object class |
+
+**Which level to use:** a class is inherited downwards, so for class recognition you usually choose the top level. Attributes are usually recognised at the bottom level, where the actual products are. Levels in between are sent only with "all levels".
+
+### Conditions
+
+Click **Add condition**, then choose a field, an operator and a value. For example, you can pick one supplier or products with an empty field.
+
+All conditions must be met at once. If a field can have one of several values, use the **is one of** operator. A condition without a value stops the count until you fill it in.
+
+## Products that already have a result
+
+This setting has the biggest effect on cost. Studio has a separate section for it. In Classic it is the **Run mode** field in the **Write target** section.
+
+**Class recognition:**
+
+| Studio | Classic | What it sends | What it writes |
+|---|---|---|---|
+| **Skip them** (recommended) | **Skip products with a filled write target** | only products without a class | the class |
+| **Overwrite the existing class** | **Overwrite everything** | every product in scope | the returned class |
+| **Report only, do not touch the data** | **Report only, do not touch the data** | every product in scope | only the review field |
+
+:::danger[Overwriting a class wipes the values of the previous one]
+The new class deactivates the previous group, and Pimcore keeps data only for the active group.
+:::
+
+**Attribute recognition:**
+
+| Studio | Classic | What it sends | What it writes |
+|---|---|---|---|
+| **Fill the gaps** (recommended) | **Fill gaps** | products with at least one empty attribute | only the empty attributes |
+| **Skip them** | **Skip products with a filled write target** | only products without values; one filled attribute skips the whole product | the attributes |
+| **Overwrite the values that came back** | **Overwrite everything** | every product in scope | the returned attributes; the others don't change |
+
+## What to send
+
+Studio calls this section **What we send**. Classic calls it **Description sent to the service**.
+
+### Description source
+
+Classic always sends text assembled from fields. For attribute recognition, Studio also lets you choose an address:
+
+| Source in Studio | What happens |
+|---|---|
+| **Text assembled from fields** | The chosen fields form one description |
+| **Address of a web page** | One field holds the address, and the service opens the page itself |
+| **Address of a file** | One field holds the address of a PDF or other document, and the service fetches it itself |
+
+The address must be reachable from the internet. A path in the Pimcore tree won't work, and the service will answer with a `PDF_READ_ERROR`.
+
+### Description fields
+
+Click **Add field** in Studio or **Choose fields** in Classic. Use the arrows to change the order.
+
+- **Prefix with field name** sends the value as `Label: value`.
+- **Label in the description** replaces the field title. Left empty, the field title is used.
+- **localized** marks a field that is read in the chosen description language.
+- A red marker means the field is no longer in the class. The count and the run stop until you fix or remove it.
+
+You can choose simple fields, Objectbricks, blocks, field collections and fields of related objects. For related fields, these rules apply:
+
+- A relation to many objects gives a list, with one line per object.
+- Unpublished related objects are skipped.
+- Through a relation to the same object class, such as accessories, only simple fields are available.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+To show the fields of related objects, choose a relation under **Fields of related objects** above the list.
+
+</TabItem>
+<TabItem label="Classic">
+
+In the field picker, each relation is a collapsed group. Click a group to open it. Filters are in the column menu.
+
+</TabItem>
+</Tabs>
+
+**Export to file** saves the field list and languages to a JSON file without the API key. **Import from file** replaces them in the open configuration. Save the configuration after importing.
+
+### Description languages
+
+This applies to localized fields. The order you choose them in is the order of substitution: a product is sent in the first language in which it has all the chosen localized fields. If no language has them all, the plugin picks the one with the most.
+
+The whole description of a product is in one language, and the service is told which one. An empty list means the instance's default language. Language fallback set in Pimcore plays no part here.
+
+The service gets the chosen language even if the fields aren't localized. If your descriptions are in a language other than the instance's default, choose it on the list.
+
+### Product code
+
+This field is optional and works with attributes. It tells the service which product the answer should be about when the text describes several products, such as a PDF sheet for a whole series. The field is called **Product code field**.
+
+### Description preview
+
+The preview is free. It shows the text, its length and its language for one product.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Enter the ID under **Preview for product ID:** and click **Preview description**.
+
+</TabItem>
+<TabItem label="Classic">
+
+On the **Execution** tab, drag a product to the **Probe on a single product** section and click **Show the description (free)**. The preview assembles the description from the saved configuration.
+
+</TabItem>
+</Tabs>
+
+## Write target
+
+Both panels offer the same targets:
+
+| Task kind | Profile | Studio | Classic |
+|---|---|---|---|
+| Class | a standard such as ETIM | **Classification attribute set on the class** | **Classification store** |
+| Class | your own category tree | **Relation to a category object** | **Relation** |
+| Attributes | a standard such as ETIM | **Classification attribute set** | **Classification store** |
+
+In Studio the list also shows greyed-out entries marked "(later)": a suggestion table, an object brick, a text field and a field collection. These targets can't be chosen yet.
+
+**Field** is a field of the chosen kind on the object class.
+
+### Second match into a text field
+
+This setting is optional and works with class recognition. The plugin writes one line with the closest alternative to this field, and each run overwrites it. This shows you which products the service was unsure about. The **Report only, do not touch the data** mode needs this field.
+
+## Test on one product
+
+The test costs one call and writes nothing. It runs the **saved** configuration, so save it first. Another call for the same product can return a slightly different set of attributes, so the test doesn't guarantee exactly the same result in a run.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+The **Test on one product** section is below the **Target** section. The table shows what came back and what matched what, and the **Why not** column gives the reason.
+
+<Shot panel="studio" id="product-test" alt="Test on one product" />
+
+</TabItem>
+<TabItem label="Classic">
+
+The **Probe on a single product** section is on the **Execution** tab. You drag a product into it from the tree. The result is the service's answer as it came back.
+
+<Shot panel="classic" id="product-test" alt="Probe on a single product" />
+
+</TabItem>
+</Tabs>

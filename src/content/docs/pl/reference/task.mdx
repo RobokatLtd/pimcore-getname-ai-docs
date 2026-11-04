@@ -1,0 +1,181 @@
+---
+title: Zadanie
+description: Które produkty wysłać, co się dzieje z produktami z wynikiem, jaki opis wysłać do usługi i gdzie zapisać odpowiedź.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+Na tej zakładce decydujesz, które produkty wysłać do usługi, jaki opis dołączyć i gdzie zapisać odpowiedź.
+
+## Rodzaj zadania
+
+Jedna konfiguracja wykonuje jedno zadanie. Żeby rozpoznawać klasy i atrybuty, załóż dwie konfiguracje.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Nowa konfiguracja najpierw pyta o rodzaj: **Wybierz rozpoznanie klasy** albo **Wybierz rozpoznanie atrybutów**. **Zmień rodzaj** zmienia go później. Zmiana czyści cel i warunki, a wysyłka i połączenie zostają.
+
+</TabItem>
+<TabItem label="Classic">
+
+**Rodzaj zadania** jest na zakładce **Połączenie**. Zmiana czyści cel zapisu i warunki.
+
+</TabItem>
+</Tabs>
+
+## Które produkty
+
+| Ustawienie | Studio | Classic | Co robi |
+|---|---|---|---|
+| Klasa | **Klasa produktu:** | **Klasa** | Wyznacza listę pól w warunkach, opisie i celu |
+| Foldery i obiekty | **Obiekty danych** | **Zbiór produktów** | Przeciągasz je z drzewa, a wpisy się sumują. Pusta lista obejmuje całą klasę |
+| Podfoldery | **Razem z podrzędnymi** | **Razem z podrzędnymi** | Obejmuje całe poddrzewo |
+| Nieopublikowane | **Także nieopublikowane** | **Także nieopublikowane** | Poszerza zbiór |
+| Warianty | **Także warianty** | **Także warianty** | Poszerza zbiór i przesuwa najniższy poziom na warianty |
+| Poziom | **Poziom w hierarchii:** | **Poziom w hierarchii** | Zawęża zbiór według miejsca w hierarchii tej samej klasy |
+
+**Którego poziomu użyć:** klasa dziedziczy się w dół, więc do rozpoznania klasy zwykle wybierasz najwyższy poziom. Atrybuty zwykle rozpoznajesz na najniższym poziomie, tam gdzie są konkretne produkty. Poziomy pośrednie są wysyłane tylko przy ustawieniu „wszystkie poziomy”.
+
+### Warunki
+
+Kliknij **Dodaj warunek**, wybierz pole, operator i wartość. Możesz na przykład wybrać jednego dostawcę albo produkty z pustym polem.
+
+Wszystkie warunki muszą być spełnione jednocześnie. Jeśli pole może mieć jedną z kilku wartości, użyj operatora **jest jedną z**. Warunek bez wartości zatrzymuje liczenie, dopóki go nie uzupełnisz.
+
+## Produkty, które mają już wynik
+
+To ustawienie najbardziej wpływa na koszt. W Studio ma osobną sekcję, a w Classic jest polem **Tryb przetwarzania** w sekcji **Cel zapisu**.
+
+**Rozpoznanie klasy:**
+
+| Studio | Classic | Co wysyła | Co zapisuje |
+|---|---|---|---|
+| **Pomiń je** (zalecane) | **Pomiń produkty, które mają już wynik** | tylko produkty bez klasy | klasę |
+| **Nadpisz istniejącą klasę** | **Nadpisz wynik** | każdy produkt ze zbioru | zwróconą klasę |
+| **Tylko raport, bez ruszania danych** | **Tylko raport, bez ruszania danych** | każdy produkt ze zbioru | tylko pole przeglądu |
+
+:::danger[Nadpisanie klasy usuwa wartości poprzedniej klasy]
+Nowa klasa wyłącza poprzednią grupę, a Pimcore zachowuje dane tylko aktywnej grupy.
+:::
+
+**Rozpoznanie atrybutów:**
+
+| Studio | Classic | Co wysyła | Co zapisuje |
+|---|---|---|---|
+| **Uzupełnij braki** (zalecane) | **Uzupełnij braki** | produkty z co najmniej jednym pustym atrybutem | tylko puste atrybuty |
+| **Pomiń je** | **Pomiń produkty, które mają już wynik** | tylko produkty bez wartości; jeden wypełniony atrybut pomija cały produkt | atrybuty |
+| **Nadpisz wartości, które wróciły** | **Nadpisz wynik** | każdy produkt ze zbioru | zwrócone atrybuty; pozostałe nie zmieniają się |
+
+## Co wysyłamy
+
+### Źródło opisu
+
+Classic zawsze wysyła tekst złożony z pól. Studio przy rozpoznawaniu atrybutów pozwala też wybrać adres:
+
+| Źródło w Studio | Co się dzieje |
+|---|---|
+| **Tekst składany z pól** | Wybrane pola tworzą jeden opis |
+| **Adres strony** | Jedno pole zawiera adres, a usługa sama otwiera stronę |
+| **Adres pliku** | Jedno pole zawiera adres pliku PDF lub innego dokumentu, a usługa sama go pobiera |
+
+Adres musi być dostępny z internetu. Ścieżka w drzewie Pimcore nie zadziała, a usługa odpowie błędem `PDF_READ_ERROR`.
+
+### Pola opisu
+
+Kliknij **Dodaj pole** w Studio albo **Wybierz pola** w Classic. Kolejność zmieniasz strzałkami.
+
+- **Poprzedź nazwą pola** wysyła wartość jako `Etykieta: wartość`.
+- **Etykieta w opisie** zastępuje tytuł pola. Pusta oznacza tytuł pola.
+- **wielojęzyczne** oznacza pole czytane w wybranym języku opisu.
+- Czerwony znacznik oznacza, że pola nie ma już w klasie. Licznik i uruchomienie zatrzymają się, dopóki go nie poprawisz lub nie usuniesz.
+
+Możesz wybrać pola proste, Objectbricki, bloki, kolekcje pól oraz pola obiektów powiązanych. Dla pól powiązanych obowiązują te zasady:
+
+- Relacja do wielu obiektów daje listę, po jednej linii na obiekt.
+- Nieopublikowane obiekty powiązane są pomijane.
+- Przez relację do tej samej klasy produktu, na przykład akcesoria, dostępne są tylko pola proste.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Pola obiektów powiązanych pokażesz, wybierając relację w polu **Pola obiektów powiązanych** nad listą.
+
+</TabItem>
+<TabItem label="Classic">
+
+W oknie wyboru pól każda relacja jest zwiniętą grupą. Kliknij grupę, żeby ją otworzyć. Filtry są w menu kolumn.
+
+</TabItem>
+</Tabs>
+
+**Eksportuj do pliku** zapisuje listę pól i języki do pliku JSON bez klucza API. **Importuj z pliku** zastępuje je w otwartej konfiguracji. Po imporcie zapisz konfigurację.
+
+### Języki opisu
+
+Dotyczy pól wielojęzycznych. Kolejność wyboru to kolejność zastępowania: produkt zostanie wysłany w pierwszym języku, w którym ma wszystkie wybrane pola wielojęzyczne. Jeśli żaden język nie ma kompletu, wtyczka wybierze ten, w którym ma ich najwięcej.
+
+Cały opis produktu jest w jednym języku i tę informację dostaje usługa. Pusta lista oznacza domyślny język instancji. Zastępowanie języków ustawione w Pimcore nie ma tu znaczenia.
+
+Usługa dostaje wybrany język także wtedy, gdy pola nie są wielojęzyczne. Jeśli opisy są w innym języku niż domyślny język instancji, wybierz go na liście.
+
+### Kod produktu
+
+To pole jest opcjonalne i działa przy atrybutach. Wskazuje usłudze, którego produktu dotyczy odpowiedź, gdy tekst opisuje kilka produktów, na przykład karta PDF całej serii. Pole nazywa się **Pole kodu produktu**.
+
+### Podgląd opisu
+
+Podgląd jest bezpłatny. Pokazuje tekst, jego długość i język dla jednego produktu.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Wpisz identyfikator w polu **Podgląd dla produktu ID:** i kliknij **Podejrzyj opis**.
+
+</TabItem>
+<TabItem label="Classic">
+
+Na zakładce **Uruchomienie** przeciągnij produkt do sekcji **Test na jednym produkcie** i kliknij **Podejrzyj opis**. Podgląd składa opis z zapisanej konfiguracji.
+
+</TabItem>
+</Tabs>
+
+## Cel zapisu
+
+Oba panele oferują te same cele:
+
+| Rodzaj zadania | Profil | Cel |
+|---|---|---|
+| Klasa | standard, na przykład ETIM | **Klasyfikacja (Classification Store)** |
+| Klasa | własne drzewo kategorii | **Relacja do obiektu kategorii** |
+| Atrybuty | standard, na przykład ETIM | **Klasyfikacja (Classification Store)** |
+
+W Studio lista pokazuje też wyszarzone pozycje z dopiskiem „(później)”: tabelę propozycji, objectbrick, pole tekstowe i kolekcję pól. Tych celów nie można jeszcze wybrać.
+
+**Pole** to pole wybranego rodzaju na klasie produktu.
+
+### Drugie dopasowanie do pola tekstowego
+
+To ustawienie jest opcjonalne i działa przy rozpoznawaniu klasy. Wtyczka zapisuje w tym polu jedną linię z najbliższą alternatywą, a każde uruchomienie ją nadpisuje. Dzięki temu widzisz, przy których produktach usługa się wahała. Tryb **Tylko raport, bez ruszania danych** wymaga tego pola.
+
+## Test na jednym produkcie
+
+Test kosztuje jedno wywołanie i niczego nie zapisuje. Wykonuje **zapisaną** konfigurację, więc najpierw ją zapisz. Kolejne wywołanie dla tego samego produktu może zwrócić nieco inny zestaw atrybutów, więc test nie gwarantuje dokładnie takiego samego wyniku przy uruchomieniu.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Sekcja **Test na jednym produkcie** jest pod sekcją **Cel zapisu**. Tabela pokazuje, co wróciło i co się z czym dopasowało, a kolumna **Dlaczego nie** podaje powód.
+
+<Shot panel="studio" id="product-test" alt="Test na jednym produkcie" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Sekcja **Test na jednym produkcie** jest na zakładce **Uruchomienie**. Przeciągasz do niej produkt z drzewa. Wynikiem jest odpowiedź usługi w oryginalnej postaci.
+
+<Shot panel="classic" id="product-test" alt="Test na jednym produkcie" />
+
+</TabItem>
+</Tabs>

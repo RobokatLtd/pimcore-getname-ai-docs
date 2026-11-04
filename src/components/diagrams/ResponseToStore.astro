@@ -1,0 +1,105 @@
+---
+import Diagram from './Diagram.astro';
+
+const labels = {
+  pl: {
+    aria: 'Identyfikator klasy z odpowiedzi włącza grupę, identyfikator atrybutu wskazuje klucz w tej grupie, a wartość trafia do klucza.',
+    caption: 'Wtyczka znajduje grupę i klucz po polu wskazanym na zakładce Mapowanie. Dla kodów standardu jest to zwykle nazwa. Pierwszy wiersz pochodzi z rozpoznania klasy, dwa pozostałe z rozpoznania atrybutów. Przykład z produktu demo DEMO-1003.',
+    answer: 'Odpowiedź usługi',
+    pimcore: 'Twój Pimcore',
+    store: 'Classification Store',
+    group: 'grupa = klasa',
+    groupValue: 'EC000441 Dławnica kablowa',
+    key: 'klucz = atrybut',
+    keyValue: 'EF001758 Rodzaj gwintu',
+    option: 'wartość klucza',
+    optionValue: 'Metryczny',
+    links: [
+      { path: 'classes[0].id', code: 'EC000441', y: 94, to: 424, top: 'Mapuj klasę po: nazwa', bottom: 'włącza grupę' },
+      { path: 'attributes[].id', code: 'EF001758', y: 172, to: 438, top: 'Mapuj atrybut po: nazwa', bottom: 'wskazuje klucz' },
+      { path: 'attributes[].value', code: 'EV003712 Metryczny', y: 244, to: 452, top: 'po nazwie albo identyfikatorze', bottom: 'zapisuje wartość' },
+    ],
+  },
+  en: {
+    aria: 'The class identifier from the answer activates a group, the attribute identifier points to a key in that group, and the value goes into the key.',
+    caption: 'The plugin finds the group and the key by the field you choose on the Mapping tab. For standard codes, this is usually the name. The first row comes from class recognition, the other two from attribute recognition. The example uses the demo product DEMO-1003.',
+    answer: "The service's answer",
+    pimcore: 'Your Pimcore',
+    store: 'Classification Store',
+    group: 'group = class',
+    groupValue: 'EC000441 Cable gland',
+    key: 'key = attribute',
+    keyValue: 'EF001758 Thread type',
+    option: 'key value',
+    optionValue: 'Metric',
+    links: [
+      { path: 'classes[0].id', code: 'EC000441', y: 94, to: 424, top: 'Map the class by: name', bottom: 'activates the group' },
+      { path: 'attributes[].id', code: 'EF001758', y: 172, to: 438, top: 'Map the attribute by: name', bottom: 'finds the key' },
+      { path: 'attributes[].value', code: 'EV003712 Metric', y: 244, to: 452, top: 'by name or identifier', bottom: 'writes the value' },
+    ],
+  },
+  de: {
+    aria: 'Der Klassenbezeichner aus der Antwort aktiviert eine Gruppe, der Attributbezeichner zeigt auf einen Schlüssel in dieser Gruppe, und der Wert kommt in diesen Schlüssel.',
+    caption: 'Das Plugin findet Gruppe und Schlüssel über das Feld, das Sie auf dem Reiter Mapping wählen. Bei Standardcodes ist das meist der Name. Die erste Zeile stammt aus der Klassenerkennung, die anderen beiden aus der Attributerkennung. Das Beispiel verwendet das Demoprodukt DEMO-1003.',
+    answer: 'Die Antwort des Dienstes',
+    pimcore: 'Ihr Pimcore',
+    store: 'Classification Store',
+    group: 'Gruppe = Klasse',
+    groupValue: 'EC000441 Kabelverschraubung',
+    key: 'Schlüssel = Attribut',
+    keyValue: 'EF001758 Gewindeart',
+    option: 'Schlüsselwert',
+    optionValue: 'metrisch',
+    links: [
+      { path: 'classes[0].id', code: 'EC000441', y: 94, to: 424, top: 'Klasse zuordnen über: Name', bottom: 'aktiviert die Gruppe' },
+      { path: 'attributes[].id', code: 'EF001758', y: 172, to: 438, top: 'Attribut zuordnen über: Name', bottom: 'findet den Schlüssel' },
+      { path: 'attributes[].value', code: 'EV003712 metrisch', y: 244, to: 452, top: 'nach Name oder Bezeichner', bottom: 'schreibt den Wert' },
+    ],
+  },
+};
+
+const t = labels[Astro.locals.starlightRoute.lang as keyof typeof labels];
+const id = 'store';
+const accent = `url(#${id}-arrow-accent)`;
+---
+
+<Diagram id={id} width={720} height={300} label={t.aria} caption={t.caption}>
+  <text class="diagram-strong" x="0" y="16">{t.answer}</text>
+  <text class="diagram-strong" x="410" y="16">{t.pimcore}</text>
+
+  <rect class="diagram-region" x="410" y="26" width="310" height="272" rx="8" />
+  <text class="diagram-strong" x="424" y="48">{t.store}</text>
+
+  <rect class="diagram-box" x="424" y="60" width="282" height="226" rx="6" />
+  <text class="diagram-muted" x="438" y="82">{t.group}</text>
+  <text class="diagram-strong" x="438" y="100">{t.groupValue}</text>
+
+  <rect class="diagram-region" x="438" y="132" width="254" height="142" rx="6" />
+  <text class="diagram-muted" x="452" y="154">{t.key}</text>
+  <text class="diagram-strong" x="452" y="172">{t.keyValue}</text>
+
+  <rect class="diagram-box-accent" x="452" y="222" width="226" height="40" rx="6" />
+  <text class="diagram-muted" x="464" y="238">{t.option}</text>
+  <text class="diagram-strong" x="464" y="254">{t.optionValue}</text>
+
+  {
+    t.links.map((link) => (
+      <>
+        <rect class="diagram-box" x="0.5" y={link.y - 24} width="200" height="48" rx="6" />
+        <text class="diagram-code-small" x="12" y={link.y - 6}>
+          {link.path}
+        </text>
+        <text class="diagram-code diagram-code-strong" x="12" y={link.y + 13}>
+          {link.code}
+        </text>
+        <line class="diagram-line-accent" x1="201" y1={link.y} x2={link.to - 1} y2={link.y} marker-end={accent} />
+        <text class="diagram-small diagram-center" x="306" y={link.y - 8}>
+          {link.top}
+        </text>
+        <text class="diagram-accent diagram-center" x="306" y={link.y + 17}>
+          {link.bottom}
+        </text>
+      </>
+    ))
+  }
+</Diagram>

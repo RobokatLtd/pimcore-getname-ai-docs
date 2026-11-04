@@ -1,0 +1,102 @@
+---
+title: Ausführung
+description: Produkte zählen, starten, Fortschritt, abbrechen, Bericht, Verlauf und Ausführung über die Konsole.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Produkte zählen
+
+Das Zählen ist kostenlos und zeigt, wie viele bezahlte Aufrufe der Durchlauf senden wird. Ohne Zählung können Sie keinen Durchlauf starten.
+
+:::caution[Prüfen Sie die Zahl vor dem Start]
+Eine leere Liste von Ordnern und Objekten umfasst die gesamte Objektklasse. Ist die Zahl höher als erwartet, starten Sie den Durchlauf nicht. Korrigieren Sie den Umfang auf dem Reiter **Aufgabe**.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Klicken Sie im Abschnitt **Wie viele Produkte** auf **Neu berechnen**. Die Zählung liest die Einstellungen in der Ansicht, auch nicht gespeicherte. Ändern Sie sie nach der Zählung, erscheint die Meldung **Diese Zählung ist veraltet**, und Sie müssen neu berechnen.
+
+**Liste anzeigen** öffnet die Produkte seitenweise. Ein Klick auf eine Spaltenüberschrift sortiert die gesamte Liste.
+
+<Shot panel="studio" id="execution-count" alt="Abschnitt Wie viele Produkte mit der Zahl, den Gründen für das Überspringen und der Liste" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Klicken Sie im Abschnitt **Produktumfang** auf **Umfang zählen**. Die Zählung liest die **gespeicherte** Konfiguration, speichern Sie Änderungen also vorher.
+
+**Produkte anzeigen** öffnet die Produkte seitenweise. Ein Klick auf eine Spaltenüberschrift sortiert die gesamte Liste.
+
+<Shot panel="classic" id="execution-count" alt="Abschnitt Produktumfang mit der Zahl und der Liste" />
+
+</TabItem>
+</Tabs>
+
+Neben der Zahl sehen Sie, wie viele Produkte übersprungen wurden und warum. Ein Produkt mit leerer Beschreibung bleibt in der Zahl enthalten. Erst der Durchlauf erkennt die leere Beschreibung, überspringt das Produkt und bezahlt nicht dafür.
+
+## Ausführen
+
+Klicken Sie in Studio auf **Jetzt ausführen** oder in Classic auf **Durchlauf starten**. Ein Bestätigungsfenster zeigt die Anzahl der zu sendenden Produkte. Ist kein Ordner und kein Objekt ausgewählt, warnt es außerdem, dass der Durchlauf die gesamte Produktklasse umfasst. Der Durchlauf startet erst nach Ihrer Bestätigung: **Jetzt ausführen** in Studio, **Ja** in Classic.
+
+Vor dem ersten bezahlten Aufruf prüft das Plugin, ob:
+
+- die Konfiguration gespeichert ist, denn der Durchlauf verwendet die gespeicherte Version,
+- API-Schlüssel, Profil, Aufgabenart, Klasse und Ziel festgelegt sind,
+- der Umfang gezählt wurde und sich seitdem nicht geändert hat,
+- diese Konfiguration nicht bereits läuft,
+- die Antworten des Dienstes bei Attributen im Classification Store ein Ziel haben.
+
+Die Produkte werden in Paketen über die Warteschlange verarbeitet, der Durchlauf läuft also auch nach dem Schließen der Ansicht weiter.
+
+## Fortschritt und Abbrechen
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Der Abschnitt **Ausführungsstatus** zeigt den Fortschritt. **Durchlauf abbrechen** stoppt den Durchlauf. Der Job ist auch in der Jobliste von Studio sichtbar.
+
+</TabItem>
+<TabItem label="Classic">
+
+Der Fortschrittsbalken und die Schaltfläche **Durchlauf abbrechen** liegen im Abschnitt **Durchlauf**.
+
+</TabItem>
+</Tabs>
+
+Nach dem Abbrechen können sich die Zähler noch bewegen, weil Produkte, die bereits unterwegs sind, noch fertig verarbeitet werden. Was gesendet wurde, ist bezahlt und bleibt geschrieben.
+
+## CSV-Bericht
+
+Der Bericht hat eine Zeile pro Ereignis an einem Produkt. Die Spalten sind auf der Seite [Ergebnisse auswerten](../../results/#csv-bericht) erklärt.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Klicken Sie unter der Tabelle **Letzter Durchlauf** auf **Bericht herunterladen (CSV)**. Berichte früherer Durchläufe laden Sie im Abschnitt **Verlauf** herunter.
+
+</TabItem>
+<TabItem label="Classic">
+
+Klicken Sie im Abschnitt **Durchlaufverlauf** auf das Symbol in der Spalte **Bericht** oder doppelklicken Sie auf die Zeile.
+
+</TabItem>
+</Tabs>
+
+## Verlauf
+
+Der Verlauf zeigt die Durchläufe dieser Konfiguration: Status, Zeit und Zähler. In Studio erweitert **Durchläufe aller getName.ai-Konfigurationen anzeigen** die Liste auf die gesamte Installation.
+
+**Verlauf löschen** entfernt in beiden Panels die Durchläufe dieser Konfiguration samt ihren Protokolleinträgen. Die CSV-Berichte dieser Durchläufe stehen danach nicht mehr zur Verfügung, weil sie aus diesen Einträgen erstellt werden. Die Produkte behalten, was auf sie geschrieben wurde. Das Löschen lässt sich nicht rückgängig machen.
+
+## Ausführung über die Konsole und nach Zeitplan
+
+```bash
+bin/console datahub:getname-ai:run configuration_name
+```
+
+Dieser Befehl stellt einen Durchlauf der gespeicherten Konfiguration in die Warteschlange. Er fragt nicht nach der Anzahl der Produkte, die Kosten hängen also vom Umfang zum Startzeitpunkt ab.
+
+Der Scheduler des Data Importers führt Konfigurationen dieses Typs nicht aus. Für eine regelmäßige Ausführung tragen Sie diesen Befehl in cron ein. Auf dem Server muss ein [Hintergrund-Worker](../../installation/#4-warteschlange-und-worker-einrichten) laufen.

@@ -1,0 +1,186 @@
+---
+title: Installation
+description: Installing the plugin, the job queue and the background worker. This page is for the server administrator.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page is for the server administrator. Run the commands in the Pimcore project directory.
+
+## Requirements
+
+| | Studio | Classic |
+|---|---|---|
+| Pimcore Platform | 2026.2 and later | 2024.4 (Pimcore 11.5) |
+| Data Hub | `^2026.2` | `^1.9` |
+| Panel | `pimcore/studio-ui-bundle` `^2026.2.4` | `pimcore/admin-ui-classic-bundle` |
+| PHP | 8.4 | 8.3 or 8.4 |
+
+The plugin also uses a Symfony Messenger queue, so the server needs a process that handles it and keeps running.
+
+## 1. Get the package
+
+The package is not on public Packagist. Robokat gives you the repository address and an access token (biuro@robokat.pl).
+
+Add the repository to `composer.json`:
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/RobokatLtd/pimcore-getname-ai" }
+]
+```
+
+Save the token and require the plugin:
+
+```bash
+composer config github-oauth.github.com YOUR_TOKEN
+composer require robokat/pimcore-getname-ai:^0.900
+```
+
+## 2. Enable the execution engine
+
+A plugin run is a job of the Pimcore execution engine.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Check that `config/bundles.php` has this entry:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+If it doesn't, add it and install the engine:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+</TabItem>
+<TabItem label="Classic">
+
+In Pimcore 11.5 the engine is off by default, and without it the application won't start once the plugin is enabled. Add to `config/bundles.php`:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Then install it:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+The engine stores runs through Doctrine ORM, so `config/packages/doctrine.yaml` must define an entity manager:
+
+```yaml
+doctrine:
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                auto_mapping: true
+```
+
+</TabItem>
+</Tabs>
+
+The plugin enables and installs the Pimcore application logger itself. The CSV report is built from its entries.
+
+## 3. Enable the plugin
+
+Add to `config/bundles.php`:
+
+```php
+Robokat\Bundle\GetNameAiBundle\RobokatGetNameAiBundle::class => ['all' => true],
+```
+
+Then install it:
+
+```bash
+bin/console pimcore:bundle:install RobokatGetNameAiBundle
+```
+
+The installation creates the `plugin_datahub_adapter_getNameAi` permission. Without it, the **getName.ai** type doesn't appear in Data Hub, even for an administrator.
+
+## 4. Set up the queue and worker
+
+Add a transport to `config/packages/messenger.yaml`. Adjust the address to your RabbitMQ server.
+
+```yaml
+framework:
+    messenger:
+        transports:
+            pimcore_generic_execution_engine: 'amqp://user:password@rabbitmq:5672/%2f/pimcore_generic_execution_engine'
+```
+
+Start the process that handles this queue and make sure it keeps running, for example with supervisord:
+
+```bash
+bin/console messenger:consume pimcore_generic_execution_engine --memory-limit=250M --time-limit=3600
+```
+
+If you already have a process handling other Pimcore queues, you can add `pimcore_generic_execution_engine` to it.
+
+:::caution[Without this, runs won't work properly]
+- No transport: products are processed within a single HTTP request, the screen shows no progress, and a timeout cuts off larger sets.
+- No worker: a run stays "in progress" forever.
+:::
+
+## 5. Panel language
+
+The plugin's labels come in English, German, French and Polish, and follow the language in each user's profile. English needs no setup.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Studio has no Polish translation of its own, so you can't select Polish without an extra file. To use it, create `translations/studio.pl.yaml` in your project with one line:
+
+```yaml
+getname.language-marker: polski
+```
+
+Clear the cache and set Polish in the user profile. The plugin will be in Polish, while the rest of Studio, including the **New** and **Save** buttons, stays in English.
+
+</TabItem>
+<TabItem label="Classic">
+
+No extra setup is needed. Some labels belonging to Data Hub itself, such as **Datahub Config** and **Add Configuration**, stay in English.
+
+</TabItem>
+</Tabs>
+
+## 6. Check the installation
+
+```bash
+bin/console cache:clear
+bin/console messenger:stop-workers
+```
+
+Open Data Hub in the panel and add a new configuration. The list of types should include **getName.ai**. You'll find the version number in that configuration on the first tab, under **Plugin version**. It shows only the first two parts of the number, such as 0.900.
+
+## After every update
+
+```bash
+bin/console cache:clear
+bin/console assets:install public
+bin/console messenger:stop-workers
+```
+
+Without `assets:install`, the panel uses the plugin's old files. In Studio this can mean an empty configuration list and no **New** button. Without `messenger:stop-workers`, the worker can keep running the previous version of the code for up to an hour.
+
+## Installation-wide settings
+
+These settings are optional. The one you'll most often change is the limit of simultaneous requests, for example in `config/packages/robokat_getname_ai.yaml`:
+
+```yaml
+robokat_getname_ai:
+    concurrency: 8
+```
+
+This limit applies to the whole Pimcore installation. The number of requests also stays within your subscription's limit. To list all settings and their defaults, run:
+
+```bash
+bin/console config:dump-reference robokat_getname_ai
+```

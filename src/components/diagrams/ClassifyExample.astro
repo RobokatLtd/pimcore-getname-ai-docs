@@ -1,0 +1,146 @@
+---
+import Diagram from './Diagram.astro';
+
+const labels = {
+  pl: {
+    aria: 'Wtyczka wysyła opis produktu i profil. Usługa zwraca cztery klasy od najlepszej, a w Pimcore zapisana zostaje pierwsza.',
+    caption: 'Prawdziwa odpowiedź dla produktu demo DEMO-1003. Usługa zwraca pasujące klasy od najlepszej, bez punktacji. Wtyczka włącza na produkcie tylko grupę pierwszej klasy.',
+    sends: 'Wtyczka wysyła',
+    answers: 'Usługa odpowiada',
+    profile: 'Profil',
+    profileValue: 'ETIM 10 (PL)',
+    description: [
+      'Nazwa producenta: Dławnica kablowa',
+      'M25x1,5, poliamid, czarna',
+      'Opis: Dławnica kablowa z gwintem',
+      'metrycznym M25x1,5. Korpus z poliamidu',
+      'w kolorze czarnym RAL 9005. Zakres',
+      'średnic kabla 9-17 mm, szerokość klucza',
+      '33 mm, stopień ochrony IP68.',
+      'Bezhalogenowa, z odciążeniem naprężeń.',
+      'Zakres temperatury pracy',
+      'od -40 do 100 °C.',
+    ],
+    classes: [
+      { id: 'EC000441', name: 'Dławnica kablowa' },
+      { id: 'EC001922', name: 'Przepust/uchwyt kablowy odciążający...' },
+      { id: 'EC000451', name: 'Przepust kablowy' },
+      { id: 'EC000240', name: 'Wpust kablowy' },
+    ],
+    saved: 'zapisana',
+    skipped: 'pominięta',
+    saveTitle: 'Zapis w Pimcore',
+    saveDetail: 'produkt DEMO-1003, pole Classification Store: włączona grupa EC000441 Dławnica kablowa',
+  },
+  en: {
+    aria: 'The plugin sends the product description and the profile. The service returns the matching class, and the plugin writes it in Pimcore.',
+    caption: 'A real answer for the demo product DEMO-1003. The service returns the classes that match, best first and without scores. The plugin activates the group of the first class on the product.',
+    sends: 'The plugin sends',
+    answers: 'The service answers',
+    profile: 'Profile',
+    profileValue: 'ETIM 10 (EN)',
+    description: [
+      'Product name: Cable gland M25x1.5,',
+      'polyamide, black',
+      'Description: Cable gland with metric',
+      'thread M25x1.5. Polyamide body in black',
+      'RAL 9005. Cable diameter range 9-17 mm,',
+      'wrench size 33 mm, protection class IP68.',
+      'Halogen-free, with strain relief.',
+      'Operating temperature from -40',
+      'to 100 °C.',
+    ],
+    classes: [{ id: 'EC000441', name: 'Cable gland' }],
+    note: [
+      'This answer has one class. When several',
+      'classes match, it lists them best first,',
+      'and the plugin writes only the first.',
+    ],
+    saved: 'written',
+    skipped: 'skipped',
+    saveTitle: 'Written in Pimcore',
+    saveDetail: 'product DEMO-1003, Classification Store field: group EC000441 activated',
+  },
+  de: {
+    aria: 'Das Plugin sendet die Produktbeschreibung und das Profil. Der Dienst liefert die passende Klasse, und das Plugin schreibt sie in Pimcore.',
+    caption: 'Eine echte Antwort für das Demoprodukt DEMO-1003. Der Dienst liefert die passenden Klassen, die beste zuerst und ohne Bewertung. Das Plugin aktiviert die Gruppe der ersten Klasse auf dem Produkt.',
+    sends: 'Das Plugin sendet',
+    answers: 'Der Dienst antwortet',
+    profile: 'Profil',
+    profileValue: 'ETIM 10 (DE)',
+    description: [
+      'Produktname: Kabelverschraubung M25x1,5,',
+      'Polyamid, schwarz',
+      'Beschreibung: Kabelverschraubung mit',
+      'metrischem Gewinde M25x1,5. Gehäuse aus',
+      'Polyamid in Schwarz RAL 9005.',
+      'Kabeldurchmesser 9-17 mm, Schlüsselweite',
+      '33 mm, Schutzart IP68. Halogenfrei, mit',
+      'Zugentlastung. Betriebstemperatur von',
+      '-40 bis 100 °C.',
+    ],
+    classes: [{ id: 'EC000441', name: 'Kabelverschraubung' }],
+    note: [
+      'Diese Antwort nennt eine Klasse. Passen',
+      'mehrere, kommt die beste zuerst,',
+      'und das Plugin schreibt nur die erste.',
+    ],
+    saved: 'geschrieben',
+    skipped: 'übersprungen',
+    saveTitle: 'In Pimcore geschrieben',
+    saveDetail: 'Produkt DEMO-1003, Classification-Store-Feld: Gruppe EC000441 aktiviert',
+  },
+};
+
+const t: (typeof labels)[keyof typeof labels] & { note?: string[] } =
+  labels[Astro.locals.starlightRoute.lang as keyof typeof labels];
+const id = 'classify';
+const noteTop = 26 + t.classes.length * 50 + 18;
+const accent = `url(#${id}-arrow-accent)`;
+const arrow = `url(#${id}-arrow)`;
+---
+
+<Diagram id={id} width={720} height={306} label={t.aria} caption={t.caption}>
+  <text class="diagram-strong" x="0" y="16">{t.sends}</text>
+  <text class="diagram-strong" x="410" y="16">{t.answers}</text>
+
+  <rect class="diagram-box" x="0.5" y="26" width="284" height="212" rx="6" />
+  <text class="diagram-muted" x="14" y="48">{t.profile}</text>
+  <text class="diagram-small" x="58" y="48">{t.profileValue}</text>
+  {t.description.map((line, index) => <text class="diagram-small" x="14" y={72 + index * 17}>{line}</text>)}
+
+  <line class="diagram-line-accent" x1="285" y1="124" x2="309" y2="124" marker-end={accent} />
+  <rect class="diagram-box-accent" x="310" y="96" width="76" height="56" rx="6" />
+  <text class="diagram-small diagram-strong diagram-center" x="348" y="128">getName.ai</text>
+  <text class="diagram-code-small diagram-center" x="348" y="170">/v1/classify</text>
+  <line class="diagram-line" x1="386" y1="124" x2="408" y2="124" marker-end={arrow} />
+
+  {
+    t.classes.map((item, index) => {
+      const y = 26 + index * 50;
+      const first = index === 0;
+
+      return (
+        <>
+          <rect class={first ? 'diagram-box-accent' : 'diagram-box'} x="410" y={y} width="290" height="44" rx="6" />
+          <text class="diagram-code-small" x="422" y={y + 18}>
+            {index + 1}. {item.id}
+          </text>
+          <text class={first ? 'diagram-strong' : 'diagram-small'} x="422" y={y + 35}>
+            {item.name}
+          </text>
+          <text class={`diagram-end ${first ? 'diagram-accent' : 'diagram-muted'}`} x="690" y={y + 18}>
+            {first ? t.saved : t.skipped}
+          </text>
+        </>
+      );
+    })
+  }
+
+  {t.note?.map((line, index) => <text class="diagram-muted" x="422" y={noteTop + index * 18}>{line}</text>)}
+
+  <polyline class="diagram-line-accent" points="700,48 712,48 712,248" marker-end={accent} />
+  <rect class="diagram-box-accent" x="0.5" y="250" width="719" height="54" rx="6" />
+  <text class="diagram-strong" x="14" y="272">{t.saveTitle}</text>
+  <text class="diagram-small" x="14" y="291">{t.saveDetail}</text>
+</Diagram>

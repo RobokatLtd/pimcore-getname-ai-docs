@@ -1,0 +1,43 @@
+---
+title: Zanim zaczniesz
+description: Co musi być gotowe przed pierwszą konfiguracją i które czynności są płatne.
+---
+
+## Co musi być gotowe
+
+- **Zainstalowana wtyczka i działający proces w tle.** Bez niego uruchomienie zatrzyma się w stanie „w toku”. Zobacz [Instalację](../installation/).
+- **Klucz API getName.ai.** Wtyczka łączy się z usługą przez API. Według [strony getName.ai](https://getname.ai) darmowy plan (50 zapytań miesięcznie) działa tylko w przeglądarce, więc wtyczka potrzebuje planu z dostępem do API.
+- **Klasa produktu z polami, które opisują produkt.** Usługa rozpoznaje produkt wyłącznie z tego, co jej wyślesz.
+- **Miejsce na wynik.** Dla standardu, na przykład ETIM, jest to pole Classification Store na klasie produktu. Dla własnego drzewa kategorii jest to pole relacji do obiektów kategorii.
+- **Dostęp do konfiguracji.** Administrator ma go od razu. Inni użytkownicy potrzebują uprawnień opisanych na stronie [Dziennik i Uprawnienia](../reference/logs-permissions/#uprawnienia).
+
+Wtyczka nie zakłada grup ani kluczy w Classification Store. Jeśli usługa zwróci kod, którego nie ma w Pimcore, produkt lub atrybut zostanie pominięty, a powód trafi do raportu.
+
+## Co kosztuje
+
+| Co robisz | Przycisk w Studio | Przycisk w Classic | Koszt |
+|---|---|---|---|
+| Sprawdzasz klucz, subskrypcję i listę profili | **Sprawdź połączenie** | **Sprawdź połączenie** | bezpłatnie |
+| Liczysz produkty i oglądasz ich listę | **Przelicz**, **Pokaż listę** | **Przelicz**, **Pokaż listę** | bezpłatnie |
+| Oglądasz opis składany dla produktu | **Podejrzyj opis** | **Podejrzyj opis** | bezpłatnie |
+| Odczytujesz typy kluczy w Classification Store | **Sprawdź Classification Store** | **Sprawdź Classification Store** | bezpłatnie |
+| Testujesz jeden produkt, bez zapisu | **Sprawdź dopasowanie (1 płatne wywołanie)** | **Zapytaj usługę (jedno wywołanie)** | jedno wywołanie |
+| Uruchamiasz konfigurację | **Uruchom teraz** | **Uruchom teraz** | jedno wywołanie na każdy wysłany produkt |
+
+Wywołanie jest płatne także wtedy, gdy odpowiedź jest pusta albo nic z niej nie pasuje do Pimcore. Produkt z pustym opisem nie trafia do usługi, więc nic nie kosztuje.
+
+Limity swojego planu zobaczysz na karcie **Subskrypcja**, na zakładce z połączeniem.
+
+## Dlaczego zwykle są dwie konfiguracje
+
+Jedna konfiguracja wykonuje jedno zadanie: rozpoznaje klasę albo atrybuty.
+
+Atrybuty usługa rozpoznaje w obrębie klasy, bo to klasa określa, jakie atrybuty produkt może mieć. Dlatego konfiguracja atrybutów bierze tylko produkty, które mają już klasę. Jeśli produkty jej nie mają, najpierw uruchom konfigurację klasy.
+
+## Jak bezpiecznie zacząć
+
+1. Wybierz folder z kilkoma różnymi produktami.
+2. Obejrzyj opis jednego produktu. To bezpłatne.
+3. Wykonaj test na jednym produkcie. To jedno wywołanie, a na produkcie nic się nie zapisze.
+4. Uruchom konfigurację na tym folderze i sprawdź produkty w Pimcore.
+5. Dopiero potem poszerz zbiór.

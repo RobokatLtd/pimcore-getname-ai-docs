@@ -1,0 +1,188 @@
+---
+title: Installation
+description: Installation des Plugins, der Job-Warteschlange und des Hintergrund-Workers. Diese Seite richtet sich an die Serveradministration.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Diese Seite richtet sich an die Serveradministration. Führen Sie die Befehle im Projektverzeichnis von Pimcore aus.
+
+## Voraussetzungen
+
+| | Studio | Classic |
+|---|---|---|
+| Pimcore Platform | ab 2026.2 | 2024.4 (Pimcore 11.5) |
+| Data Hub | `^2026.2` | `^1.9` |
+| Panel | `pimcore/studio-ui-bundle` `^2026.2.4` | `pimcore/admin-ui-classic-bundle` |
+| PHP | 8.4 | 8.3 oder 8.4 |
+
+Das Plugin nutzt außerdem eine Symfony-Messenger-Warteschlange. Auf dem Server muss also ein Prozess laufen, der sie abarbeitet und dauerhaft aktiv bleibt.
+
+## 1. Paket beziehen
+
+Das Paket ist nicht im öffentlichen Packagist verfügbar. Die Repository-Adresse und ein Zugriffstoken erhalten Sie von Robokat (biuro@robokat.pl).
+
+Tragen Sie das Repository in `composer.json` ein:
+
+```json
+"repositories": [
+    { "type": "vcs", "url": "https://github.com/RobokatLtd/pimcore-getname-ai" }
+]
+```
+
+Speichern Sie das Token und binden Sie das Plugin ein:
+
+```bash
+composer config github-oauth.github.com YOUR_TOKEN
+composer require robokat/pimcore-getname-ai:^0.900
+```
+
+## 2. Execution Engine aktivieren
+
+Ein Durchlauf des Plugins ist ein Job der Pimcore Execution Engine.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Prüfen Sie, ob `config/bundles.php` diesen Eintrag enthält:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Falls nicht, ergänzen Sie ihn und installieren Sie die Engine:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+</TabItem>
+<TabItem label="Classic">
+
+In Pimcore 11.5 ist die Engine standardmäßig deaktiviert, und ohne sie startet die Anwendung nicht, sobald das Plugin aktiviert ist. Ergänzen Sie in `config/bundles.php`:
+
+```php
+Pimcore\Bundle\GenericExecutionEngineBundle\PimcoreGenericExecutionEngineBundle::class => ['all' => true],
+```
+
+Installieren Sie die Engine anschließend:
+
+```bash
+bin/console pimcore:bundle:install PimcoreGenericExecutionEngineBundle
+```
+
+Die Engine speichert Durchläufe über Doctrine ORM. In `config/packages/doctrine.yaml` muss daher ein Entity Manager definiert sein:
+
+```yaml
+doctrine:
+    orm:
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                auto_mapping: true
+```
+
+</TabItem>
+</Tabs>
+
+Das Plugin aktiviert und installiert den Pimcore Application Logger selbst. Der CSV-Bericht wird aus dessen Einträgen erstellt.
+
+## 3. Plugin aktivieren
+
+Ergänzen Sie in `config/bundles.php`:
+
+```php
+Robokat\Bundle\GetNameAiBundle\RobokatGetNameAiBundle::class => ['all' => true],
+```
+
+Installieren Sie das Plugin anschließend:
+
+```bash
+bin/console pimcore:bundle:install RobokatGetNameAiBundle
+```
+
+Bei der Installation wird die Berechtigung `plugin_datahub_adapter_getNameAi` angelegt. Ohne sie erscheint der Typ **getName.ai** nicht in Data Hub, auch nicht für Administratoren.
+
+## 4. Warteschlange und Worker einrichten
+
+Ergänzen Sie in `config/packages/messenger.yaml` einen Transport. Passen Sie die Adresse an Ihren RabbitMQ-Server an.
+
+```yaml
+framework:
+    messenger:
+        transports:
+            pimcore_generic_execution_engine: 'amqp://user:password@rabbitmq:5672/%2f/pimcore_generic_execution_engine'
+```
+
+Starten Sie den Prozess, der diese Warteschlange abarbeitet, und sorgen Sie dafür, dass er dauerhaft läuft, zum Beispiel mit supervisord:
+
+```bash
+bin/console messenger:consume pimcore_generic_execution_engine --memory-limit=250M --time-limit=3600
+```
+
+Wenn bereits ein Prozess andere Pimcore-Warteschlangen abarbeitet, können Sie `pimcore_generic_execution_engine` dort ergänzen.
+
+:::caution[Ohne das funktionieren Durchläufe nicht richtig]
+- Kein Transport: Die Produkte werden innerhalb einer einzigen HTTP-Anfrage verarbeitet, die Ansicht zeigt keinen Fortschritt, und größere Mengen bricht ein Timeout ab.
+- Kein Worker: Ein Durchlauf bleibt dauerhaft im Status „läuft“.
+:::
+
+## 5. Sprache des Panels
+
+Die Beschriftungen des Plugins gibt es auf Englisch, Deutsch, Französisch und Polnisch. Sie folgen der Sprache im Profil des jeweiligen Benutzers. Für Deutsch ist keine zusätzliche Einrichtung nötig.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Studio bringt eine eigene deutsche Übersetzung mit. Stellen Sie Deutsch im Benutzerprofil ein, dann erscheint auch der Rest von Studio auf Deutsch.
+
+Für Polnisch ist eine zusätzliche Datei nötig, weil Studio keine eigene polnische Übersetzung hat. Legen Sie dazu im Projekt die Datei `translations/studio.pl.yaml` mit einer Zeile an:
+
+```yaml
+getname.language-marker: polski
+```
+
+Leeren Sie den Cache und stellen Sie im Benutzerprofil Polnisch ein. Das Plugin erscheint dann auf Polnisch, der Rest von Studio, einschließlich der Schaltflächen **Neu** und **Speichern**, bleibt auf Englisch.
+
+</TabItem>
+<TabItem label="Classic">
+
+Es ist keine zusätzliche Einrichtung nötig. Auf Deutsch sind auch die Beschriftungen von Data Hub selbst übersetzt, etwa **Konfiguration hinzufügen**.
+
+</TabItem>
+</Tabs>
+
+## 6. Installation prüfen
+
+```bash
+bin/console cache:clear
+bin/console messenger:stop-workers
+```
+
+Öffnen Sie Data Hub im Panel und legen Sie eine neue Konfiguration an. In der Liste der Typen muss **getName.ai** stehen. Die Versionsnummer finden Sie in dieser Konfiguration auf dem ersten Reiter unter **Plugin-Version**. Angezeigt werden nur die ersten beiden Teile der Nummer, etwa 0.900.
+
+## Nach jedem Update
+
+```bash
+bin/console cache:clear
+bin/console assets:install public
+bin/console messenger:stop-workers
+```
+
+Ohne `assets:install` verwendet das Panel die alten Dateien des Plugins. In Studio kann das eine leere Konfigurationsliste und eine fehlende Schaltfläche **Neu** bedeuten. Ohne `messenger:stop-workers` kann der Worker bis zu einer Stunde lang die vorherige Version des Codes ausführen.
+
+## Einstellungen für die gesamte Installation
+
+Diese Einstellungen sind optional. Am häufigsten ändern Sie das Limit gleichzeitiger Anfragen, zum Beispiel in `config/packages/robokat_getname_ai.yaml`:
+
+```yaml
+robokat_getname_ai:
+    concurrency: 8
+```
+
+Dieses Limit gilt für die gesamte Pimcore-Installation. Die Zahl der Anfragen bleibt außerdem innerhalb des Limits Ihres Abonnements. Alle Einstellungen und ihre Standardwerte zeigt dieser Befehl:
+
+```bash
+bin/console config:dump-reference robokat_getname_ai
+```

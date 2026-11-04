@@ -1,0 +1,183 @@
+---
+title: Aufgabe
+description: Welche Produkte gesendet werden, was mit Produkten mit Ergebnis geschieht, welche Beschreibung gesendet wird und wohin die Antwort geschrieben wird.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+Auf diesem Reiter legen Sie fest, welche Produkte an den Dienst gehen, welche Beschreibung mitgeht und wohin die Antwort geschrieben wird.
+
+## Aufgabenart
+
+Eine Konfiguration erledigt eine Aufgabe. Um Klassen und Attribute zu erkennen, legen Sie zwei Konfigurationen an.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Eine neue Konfiguration fragt zuerst nach der Art: **Klassifizierung wählen** oder **Attribute wählen**. Mit **Art ändern** ändern Sie sie später. Dabei werden das Ziel und die Bedingungen geleert, die Beschreibung und die Verbindungseinstellungen bleiben.
+
+</TabItem>
+<TabItem label="Classic">
+
+Die **Aufgabenart** steht auf dem Reiter **Verbindung**. Eine Änderung leert das Schreibziel und die Bedingungen.
+
+</TabItem>
+</Tabs>
+
+## Welche Produkte
+
+| Einstellung | Studio | Classic | Wirkung |
+|---|---|---|---|
+| Objektklasse | **Produktklasse:** | **Klasse** | Legt die Feldliste für Bedingungen, Beschreibung und Ziel fest |
+| Ordner und Objekte | **Datenobjekte** | **Produktumfang** | Sie ziehen sie aus dem Baum, die Einträge summieren sich. Eine leere Liste umfasst die gesamte Klasse |
+| Unterordner | **Mit Unterelementen** | **Mit Unterelementen** | Bezieht den gesamten Teilbaum ein |
+| Unveröffentlichte | **unveröffentlichte einbeziehen** | **Unveröffentlichte einbeziehen** | Erweitert den Umfang |
+| Varianten | **Varianten einbeziehen** | **Varianten einbeziehen** | Erweitert den Umfang und verlegt die unterste Ebene nach unten auf die Varianten |
+| Ebene | **Ebene in der Hierarchie:** | **Ebene in der Hierarchie** | Schränkt den Umfang nach der Position in der Hierarchie derselben Objektklasse ein |
+
+**Welche Ebene Sie verwenden:** Eine Klasse wird nach unten vererbt, für die Klassenerkennung wählen Sie also meist die oberste Ebene. Attribute werden meist auf der untersten Ebene erkannt, wo die eigentlichen Produkte liegen. Ebenen dazwischen werden nur mit „alle Ebenen“ gesendet.
+
+### Bedingungen
+
+Klicken Sie auf **Bedingung hinzufügen** und wählen Sie dann ein Feld, einen Operator und einen Wert. So können Sie zum Beispiel einen Lieferanten oder Produkte mit einem leeren Feld auswählen.
+
+Alle Bedingungen müssen gleichzeitig erfüllt sein. Wenn ein Feld einen von mehreren Werten haben darf, verwenden Sie den Operator **ist eines von**. Eine Bedingung ohne Wert stoppt die Zählung, bis Sie den Wert eintragen.
+
+## Produkte, die bereits ein Ergebnis haben
+
+Diese Einstellung wirkt sich am stärksten auf die Kosten aus. Studio hat dafür einen eigenen Abschnitt. In Classic ist es das Feld **Modus** im Abschnitt **Schreibziel**.
+
+**Klassenerkennung:**
+
+| Studio | Classic | Was gesendet wird | Was geschrieben wird |
+|---|---|---|---|
+| **Überspringen** (empfohlen) | **Produkte mit gefülltem Schreibziel überspringen** | nur Produkte ohne Klasse | die Klasse |
+| **Die vorhandene Klasse überschreiben** | **Alles überschreiben** | jedes Produkt im Umfang | die gelieferte Klasse |
+| **Nur berichten, Daten nicht anfassen** | **Nur berichten, Daten nicht anfassen** | jedes Produkt im Umfang | nur das Prüffeld |
+
+:::danger[Das Überschreiben einer Klasse löscht die Werte der vorherigen]
+Die neue Klasse deaktiviert die bisherige Gruppe, und Pimcore behält Daten nur für die aktive Gruppe.
+:::
+
+**Attributerkennung:**
+
+| Studio | Classic | Was gesendet wird | Was geschrieben wird |
+|---|---|---|---|
+| **Lücken füllen** (empfohlen) | **Lücken füllen** | Produkte mit mindestens einem leeren Attribut | nur die leeren Attribute |
+| **Überspringen** | **Produkte mit gefülltem Schreibziel überspringen** | nur Produkte ohne Werte; ein gefülltes Attribut überspringt das gesamte Produkt | die Attribute |
+| **Die zurückgegebenen Werte überschreiben** | **Alles überschreiben** | jedes Produkt im Umfang | die gelieferten Attribute; die anderen ändern sich nicht |
+
+## Was gesendet wird
+
+Studio nennt diesen Abschnitt **Was wir senden**, Classic **An den Dienst gesendete Beschreibung**.
+
+### Quelle der Beschreibung
+
+Classic sendet immer aus Feldern zusammengesetzten Text. Bei der Attributerkennung können Sie in Studio auch eine Adresse wählen:
+
+| Quelle in Studio | Was passiert |
+|---|---|
+| **Aus Feldern zusammengesetzter Text** | Die gewählten Felder ergeben eine Beschreibung |
+| **Adresse einer Webseite** | Ein Feld enthält die Adresse, und der Dienst öffnet die Seite selbst |
+| **Adresse einer Datei** | Ein Feld enthält die Adresse eines PDF oder eines anderen Dokuments, und der Dienst ruft es selbst ab |
+
+Die Adresse muss aus dem Internet erreichbar sein. Ein Pfad im Pimcore-Baum funktioniert nicht, und der Dienst antwortet mit `PDF_READ_ERROR`.
+
+### Beschreibungsfelder
+
+Klicken Sie in Studio auf **Feld hinzufügen** oder in Classic auf **Felder auswählen**. Mit den Pfeilen ändern Sie die Reihenfolge.
+
+- **Feldnamen voranstellen** sendet den Wert als `Bezeichnung: Wert`.
+- **Bezeichnung in der Beschreibung** ersetzt den Feldtitel. Bleibt sie leer, wird der Feldtitel verwendet.
+- **lokalisiert** kennzeichnet ein Feld, das in der gewählten Beschreibungssprache gelesen wird.
+- Eine rote Markierung bedeutet, dass das Feld nicht mehr in der Klasse ist. Zählung und Durchlauf stoppen, bis Sie es korrigieren oder entfernen.
+
+Sie können einfache Felder, Object Bricks, Blöcke, Feldsammlungen und Felder verknüpfter Objekte wählen. Für verknüpfte Felder gilt:
+
+- Eine Relation zu mehreren Objekten ergibt eine Liste mit einer Zeile pro Objekt.
+- Unveröffentlichte verknüpfte Objekte werden übersprungen.
+- Über eine Relation zu derselben Objektklasse, etwa bei Zubehör, sind nur einfache Felder verfügbar.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Um die Felder verknüpfter Objekte anzuzeigen, wählen Sie über der Liste unter **Felder verknüpfter Objekte** eine Relation.
+
+</TabItem>
+<TabItem label="Classic">
+
+In der Feldauswahl ist jede Relation eine eingeklappte Gruppe. Klicken Sie auf eine Gruppe, um sie zu öffnen. Filter finden Sie im Spaltenmenü.
+
+</TabItem>
+</Tabs>
+
+**In Datei exportieren** speichert die Feldliste und die Sprachen in einer JSON-Datei, ohne den API-Schlüssel. **Aus Datei importieren** ersetzt sie in der geöffneten Konfiguration. Speichern Sie die Konfiguration nach dem Import.
+
+### Sprachen der Beschreibung
+
+Das betrifft lokalisierte Felder. Die gewählte Reihenfolge ist die Ersatzreihenfolge: Ein Produkt wird in der ersten Sprache gesendet, in der es alle gewählten lokalisierten Felder hat. Hat keine Sprache alle, wählt das Plugin die mit den meisten.
+
+Die gesamte Beschreibung eines Produkts ist in einer Sprache, und der Dienst erfährt, in welcher. Eine leere Liste bedeutet die Standardsprache der Instanz. Der in Pimcore eingestellte Sprach-Fallback spielt hier keine Rolle.
+
+Der Dienst erhält die gewählte Sprache auch dann, wenn die Felder nicht lokalisiert sind. Wenn Ihre Beschreibungen in einer anderen Sprache als der Standardsprache der Instanz verfasst sind, wählen Sie sie auf der Liste aus.
+
+### Produktcode
+
+Dieses Feld ist optional und wirkt bei Attributen. Es teilt dem Dienst mit, um welches Produkt es in der Antwort gehen soll, wenn der Text mehrere Produkte beschreibt, etwa ein PDF-Datenblatt für eine ganze Serie. Das Feld heißt **Feld mit dem Produktcode**.
+
+### Beschreibungsvorschau
+
+Die Vorschau ist kostenlos. Sie zeigt den Text, seine Länge und seine Sprache für ein Produkt.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Geben Sie die ID unter **Vorschau für Produkt-ID:** ein und klicken Sie auf **Beschreibung anzeigen**.
+
+</TabItem>
+<TabItem label="Classic">
+
+Ziehen Sie auf dem Reiter **Ausführung** ein Produkt in den Abschnitt **Probe an einem einzelnen Produkt** und klicken Sie auf **Beschreibung anzeigen (kostenlos)**. Die Vorschau setzt die Beschreibung aus der gespeicherten Konfiguration zusammen.
+
+</TabItem>
+</Tabs>
+
+## Schreibziel
+
+Beide Panels bieten dieselben Ziele:
+
+| Aufgabenart | Profil | Studio | Classic |
+|---|---|---|---|
+| Klasse | ein Standard wie ETIM | **Classification Store auf der Klasse** | **Classification Store** |
+| Klasse | Ihr eigener Kategoriebaum | **Relation zu einem Kategorieobjekt** | **Relation** |
+| Attribute | ein Standard wie ETIM | **Classification Store** | **Classification Store** |
+
+In Studio zeigt die Liste außerdem ausgegraute Einträge mit dem Zusatz „(später)“: eine Vorschlagstabelle, einen Object Brick, ein Textfeld und eine Feldsammlung. Diese Ziele lassen sich noch nicht wählen.
+
+**Feld** ist ein Feld der gewählten Art auf der Objektklasse.
+
+### Zweiter Treffer in ein Textfeld
+
+Diese Einstellung ist optional und wirkt bei der Klassenerkennung. Das Plugin schreibt eine Zeile mit der nächstbesten Alternative in dieses Feld, und jeder Durchlauf überschreibt sie. So sehen Sie, bei welchen Produkten der Dienst unsicher war. Der Modus **Nur berichten, Daten nicht anfassen** braucht dieses Feld.
+
+## Test an einem Produkt
+
+Der Test kostet einen Aufruf und schreibt nichts. Er verwendet die **gespeicherte** Konfiguration, speichern Sie also vorher. Ein weiterer Aufruf für dasselbe Produkt kann eine leicht andere Attributmenge liefern, der Test garantiert also nicht genau dasselbe Ergebnis im Durchlauf.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Der Abschnitt **Test an einem Produkt** liegt unter dem Abschnitt **Ziel**. Die Tabelle zeigt, was zurückkam und was wozu passte, und die Spalte **Warum nicht** nennt den Grund.
+
+<Shot panel="studio" id="product-test" alt="Test an einem Produkt" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Der Abschnitt **Probe an einem einzelnen Produkt** liegt auf dem Reiter **Ausführung**. Sie ziehen ein Produkt aus dem Baum hinein. Das Ergebnis ist die Antwort des Dienstes, so wie sie zurückkam.
+
+<Shot panel="classic" id="product-test" alt="Probe an einem einzelnen Produkt" />
+
+</TabItem>
+</Tabs>

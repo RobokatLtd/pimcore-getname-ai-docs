@@ -1,0 +1,81 @@
+---
+title: Jak to działa
+description: Co rozpoznaje getName.ai, co wysyła wtyczka, co wraca i jak odpowiedź trafia do Pimcore.
+---
+
+import ApiOverview from '../../../components/diagrams/ApiOverview.astro';
+import ClassifyExample from '../../../components/diagrams/ClassifyExample.astro';
+import AttributesExample from '../../../components/diagrams/AttributesExample.astro';
+import ResponseToStore from '../../../components/diagrams/ResponseToStore.astro';
+
+## Co robi usługa
+
+getName.ai czyta opis produktu i odpowiada na jedno z dwóch pytań:
+
+- **Do jakiej klasy należy ten produkt?** Odpowiedzią jest klasa wybranego systemu, na przykład ETIM, ECLASS, GS1 GPC, UNSPSC, kategoria Amazon, eBay, Allegro, Kaufland albo kategoria z własnego drzewa.
+- **Jakie wartości atrybutów ma ten produkt?** Odpowiedzią są atrybuty danej klasy z wartościami odczytanymi z opisu, na przykład stopień ochrony IP68 albo rodzaj gwintu PG.
+
+Usługa pracuje w języku opisu i nie tłumaczy go przed rozpoznaniem. Szczegóły jej interfejsu API są na [getname.ai/docs](https://getname.ai/docs), ale do konfiguracji wtyczki nie są potrzebne.
+
+<ApiOverview />
+
+## Profil rozpoznawania
+
+Profil to jeden system klasyfikacji w jednej wersji i jednym języku albo profil zbudowany z Twojego drzewa kategorii. Przykłady profili publicznych: `etim_dynamic_en`, `eclass_v15_de_advanced`, `amazon_us`, `unspsc`.
+
+Klucz API decyduje, które profile możesz wybrać. Profil decyduje też o tym, co oznacza identyfikator w odpowiedzi, a od tego zależy cała dalsza konfiguracja:
+
+| Profil zbudowany z | Identyfikator w odpowiedzi | Gdzie zapisać wynik |
+|---|---|---|
+| standardu, na przykład ETIM | kod klasy, na przykład `EC000441` | pole Classification Store; kod zwykle jest w nazwie grupy |
+| własnego drzewa kategorii | identyfikator z Twojej listy kategorii, na przykład identyfikator obiektu `481233` | pole relacji do obiektu kategorii |
+
+## Co trafia do usługi
+
+Dla każdego produktu wtyczka składa jeden opis z pól wybranych na zakładce **Zadanie**, w ustawionej kolejności. Możesz poprzedzić każdą wartość nazwą pola. Sama liczba `7` niewiele mówi, a `Rozmiar gwintu: 7` już tak.
+
+Oprócz opisu wtyczka wysyła profil i język produktu. Przy rozpoznawaniu atrybutów dochodzi identyfikator klasy, a jeśli go ustawisz, także kod produktu.
+
+Studio pozwala przy atrybutach wysłać zamiast tekstu adres strony albo pliku. Usługa sama je wtedy pobiera, więc adres musi być dostępny z internetu. Ścieżka w drzewie Pimcore nie wystarczy.
+
+## Co wraca
+
+**Rozpoznanie klasy** zwraca pasujące klasy od najlepszej. Odpowiedź nie zawiera punktacji. Wtyczka zapisuje tylko pierwszą klasę, a pusta odpowiedź nigdy nie czyści tego, co produkt już ma.
+
+```json
+{ "classes": [ { "id": "EC000441", "name": "Cable gland", "path": "..." } ] }
+```
+
+<ClassifyExample />
+
+**Rozpoznanie atrybutów** zwraca atrybuty klasy z wartościami, które udało się odczytać. Każdy atrybut ma typ, a od typu zależy postać wartości:
+
+```json
+{
+  "attributes": [
+    { "id": "EF001758", "name": "Thread type", "type": "select", "unit": null,
+      "value": { "id": "EV003695", "name": "PG" }, "mandatory": false },
+    { "id": "EF007839", "name": "Nominal metric/PG thread size", "type": "float", "unit": null,
+      "value": 7, "mandatory": false }
+  ]
+}
+```
+
+<AttributesExample />
+
+## Jak odpowiedź trafia do Pimcore
+
+Classification Store przechowuje atrybuty klas w czterech poziomach:
+
+- **Classification Store** to cały słownik, na przykład ETIM,
+- **kolekcja** zbiera grupy dla wygody,
+- **grupa** odpowiada klasie, na przykład `EC000441 Dławnica kablowa`,
+- **klucz** odpowiada atrybutowi, na przykład `EF001758 Rodzaj gwintu`, i ma typ: tekst, liczba, wybór z listy i inne.
+
+Nadanie klasy oznacza włączenie grupy na produkcie. Rozpoznanie atrybutów zapisuje wartości w kluczach tej grupy.
+
+Żeby wtyczka znalazła właściwą grupę i klucz, musisz wskazać, które ich pole przechowuje kod zwracany przez usługę. Dla profili standardowych jest to zwykle **nazwa**. To ustawienie jest na zakładce [Mapowanie](../reference/mapping/).
+
+<ResponseToStore />
+
+Jeśli wybrany profil zbudowano z Twojego drzewa kategorii, wynikiem jest relacja do obiektu kategorii. Obiekt musi istnieć, być opublikowany i należeć do klasy dozwolonej w polu relacji.

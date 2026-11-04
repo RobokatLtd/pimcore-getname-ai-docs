@@ -1,0 +1,152 @@
+---
+import Diagram from './Diagram.astro';
+
+const labels = {
+  pl: {
+    aria: 'Produkt przechodzi przez dwa wywołania usługi. Rozpoznanie klasy daje klasę, której potrzebuje rozpoznanie atrybutów.',
+    caption: 'Rozpoznanie klasy i rozpoznanie atrybutów to dwa osobne wywołania, ustawiane w dwóch konfiguracjach. Pierwsze daje klasę, której potrzebuje drugie.',
+    pimcore: 'Twój Pimcore',
+    service: 'Usługa getName.ai',
+    internet: 'przez internet',
+    noClass: 'Produkt bez klasy',
+    noClassNote: 'opis w polach produktu',
+    withClass: 'Produkt z klasą',
+    withClassNote: ['grupa włączona', 'w Classification Store'],
+    startHere: ['Produkty z klasą', 'zaczynają tutaj'],
+    withValues: 'Produkt z wartościami',
+    withValuesNote: 'klucze grupy wypełnione',
+    classify: 'Rozpoznanie klasy',
+    classifyQuestion: ['Do jakiej klasy', 'należy ten produkt?'],
+    attributes: 'Rozpoznanie atrybutów',
+    attributesQuestion: ['Jakie wartości atrybutów', 'ma ten produkt?'],
+    sendClassify: 'opis produktu, profil, język',
+    paid: 'jedno płatne wywołanie',
+    answerClassify: 'klasy pasujące do opisu, od najlepszej',
+    saveClassify: 'wtyczka zapisuje pierwszą',
+    sendAttributes: 'opis, profil, język, identyfikator klasy',
+    answerAttributes: 'atrybuty klasy z odczytanymi wartościami',
+    saveAttributes: 'wtyczka zapisuje je w kluczach grupy',
+  },
+  en: {
+    aria: 'A product goes through two calls to the service. Class recognition gives the class that attribute recognition needs.',
+    caption: 'Class recognition and attribute recognition are two separate calls, set up in two configurations. The first gives the class that the second needs.',
+    pimcore: 'Your Pimcore',
+    service: 'getName.ai service',
+    internet: 'over the internet',
+    noClass: 'Product without a class',
+    noClassNote: 'description in product fields',
+    withClass: 'Product with a class',
+    withClassNote: ['group active', 'in the Classification Store'],
+    startHere: ['Products with a class', 'start here'],
+    withValues: 'Product with values',
+    withValuesNote: 'group keys filled in',
+    classify: 'Class recognition',
+    classifyQuestion: ['Which class does', 'this product belong to?'],
+    attributes: 'Attribute recognition',
+    attributesQuestion: ['What attribute values', 'does this product have?'],
+    sendClassify: 'description, profile, language',
+    paid: 'one paid call',
+    answerClassify: 'classes that match, best first',
+    saveClassify: 'the plugin writes the first',
+    sendAttributes: 'description, profile, language, class ID',
+    answerAttributes: 'attributes of the class with values read',
+    saveAttributes: "the plugin writes them to the group's keys",
+  },
+  de: {
+    aria: 'Ein Produkt durchläuft zwei Aufrufe an den Dienst. Die Klassenerkennung liefert die Klasse, die die Attributerkennung braucht.',
+    caption: 'Klassenerkennung und Attributerkennung sind zwei getrennte Aufrufe, eingerichtet in zwei Konfigurationen. Der erste liefert die Klasse, die der zweite braucht.',
+    pimcore: 'Ihr Pimcore',
+    service: 'getName.ai-Dienst',
+    internet: 'über das Internet',
+    noClass: 'Produkt ohne Klasse',
+    noClassNote: 'Beschreibung in Produktfeldern',
+    withClass: 'Produkt mit Klasse',
+    withClassNote: ['Gruppe aktiv', 'im Classification Store'],
+    startHere: ['Produkte mit Klasse', 'beginnen hier'],
+    withValues: 'Produkt mit Werten',
+    withValuesNote: 'Gruppenschlüssel gefüllt',
+    classify: 'Klassenerkennung',
+    classifyQuestion: ['Zu welcher Klasse gehört', 'dieses Produkt?'],
+    attributes: 'Attributerkennung',
+    attributesQuestion: ['Welche Attributwerte hat', 'dieses Produkt?'],
+    sendClassify: 'Beschreibung, Profil, Sprache',
+    paid: 'ein bezahlter Aufruf',
+    answerClassify: 'passende Klassen, die beste zuerst',
+    saveClassify: 'das Plugin schreibt die erste',
+    sendAttributes: 'Beschreibung, Profil, Sprache, Klassen-ID',
+    answerAttributes: 'Attribute der Klasse mit gelesenen Werten',
+    saveAttributes: 'das Plugin schreibt in die Gruppenschlüssel',
+  },
+};
+
+const t = labels[Astro.locals.starlightRoute.lang as keyof typeof labels];
+const id = 'overview';
+const arrow = `url(#${id}-arrow)`;
+const accent = `url(#${id}-arrow-accent)`;
+const steps = [
+  { y: 76, from: 196, to: 522, badge: 222, top: t.sendClassify, bottom: t.paid, paid: true },
+  { y: 166, from: 524, to: 198, badge: 498, top: t.answerClassify, bottom: t.saveClassify, paid: false },
+  { y: 250, from: 196, to: 522, badge: 222, top: t.sendAttributes, bottom: t.paid, paid: true },
+  { y: 340, from: 524, to: 198, badge: 498, top: t.answerAttributes, bottom: t.saveAttributes, paid: false },
+];
+---
+
+<Diagram id={id} width={720} height={392} label={t.aria} caption={t.caption}>
+  <rect class="diagram-region" x="0" y="0" width="210" height="392" rx="8" />
+  <rect class="diagram-region" x="510" y="0" width="210" height="392" rx="8" />
+  <text class="diagram-strong diagram-center" x="105" y="26">{t.pimcore}</text>
+  <text class="diagram-strong diagram-center" x="615" y="26">{t.service}</text>
+  <text class="diagram-muted diagram-center" x="360" y="26">{t.internet}</text>
+
+  <rect class="diagram-box" x="14" y="40" width="182" height="72" rx="6" />
+  <text class="diagram-strong diagram-center" x="105" y="70">{t.noClass}</text>
+  <text class="diagram-muted diagram-center" x="105" y="90">{t.noClassNote}</text>
+
+  <rect class="diagram-box" x="14" y="142" width="182" height="132" rx="6" />
+  <text class="diagram-strong diagram-center" x="105" y="170">{t.withClass}</text>
+  <text class="diagram-muted diagram-center" x="105" y="190">{t.withClassNote[0]}</text>
+  <text class="diagram-muted diagram-center" x="105" y="206">{t.withClassNote[1]}</text>
+  <text class="diagram-accent diagram-center" x="105" y="238">{t.startHere[0]}</text>
+  <text class="diagram-accent diagram-center" x="105" y="254">{t.startHere[1]}</text>
+
+  <rect class="diagram-box" x="14" y="304" width="182" height="72" rx="6" />
+  <text class="diagram-strong diagram-center" x="105" y="334">{t.withValues}</text>
+  <text class="diagram-muted diagram-center" x="105" y="354">{t.withValuesNote}</text>
+
+  <rect class="diagram-box-accent" x="524" y="40" width="182" height="150" rx="6" />
+  <text class="diagram-strong diagram-center" x="615" y="78">{t.classify}</text>
+  <text class="diagram-center" x="615" y="104">{t.classifyQuestion[0]}</text>
+  <text class="diagram-center" x="615" y="121">{t.classifyQuestion[1]}</text>
+  <text class="diagram-code diagram-center" x="615" y="158">POST /v1/classify</text>
+
+  <rect class="diagram-box-accent" x="524" y="226" width="182" height="150" rx="6" />
+  <text class="diagram-strong diagram-center" x="615" y="264">{t.attributes}</text>
+  <text class="diagram-center" x="615" y="290">{t.attributesQuestion[0]}</text>
+  <text class="diagram-center" x="615" y="307">{t.attributesQuestion[1]}</text>
+  <text class="diagram-code diagram-center" x="615" y="344">POST /v1/attributes</text>
+
+  {
+    steps.map((step, index) => (
+      <>
+        <line
+          class={step.paid ? 'diagram-line-accent' : 'diagram-line'}
+          x1={step.from}
+          y1={step.y}
+          x2={step.to}
+          y2={step.y}
+          marker-end={step.paid ? accent : arrow}
+        />
+        <circle class="diagram-badge" cx={step.badge} cy={step.y} r="9" />
+        <text class="diagram-badge-text diagram-center" x={step.badge} y={step.y + 4}>
+          {index + 1}
+        </text>
+        <text class="diagram-center" x="360" y={step.y - 10}>
+          {step.top}
+        </text>
+        <text class={`diagram-center ${step.paid ? 'diagram-accent' : 'diagram-muted'}`} x="360" y={step.y + 20}>
+          {step.bottom}
+        </text>
+      </>
+    ))
+  }
+</Diagram>

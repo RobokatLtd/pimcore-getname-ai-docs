@@ -1,0 +1,34 @@
+---
+title: getName.ai for Pimcore
+description: How to install the getName.ai plugin and configure it yourself in Pimcore Studio and Pimcore Classic.
+---
+
+The plugin adds a new configuration type to Data Hub: **getName.ai**. A configuration sends product descriptions from Pimcore to the [getName.ai](https://getname.ai) service and writes the answer back onto your products, either as a class or as attribute values.
+
+This guide takes you through installing the plugin, setting up a configuration and running it on your products. It assumes you know Pimcore: classes, data objects and the object tree. You don't need to know the getName.ai service beforehand.
+
+## Which panel do you use?
+
+There is one plugin and it works in both panels. The screens, some button names and a few features differ.
+
+| | Studio | Classic |
+|---|---|---|
+| Pimcore Platform | 2026.2 and later | 2024.4 |
+| Pimcore | `^2026.2` | `^11.5` |
+| Data Hub | `^2026.2` | `^1.9` |
+
+Where the steps differ, you will see **Studio** and **Classic** tabs. Pick your panel once and the following pages open on the same tab.
+
+This guide describes plugin version 0.900.1.
+
+## Order of work
+
+1. Check the requirements and costs: [Before you start](before-you-start/).
+2. Install the plugin. This step is for the server administrator: [Installation](installation/).
+3. Give your products a class: [First configuration: class recognition](first-classification/). Skip this step if they already have classes.
+4. Fill in attribute values: [First configuration: attribute recognition](first-attributes/).
+5. Check what was written: [Reading the results](results/).
+
+:::caution[Every product sent is one paid call]
+Before you run a configuration on a larger set, try it on a few products. The cost table is on the [Before you start](before-you-start/#what-costs-money) page.
+:::

@@ -1,0 +1,34 @@
+---
+title: getName.ai dla Pimcore
+description: Jak zainstalować i samodzielnie skonfigurować wtyczkę getName.ai w Pimcore Studio i Pimcore Classic.
+---
+
+Wtyczka dodaje do Data Hub nowy typ konfiguracji: **getName.ai**. Konfiguracja wysyła opisy produktów z Pimcore do usługi [getName.ai](https://getname.ai), a odpowiedź zapisuje na produktach: klasę albo wartości atrybutów.
+
+Z tej instrukcji zainstalujesz wtyczkę, ustawisz konfigurację i uruchomisz ją na swoich produktach. Zakładamy, że znasz Pimcore: klasy, obiekty danych i drzewo obiektów. Tego, jak działa usługa getName.ai, dowiesz się stąd.
+
+## Który panel masz
+
+Wtyczka jest jedna i działa w obu panelach. Różnią się ekrany, nazwy niektórych przycisków i kilka funkcji.
+
+| | Studio | Classic |
+|---|---|---|
+| Platforma Pimcore | 2026.2 i nowsze | 2024.4 |
+| Pimcore | `^2026.2` | `^11.5` |
+| Data Hub | `^2026.2` | `^1.9` |
+
+Gdy instrukcja dotyczy tylko jednego panelu, zobaczysz zakładki **Studio** i **Classic**. Wybierz swój panel raz, a kolejne strony otworzą się na tej samej zakładce.
+
+Opis dotyczy wersji wtyczki 0.900.1.
+
+## Kolejność pracy
+
+1. Sprawdź wymagania i koszty: [Zanim zaczniesz](before-you-start/).
+2. Zainstaluj wtyczkę. Ten krok wykonuje administrator serwera: [Instalacja](installation/).
+3. Nadaj produktom klasy: [Pierwsza konfiguracja: rozpoznanie klasy](first-classification/). Jeśli produkty mają już klasy, pomiń ten krok.
+4. Uzupełnij wartości atrybutów: [Pierwsza konfiguracja: rozpoznanie atrybutów](first-attributes/).
+5. Sprawdź, co się zapisało: [Jak czytać wynik](results/).
+
+:::caution[Każdy wysłany produkt to jedno płatne wywołanie]
+Zanim uruchomisz konfigurację na większym zbiorze, sprawdź ją na kilku produktach. Tabela kosztów jest na stronie [Zanim zaczniesz](before-you-start/#co-kosztuje).
+:::

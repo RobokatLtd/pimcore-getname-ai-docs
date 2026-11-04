@@ -1,0 +1,105 @@
+---
+title: Jak czytać wynik
+description: Co znaczą liczniki uruchomienia, kolumny raportu CSV i powody pominięcia produktu.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Liczniki
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+| Licznik | Znaczenie |
+|---|---|
+| **W zbiorze** | liczba produktów przy starcie |
+| **Wysłane produkty** | ile produktów wysłano do usługi |
+| **Płatne wywołania API** | ile wywołań naliczono |
+| **Zapisana klasa** albo **Zapisane atrybuty** | ile produktów dostało wynik |
+| **Zapisane klucze** | ile kluczy zapisano |
+| **Pominięte produkty** albo **Pominięte klucze** | ile pominięto, z rozbiciem na powody |
+| **Nieudane** | ile produktów skończyło się błędem usługi lub zapisu |
+| **Brak dopasowanej klasy** albo **Brak zwróconych atrybutów** | ile odpowiedzi było pustych |
+
+</TabItem>
+<TabItem label="Classic">
+
+W **Historii uruchomień**:
+
+| Kolumna | Znaczenie |
+|---|---|
+| **Stan** | stan uruchomienia |
+| **Zbiór produktów** | liczba produktów przy starcie |
+| **Wywołań** | ile wywołań naliczono |
+| **Zapisanych** | ile produktów dostało wynik |
+| **Pominiętych** | ile produktów pominięto |
+| **Błędów** | ile produktów skończyło się błędem usługi lub zapisu |
+
+</TabItem>
+</Tabs>
+
+Pominięcie to decyzja wtyczki. Błąd to odmowa usługi albo nieudany zapis w Pimcore.
+
+## Raport CSV
+
+Plik używa średnika jako separatora. W Excelu otwórz go przez import danych, jeśli kolumny się nie rozdzielą.
+
+| Kolumna | Zawartość |
+|---|---|
+| `run` | numer uruchomienia |
+| `time` | czas zdarzenia |
+| `product` | identyfikator produktu |
+| `event` | co się stało |
+| `class` | klasa |
+| `keys` | liczba kluczy |
+| `reason` | powód pominięcia |
+| `detail` | dodatkowy opis, na przykład komunikat usługi |
+
+Wartości w kolumnie `event`:
+
+| Wartość | Znaczenie |
+|---|---|
+| `written` | klasa została zapisana |
+| `keysWritten` | atrybuty zostały zapisane |
+| `noMatch` | usługa nie zwróciła klasy ani atrybutów |
+| `skipped` | wtyczka pominęła produkt albo klucz, powód jest w `reason` |
+| `emptyPayload` | opis był pusty, produktu nie wysłano do usługi |
+| `callFailed` | wywołanie usługi nie powiodło się |
+| `writeFailed` | zapis w Pimcore nie powiódł się |
+
+## Powody pominięcia
+
+| Kod | Tekst na ekranie | Co oznacza | Co zrobić |
+|---|---|---|---|
+| `alreadyHasResult` | z gotowym wynikiem | tryb pomijania, a produkt ma wynik | nic, jeśli tego chcesz; inaczej zmień tryb |
+| `nothingLeftToFill` | z wypełnionymi wszystkimi atrybutami klasy | tryb uzupełniania, a nie ma czego uzupełnić | nic |
+| `missingClass` | bez nadanej klasy | produkt nie ma klasy, więc nie można rozpoznać atrybutów | wykonaj [rozpoznanie klasy](../first-classification/) |
+| `skippedSameClass` | miał już dokładnie tę klasę | usługa zwróciła klasę, którą produkt już ma | nic |
+| `skippedTargetNotEmpty` | cel nie był pusty | klucz lub klasa są wypełnione, a tryb ich nie nadpisuje | nic albo zmień tryb |
+| `skippedSourceEmpty` | odpowiedź była pusta | usługa niczego nie rozpoznała; wywołanie jest płatne, nic nie zapisano | popraw opis produktu lub wybrane pola |
+| `skippedDescriptionEmpty` | opis był pusty | wybrane pola nie mają tekstu; bez opłaty | uzupełnij pola lub wybierz inne |
+| `skippedTargetMissing` | po stronie Pimcore nie ma nic o tej nazwie | zwrócony kod nie pasuje do grupy, klucza ani obiektu | sprawdź [mapowanie](../reference/mapping/) i czy Classification Store ma ten kod |
+| `skippedTargetNotAnId` | odpowiedź nie jest identyfikatorem obiektu | relacja dostała kod zamiast identyfikatora obiektu | użyj profilu z własnego drzewa albo celu w Classification Store |
+| `skippedTargetOtherStore` | dopasowanie należy do innego Classification Store | kod istnieje, ale w innym Classification Store | wybierz właściwe pole celu |
+| `skippedTargetUnpublished` | dopasowany obiekt jest nieopublikowany | kategoria docelowa nie jest opublikowana | opublikuj obiekt |
+| `skippedCarrierUnknown` | to pole nie jest tu znane | zapisane mapowanie nie pasuje do tego celu | wybierz mapowanie ponownie |
+| `skippedAmbiguousTarget` | odpowiedź trafiła w więcej niż jeden obiekt | mapowanie znalazło kilka obiektów | mapuj po identyfikatorze albo usuń duplikaty |
+| `skippedKeyNotInGroup` | klucza nie ma w aktywnej grupie | atrybut należy do klasy, której produkt nie ma | sprawdź grupę produktu i profil |
+| `skippedValueOutOfDomain` | wartość jest spoza dozwolonego zbioru | wartości nie ma na liście klucza typu select | dodaj pozycję do listy albo zmień sposób mapowania |
+| `skippedKeyTypeUnsupported` | ten typ klucza nie jest jeszcze obsługiwany | wtyczka nie umie zapisać takiego klucza | zmień typ klucza |
+| `writeError` | zapis się nie powiódł | Pimcore odrzucił zapis, powód jest w `detail` | przeczytaj komunikat |
+
+## Błędy usługi
+
+Tych błędów wtyczka nie ponawia, bo powtórka dałaby ten sam wynik:
+
+| Kod | Co oznacza |
+|---|---|
+| `INVALID_API_KEY` | klucz jest nieprawidłowy; zatrzymuje całe uruchomienie |
+| `CLASSIFICATION_NOT_FOUND` | klucz nie ma dostępu do profilu albo profil nie istnieje |
+| `INVALID_CLASS_ID` | klasa produktu nie istnieje w wybranym profilu |
+| `CLASS_ATTRIBUTES_NOT_DEFINED` | klasa nie ma zdefiniowanych atrybutów; liczone jako pusta odpowiedź |
+| `DESCRIPTION_TOO_SHORT`, `DESCRIPTION_TOO_LONG` | usługa odrzuciła długość opisu |
+| `PDF_READ_ERROR` | usługa nie mogła pobrać ani odczytać pliku |
+
+Brak połączenia, przekroczenie czasu i błędy serwera usługi wtyczka ponawia z rosnącą przerwą, do ustalonej liczby prób.

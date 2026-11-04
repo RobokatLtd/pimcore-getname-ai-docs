@@ -1,0 +1,14 @@
+{
+  "name": "pimcore-getname-ai-docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 8069",
+    "build": "astro build",
+    "preview": "astro preview --port 8069"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.8",
+    "astro": "7.4.5"
+  }
+}

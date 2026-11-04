@@ -1,0 +1,43 @@
+---
+title: Before you start
+description: What must be ready before your first configuration, and which actions are paid.
+---
+
+## What must be ready
+
+- **The plugin installed and a background worker running.** Without the worker, a run stays "in progress" forever. See [Installation](../installation/).
+- **A getName.ai API key.** The plugin talks to the service through its API. According to the [getName.ai website](https://getname.ai), the free plan (50 requests a month) works in the browser only, so the plugin needs a plan with API access.
+- **An object class with fields that describe the product.** The service recognises a product only from what you send it.
+- **Somewhere to put the result.** For a standard such as ETIM, this is a Classification Store field on the object class. For your own category tree, it is a relation field pointing to category objects.
+- **Access to the configuration.** Administrators have it from the start. Other users need the permissions described under [Logs and Permissions](../reference/logs-permissions/#permissions).
+
+The plugin does not create groups or keys in the Classification Store. If the service returns a code that doesn't exist in Pimcore, the product or attribute is skipped and the reason goes into the report.
+
+## What costs money
+
+| What you do | Button in Studio | Button in Classic | Cost |
+|---|---|---|---|
+| Check the key, subscription and profile list | **Test connection** | **Test connection** | free |
+| Count the products and see the list | **Recalculate**, **Show list** | **Count scope**, **Show the products** | free |
+| See the description assembled for a product | **Preview description** | **Show the description (free)** | free |
+| Read the key types in the Classification Store | **Check the classification store** | **Measure the store** | free |
+| Test one product without writing anything | **Test the pairing (1 paid call)** | **Ask the service (one call)** | one call |
+| Run the configuration | **Run now** | **Start run** | one call per product sent |
+
+A call is paid even if the answer is empty or nothing in it matches Pimcore. A product with an empty description is not sent, so it costs nothing.
+
+You can see your plan's limits on the **Subscription** card on the connection tab.
+
+## Why you usually need two configurations
+
+One configuration does one job: it recognises either the class or the attributes.
+
+The service recognises attributes within a class, because the class defines which attributes a product can have. So an attribute configuration only takes products that already have a class. If yours don't, run a class configuration first.
+
+## How to start safely
+
+1. Pick a folder with a few different products.
+2. Look at the description of one product. This is free.
+3. Test one product. This is one call, and nothing is written to the product.
+4. Run the configuration on that folder and check the products in Pimcore.
+5. Only then widen the scope.

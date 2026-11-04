@@ -1,0 +1,34 @@
+---
+title: getName.ai für Pimcore
+description: So installieren Sie das getName.ai-Plugin und richten es in Pimcore Studio und Pimcore Classic selbst ein.
+---
+
+Das Plugin ergänzt Data Hub um einen neuen Konfigurationstyp: **getName.ai**. Eine Konfiguration sendet Produktbeschreibungen aus Pimcore an den Dienst [getName.ai](https://getname.ai) und schreibt die Antwort auf Ihre Produkte zurück, entweder als Klasse oder als Attributwerte.
+
+Diese Anleitung führt Sie durch die Installation des Plugins, die Einrichtung einer Konfiguration und deren Ausführung auf Ihren Produkten. Sie setzt voraus, dass Sie Pimcore kennen: Klassen, Datenobjekte und den Objektbaum. Den Dienst getName.ai müssen Sie vorher nicht kennen.
+
+## Welches Panel verwenden Sie?
+
+Es gibt ein einziges Plugin, und es funktioniert in beiden Panels. Die Ansichten, einige Schaltflächen und ein paar Funktionen unterscheiden sich.
+
+| | Studio | Classic |
+|---|---|---|
+| Pimcore Platform | ab 2026.2 | 2024.4 |
+| Pimcore | `^2026.2` | `^11.5` |
+| Data Hub | `^2026.2` | `^1.9` |
+
+Wo sich die Schritte unterscheiden, sehen Sie die Reiter **Studio** und **Classic**. Wählen Sie Ihr Panel einmal aus, dann öffnen auch die folgenden Seiten denselben Reiter.
+
+Diese Anleitung beschreibt die Plugin-Version 0.900.1.
+
+## Reihenfolge der Arbeit
+
+1. Voraussetzungen und Kosten prüfen: [Bevor Sie beginnen](before-you-start/).
+2. Plugin installieren. Dieser Schritt ist Sache der Serveradministration: [Installation](installation/).
+3. Ihren Produkten eine Klasse geben: [Erste Konfiguration: Klassenerkennung](first-classification/). Überspringen Sie diesen Schritt, wenn die Produkte bereits Klassen haben.
+4. Attributwerte füllen: [Erste Konfiguration: Attributerkennung](first-attributes/).
+5. Prüfen, was geschrieben wurde: [Ergebnisse auswerten](results/).
+
+:::caution[Jedes gesendete Produkt ist ein bezahlter Aufruf]
+Testen Sie eine Konfiguration an wenigen Produkten, bevor Sie sie auf eine größere Menge anwenden. Die Kostentabelle finden Sie auf der Seite [Bevor Sie beginnen](before-you-start/#was-geld-kostet).
+:::

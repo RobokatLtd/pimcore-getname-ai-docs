@@ -1,0 +1,102 @@
+---
+title: Uruchomienie
+description: Liczenie produktów, start, postęp, anulowanie, raport, historia i uruchamianie z konsoli.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Policz produkty
+
+Liczenie jest bezpłatne i pokazuje, ile płatnych wywołań wyśle uruchomienie. Bez niego nie uruchomisz konfiguracji.
+
+:::caution[Sprawdź liczbę przed uruchomieniem]
+Pusta lista folderów i obiektów obejmuje całą klasę. Jeśli liczba jest większa, niż oczekujesz, nie klikaj **Uruchom teraz** i popraw zbiór na zakładce **Zadanie**.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+W sekcji **Ile produktów** kliknij **Przelicz**. Licznik czyta ustawienia z ekranu, także niezapisane. Gdy zmienisz je po przeliczeniu, zobaczysz komunikat **Ta liczba jest nieaktualna** i trzeba przeliczyć ponownie.
+
+**Pokaż listę** otwiera produkty podzielone na strony. Kliknięcie nagłówka kolumny sortuje całą listę.
+
+<Shot panel="studio" id="execution-count" alt="Sekcja Ile produktów z liczbą, powodami pominięcia i listą" />
+
+</TabItem>
+<TabItem label="Classic">
+
+W sekcji **Zbiór produktów** kliknij **Przelicz**. Licznik czyta **zapisaną** konfigurację, więc najpierw zapisz zmiany.
+
+**Pokaż listę** otwiera produkty podzielone na strony. Kliknięcie nagłówka kolumny sortuje całą listę.
+
+<Shot panel="classic" id="execution-count" alt="Sekcja Zbiór produktów z liczbą i listą" />
+
+</TabItem>
+</Tabs>
+
+Obok liczby zobaczysz, ile produktów pominięto i dlaczego. Produkt z pustym opisem zostaje w liczbie. Dopiero uruchomienie wykrywa pusty opis, pomija produkt i nie płaci za niego.
+
+## Uruchom
+
+Kliknij **Uruchom teraz**. Otworzy się okno potwierdzenia z liczbą produktów do wysłania. Jeśli nie wskazano folderu ani obiektu, okno ostrzega też, że uruchomienie obejmuje całą klasę produktów. Uruchomienie rusza dopiero po potwierdzeniu: **Uruchom teraz** w Studio, **Tak** w Classic.
+
+Przed pierwszym płatnym wywołaniem wtyczka sprawdza, czy:
+
+- konfiguracja jest zapisana, bo uruchomienie korzysta z zapisanej wersji,
+- są ustawione klucz API, profil, rodzaj zadania, klasa i cel,
+- zbiór jest policzony i nie zmienił się od liczenia,
+- ta konfiguracja nie jest już uruchomiona,
+- przy atrybutach odpowiedzi usługi mają gdzie trafić w Classification Store.
+
+Produkty są przetwarzane porcjami w kolejce, więc uruchomienie trwa także po zamknięciu ekranu.
+
+## Postęp i anulowanie
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Sekcja **Stan uruchomienia** pokazuje postęp. **Anuluj uruchomienie** zatrzymuje uruchomienie. Zadanie widać też na liście zadań Studio.
+
+</TabItem>
+<TabItem label="Classic">
+
+Pasek postępu i przycisk **Anuluj uruchomienie** są w sekcji **Uruchomienie**.
+
+</TabItem>
+</Tabs>
+
+Po anulowaniu liczniki mogą się jeszcze przesunąć, bo produkty w trakcie wysyłki kończą swoją drogę. To, co już wysłano, jest opłacone i zostaje zapisane.
+
+## Raport CSV
+
+Raport ma po jednym wierszu na zdarzenie przy produkcie. Znaczenie kolumn jest na stronie [Jak czytać wynik](../../results/#raport-csv).
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Kliknij **Pobierz raport (CSV)** pod tabelą **Ostatnie uruchomienie**. Raporty wcześniejszych uruchomień pobierzesz z sekcji **Historia uruchomień**.
+
+</TabItem>
+<TabItem label="Classic">
+
+W sekcji **Historia uruchomień** kliknij ikonę w kolumnie **Raport** albo kliknij dwukrotnie wiersz.
+
+</TabItem>
+</Tabs>
+
+## Historia
+
+Historia pokazuje uruchomienia tej konfiguracji: stan, czas i liczniki. W Studio **Pokaż uruchomienia wszystkich konfiguracji getName.ai** poszerza listę na całą instalację.
+
+**Wyczyść historię** usuwa uruchomienia tej konfiguracji razem z wpisami w dzienniku. Raporty CSV tych uruchomień przestają być dostępne, bo powstają z tych wpisów. Produkty zachowują to, co na nich zapisano. Czyszczenia nie można cofnąć.
+
+## Uruchamianie z konsoli i harmonogram
+
+```bash
+bin/console datahub:getname-ai:run nazwa_konfiguracji
+```
+
+Polecenie kolejkuje uruchomienie zapisanej konfiguracji. Nie pyta o liczbę produktów, więc koszt zależy od zbioru w chwili startu.
+
+Harmonogram Data Importera nie uruchamia konfiguracji tego typu. Żeby uruchamiać ją cyklicznie, dodaj to polecenie do crona. Na serwerze musi działać [proces w tle](../../installation/#4-ustaw-kolejkę-i-proces-w-tle).

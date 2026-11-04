@@ -1,0 +1,28 @@
+---
+interface Props {
+  id: string;
+  width: number;
+  height: number;
+  label: string;
+  caption: string;
+}
+
+const { id, width, height, label, caption } = Astro.props;
+---
+
+<figure class="diagram not-content">
+  <div class="diagram-scroll">
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={label}>
+      <defs>
+        <marker id={`${id}-arrow`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="diagram-head" />
+        </marker>
+        <marker id={`${id}-arrow-accent`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" class="diagram-head-accent" />
+        </marker>
+      </defs>
+      <slot />
+    </svg>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>

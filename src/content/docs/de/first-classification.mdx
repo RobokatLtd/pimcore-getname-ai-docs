@@ -1,0 +1,158 @@
+---
+title: "Erste Konfiguration: Klassenerkennung"
+description: Schritt für Schritt - so geben Sie Ihren Produkten eine Klasse aus einem Standard wie ETIM.
+sidebar:
+  label: Klassenerkennung
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../components/Shot.astro';
+import ClassifyExample from '../../../components/diagrams/ClassifyExample.astro';
+
+Auf dieser Seite richten Sie eine Konfiguration ein, die Produkten eine Klasse aus einem Standard wie ETIM gibt und sie in den Classification Store schreibt.
+
+<ClassifyExample />
+
+**Das brauchen Sie:** einen API-Schlüssel, eine Objektklasse mit einem Classification-Store-Feld und einen Ordner mit einigen Produkten, die noch keine Klasse haben. Der Classification Store sollte bereits Gruppen für die Klassen des gewählten Standards enthalten.
+
+Wenn Sie Kategorien aus Ihrem eigenen Baum erkennen lassen, gehen Sie genauso vor, wählen aber eine Relation als Ziel. Siehe [Schreibziel](../reference/task/#schreibziel).
+
+:::caution[Ein leerer Umfang bedeutet die gesamte Klasse]
+Wenn Sie keinen Ordner und kein Objekt hineinziehen, umfasst die Konfiguration jedes Produkt der Objektklasse, und das Bestätigungsfenster warnt Sie davor. Prüfen Sie vor dem Start immer die Zahl aus der Zählung: So viele bezahlte Aufrufe senden Sie.
+:::
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+### Konfiguration anlegen
+
+1. Öffnen Sie **Automatisierung & Integration** und dann **Data Hub Konfiguration**.
+2. Klicken Sie unter der Konfigurationsliste auf **Neu**, wählen Sie **getName.ai** und geben Sie einen Namen ein, zum Beispiel `products_classification`.
+
+### Mit dem Dienst verbinden
+
+3. Öffnen Sie den Reiter **Verbindung** und fügen Sie Ihren Schlüssel unter **API-Schlüssel** ein.
+4. Klicken Sie auf **Verbindung testen**. Der Status wechselt auf „verbunden“, und die Karte **Abonnement** erscheint.
+5. Wählen Sie unter **Erkennungsprofil** ein Profil, zum Beispiel ETIM in der benötigten Sprache.
+
+<Shot panel="studio" id="connection" alt="Reiter Verbindung mit Schlüssel, Verbindungsstatus und Abonnement" />
+
+### Aufgabe beschreiben
+
+6. Öffnen Sie den Reiter **Aufgabe** und klicken Sie auf **Klassifizierung wählen**.
+7. Wählen Sie unter **Produktklasse:** die Objektklasse Ihrer Produkte.
+8. Ziehen Sie einen Ordner aus dem Objektbaum auf **Datenobjekte**. Aktivieren Sie **Mit Unterelementen**, wenn Unterordner einbezogen werden sollen.
+9. Stellen Sie **Ebene in der Hierarchie:** auf **nur oberste Ebene**, wenn die Klasse an Varianten vererbt werden soll. In einem Katalog ohne Varianten ändert diese Option nichts.
+10. Lassen Sie im Abschnitt **Produkte, die bereits eine Klasse haben** die Option **Überspringen** ausgewählt.
+
+<Shot panel="studio" id="task-scope" alt="Abschnitt Welche Produkte mit einem aus dem Baum gezogenen Ordner" />
+
+### Festlegen, was gesendet wird
+
+11. Klicken Sie im Abschnitt **Was wir senden** auf **Feld hinzufügen** und wählen Sie die Felder, die das Produkt beschreiben, etwa Name und Beschreibung.
+12. Lassen Sie **Feldnamen voranstellen** aktiviert. So erfährt der Dienst, was jeder Wert bedeutet.
+13. Geben Sie unter **Vorschau für Produkt-ID:** eine Produkt-ID ein und klicken Sie auf **Beschreibung anzeigen**. Prüfen Sie, ob ein Mensch das Produkt anhand dieses Textes erkennen könnte. Die Vorschau ist kostenlos.
+
+<Shot panel="studio" id="task-payload" alt="Abschnitt Was wir senden mit den gewählten Feldern" />
+
+<Shot panel="studio" id="task-payload-preview" alt="Vorschaufenster mit der für ein Produkt gesendeten Beschreibung" />
+
+### Festlegen, wohin das Ergebnis geschrieben wird
+
+14. Stellen Sie im Abschnitt **Ziel** die **Zielart:** auf **Classification Store auf der Klasse**.
+15. Wählen Sie unter **Feld:** das Classification-Store-Feld der Objektklasse.
+16. Klicken Sie unten in der Ansicht auf **Speichern**. Der Reiter **Mapping** erscheint, sobald Sie gespeichert haben.
+17. Prüfen Sie auf dem Reiter **Mapping**, ob **Klasse zuordnen über:** auf **Name** steht. Bei Standards steht der Klassencode meist im Gruppennamen. Neben der Einstellung sehen Sie einen Beispielwert aus Ihrer Installation.
+
+### Ein Produkt testen
+
+18. Gehen Sie zurück auf den Reiter **Aufgabe**, in den Abschnitt **Test an einem Produkt**.
+19. Geben Sie eine **Produkt-ID:** ein und klicken Sie auf **Zuordnung testen (1 bezahlter Aufruf)**. Am Produkt wird nichts geschrieben.
+
+In der Ergebnistabelle sollte die Spalte **Zugeordnet** die Übereinstimmung bestätigen und **In Pimcore** die richtige Gruppe zeigen. Falls nicht, lesen Sie die Spalte **Warum nicht** und die Seite [Ergebnisse auswerten](../results/).
+
+<Shot panel="studio" id="product-test" alt="Ergebnis des Tests an einem Produkt mit der Spalte Zugeordnet" />
+
+### Ausführen
+
+20. Öffnen Sie den Reiter **Ausführung** und klicken Sie im Abschnitt **Wie viele Produkte** auf **Neu berechnen**. Diese Zahl ist die Anzahl der bezahlten Aufrufe.
+21. Prüfen Sie, was übersprungen wurde. Mit **Liste anzeigen** sehen Sie die Produkte.
+22. Klicken Sie auf **Jetzt ausführen**.
+23. Prüfen Sie im Bestätigungsfenster die Anzahl der Produkte und klicken Sie auf **Jetzt ausführen**. Sie können die Ansicht schließen, der Durchlauf läuft weiter.
+
+<Shot panel="studio" id="execution-confirm" alt="Bestätigungsfenster mit der Anzahl der zu sendenden Produkte" />
+
+<Shot panel="studio" id="execution-finished" alt="Abgeschlossener Durchlauf mit seinen Zählern" />
+
+</TabItem>
+<TabItem label="Classic">
+
+### Konfiguration anlegen
+
+1. Klicken Sie im Hauptmenü auf **Datahub**.
+2. Klicken Sie auf den Pfeil neben **Konfiguration hinzufügen**, wählen Sie **getName.ai** und geben Sie einen Namen ein, zum Beispiel `products_classification`.
+
+### Mit dem Dienst verbinden
+
+3. Öffnen Sie den Reiter **Verbindung** und fügen Sie Ihren Schlüssel unter **API-Schlüssel** ein.
+4. Klicken Sie auf **Verbindung testen**. Sie sehen eine Meldung, dass die Verbindung funktioniert, zusammen mit den Angaben zu Ihrem Abonnement.
+5. Stellen Sie **Aufgabenart** auf **Klassenerkennung**. Eine neue Konfiguration beginnt mit der Attributerkennung.
+6. Wählen Sie unter **Erkennungsprofil** ein Profil, zum Beispiel ETIM in der benötigten Sprache.
+
+<Shot panel="classic" id="connection" alt="Reiter Verbindung mit Schlüssel, Aufgabenart und Profil" />
+
+### Aufgabe beschreiben
+
+7. Öffnen Sie den Reiter **Aufgabe** und wählen Sie unter **Klasse** die Objektklasse Ihrer Produkte.
+8. Ziehen Sie einen Ordner aus dem Objektbaum in den Abschnitt **Produktumfang**. Aktivieren Sie **Mit Unterelementen**, wenn Unterordner einbezogen werden sollen.
+9. Stellen Sie **Ebene in der Hierarchie** auf **Nur oberste Ebene**, wenn die Klasse an Varianten vererbt werden soll. In einem Katalog ohne Varianten ändert diese Option nichts.
+
+<Shot panel="classic" id="task-scope" alt="Abschnitt Produktumfang mit einem aus dem Baum gezogenen Ordner" />
+
+### Festlegen, was gesendet wird
+
+10. Klicken Sie im Abschnitt **An den Dienst gesendete Beschreibung** auf **Felder auswählen**, aktivieren Sie die Felder, die das Produkt beschreiben, etwa Name und Beschreibung, und klicken Sie auf **Anwenden**.
+11. Lassen Sie für diese Felder **Feldnamen voranstellen** aktiviert. So erfährt der Dienst, was jeder Wert bedeutet.
+
+<Shot panel="classic" id="task-payload" alt="Abschnitt An den Dienst gesendete Beschreibung mit den gewählten Feldern" />
+
+### Festlegen, wohin das Ergebnis geschrieben wird
+
+12. Stellen Sie im Abschnitt **Schreibziel** den **Typ** auf **Classification Store**.
+13. Wählen Sie unter **Feld** das Classification-Store-Feld der Objektklasse.
+14. Lassen Sie unter **Modus** die Option **Produkte mit gefülltem Schreibziel überspringen** ausgewählt.
+15. Klicken Sie auf **Speichern**.
+16. Prüfen Sie auf dem Reiter **Mapping**, ob **Klasse zuordnen über** auf `name` steht. Bei Standards steht der Klassencode meist im Gruppennamen.
+
+### Ein Produkt testen
+
+17. Öffnen Sie den Reiter **Ausführung** und ziehen Sie ein Produkt aus dem Baum in den Abschnitt **Probe an einem einzelnen Produkt**.
+18. Klicken Sie auf **Beschreibung anzeigen (kostenlos)**. Prüfen Sie, ob ein Mensch das Produkt anhand dieses Textes erkennen könnte.
+19. Klicken Sie auf **Dienst fragen (ein Aufruf)**. Sie sehen die Antwort des Dienstes so, wie sie zurückkam. Am Produkt wird nichts geschrieben.
+
+Prüfen Sie, ob es zum Code im Feld `id` eine passende Gruppe im Classification Store gibt.
+
+<Shot panel="classic" id="product-test" alt="Abschnitt Probe an einem einzelnen Produkt mit der Antwort des Dienstes" />
+
+### Ausführen
+
+20. Klicken Sie im Abschnitt **Produktumfang** auf **Umfang zählen**. Diese Zahl ist die Anzahl der bezahlten Aufrufe. Die Zählung liest die gespeicherte Konfiguration, speichern Sie Änderungen also vorher.
+21. Prüfen Sie, was übersprungen wurde. Mit **Produkte anzeigen** sehen Sie die Produkte.
+22. Klicken Sie auf **Durchlauf starten**.
+23. Prüfen Sie im Bestätigungsfenster die Anzahl der Produkte und klicken Sie auf **Ja**. Sie können die Ansicht schließen, der Durchlauf läuft weiter.
+
+<Shot panel="classic" id="execution-confirm" alt="Bestätigungsfenster mit der Anzahl der zu sendenden Produkte" />
+
+<Shot panel="classic" id="execution-finished" alt="Abgeschlossener Durchlauf im Durchlaufverlauf" />
+
+</TabItem>
+</Tabs>
+
+## Ergebnis prüfen
+
+Öffnen Sie einige Produkte in Pimcore. Im Classification-Store-Feld sollte die Gruppe der erkannten Klasse aktiviert sein. Wenn das Ergebnis stimmt, erweitern Sie den Umfang auf dem Reiter **Aufgabe** und führen Sie die Konfiguration erneut aus. Beim Überspringen zahlen Sie für Produkte, die bereits eine Klasse haben, nicht noch einmal.
+
+Nächster Schritt: [Attributerkennung](../first-attributes/).

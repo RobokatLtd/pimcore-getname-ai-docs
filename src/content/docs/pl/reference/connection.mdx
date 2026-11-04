@@ -1,0 +1,75 @@
+---
+title: Ogólne i Połączenie
+description: Pierwsze dwie zakładki konfiguracji - nazwa, klucz API, profil rozpoznawania i subskrypcja.
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import Shot from '../../../../components/Shot.astro';
+
+## Zakładka ogólna
+
+Nazwa, opis, grupa i przełącznik aktywności to zwykłe pola Data Hub. Wyłączonej konfiguracji nie da się uruchomić ani z panelu, ani z konsoli.
+
+W polu **Wersja wtyczki** zobaczysz numer zainstalowanej wersji.
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+Zakładka nazywa się **Ogólne**. Przełącznik **Pokazuj objaśnienia** chowa zdania objaśniające na wszystkich zakładkach. Wybór obowiązuje w tej przeglądarce.
+
+</TabItem>
+<TabItem label="Classic">
+
+Zakładka nazywa się **General**. Nazwa tej zakładki pochodzi z Data Hub, więc nie jest tłumaczona.
+
+</TabItem>
+</Tabs>
+
+## Połączenie
+
+<Tabs syncKey="panel">
+<TabItem label="Studio">
+
+**Rodzaj zadania** wybierasz na zakładce **Zadanie**.
+
+<Shot panel="studio" id="connection" alt="Zakładka Połączenie" />
+
+</TabItem>
+<TabItem label="Classic">
+
+Klucz API i dane subskrypcji są w sekcji **Subskrypcja**. Tu również wybierasz **Rodzaj zadania**: **Rozpoznanie klasy** albo **Rozpoznanie atrybutów**.
+
+<Shot panel="classic" id="connection" alt="Zakładka Połączenie" />
+
+</TabItem>
+</Tabs>
+
+### Klucz API
+
+Klucz Twojego konta getName.ai. Musi mieć co najmniej 16 znaków.
+
+:::caution[Klucz widzi każdy, kto może otworzyć konfigurację]
+Klucz da się odczytać przez interfejs Data Hub, nawet jeśli na ekranie jest ukryty. Jeśli ktoś ma tylko uruchamiać konfigurację, a nie powinien znać klucza, ogranicz mu dostęp na zakładce [Uprawnienia](../logs-permissions/#uprawnienia).
+:::
+
+### Sprawdź połączenie
+
+Przycisk jest bezpłatny. Pyta usługę o subskrypcję i listę profili, które otwiera ten klucz.
+
+| Wynik | Co oznacza | Co zrobić |
+|---|---|---|
+| połączono | klucz działa | wybierz profil |
+| klucz odrzucony (401) | usługa nie przyjęła klucza | sprawdź, czy skopiowano go w całości |
+| usługa nie odpowiedziała | brak odpowiedzi lub błąd po stronie usługi | sprawdź dostęp serwera do internetu i spróbuj ponownie |
+
+### Subskrypcja
+
+Karta pokazuje licencję, liczbę zapytań jednocześnie, limity miesięczny i łączny oraz dostępne wersje API. Jeśli usługa nie poda tych danych, zobaczysz taką informację, a klucz nadal będzie działać przy rozpoznawaniu.
+
+Liczba zapytań wysyłanych równocześnie nie przekroczy niższej z dwóch wartości: limitu subskrypcji i [limitu tej instalacji](../../installation/#ustawienia-całej-instalacji).
+
+### Profil rozpoznawania
+
+Lista zależy od klucza. Wybierz system, w którym chcesz dostać klasy: wersję ETIM, ECLASS, kategorie marketplace'u albo profil z własnego drzewa kategorii. [Jak profil wpływa na konfigurację](../../how-it-works/#profil-rozpoznawania).
+
+Jeśli zapisanego profilu nie ma już na liście, zostanie oznaczony jako spoza listy. Konfiguracja będzie go używać, dopóki nie wybierzesz innego.
